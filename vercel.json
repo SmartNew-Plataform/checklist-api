@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "timeout": 180000,
   "builds": [
     {
       "src": "build/server.js",
