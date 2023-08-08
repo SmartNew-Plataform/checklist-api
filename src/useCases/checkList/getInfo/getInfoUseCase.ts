@@ -10,7 +10,7 @@ export default class GetInfoUseCase implements IUseCase {
   ) {}
 
   async execute(data: IGetInfoRequestDTO) {
-    const dateStatic = dayjs().subtract(24, 'h')
+    const dateStatic = dayjs('2022-01-01')
     const register = await this.productionRegisterRepository.listRegisterByTime(
       dateStatic.toDate(),
       data.user.branchBound.map((item) => item.branch.ID),
