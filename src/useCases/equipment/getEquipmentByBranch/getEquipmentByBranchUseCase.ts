@@ -17,8 +17,8 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
     const response: IGetEquipmentByBranchResponseDTO[] = []
 
     for await (const item of allEquipment) {
-      const registerEquipment =
-        await this.equipmentRegisterRepository.findByEquipment(item.ID)
+      // const registerEquipment =
+      //   await this.equipmentRegisterRepository.findByEquipment(item.ID)
 
       response.push({
         id: item.ID,
@@ -27,11 +27,13 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
         costCenter: item.id_centro_custo || 0,
         clientId: item.ID_cliente || 0,
         branchId: item.ID_filial || 0,
-        mileage: registerEquipment
-          ? Number(registerEquipment.quilometragem)
+        mileage: item.registerEquipment
+          ? Number(item.registerEquipment.quilometragem)
           : 0,
         familyId: item.ID_familia || 0,
-        hourMeter: registerEquipment ? Number(registerEquipment.horimetro) : 0,
+        hourMeter: item.registerEquipment
+          ? Number(item.registerEquipment.horimetro)
+          : 0,
       })
     }
 
