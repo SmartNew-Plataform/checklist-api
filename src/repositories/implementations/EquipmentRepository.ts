@@ -16,6 +16,12 @@ export default class EquipmentRepository implements IEquipmentRepository {
         ID_filial: true,
         id_centro_custo: true,
         ID_familia: true,
+        registerEquipment: {
+          select: {
+            horimetro: true,
+            quilometragem: true,
+          },
+        },
       },
       where: {
         ID_filial: {

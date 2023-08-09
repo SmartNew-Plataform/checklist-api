@@ -1041,7 +1041,7 @@ model cadastro_de_equipamentos {
   sofman_programacao_funcionamento                  sofman_programacao_funcionamento[]
   sofman_tempo_maquina_parada                       sofman_tempo_maquina_parada[]                       @ignore
   smartnewsystem_compras_item_solicitacao           smartnewsystem_compras_item_solicitacao[]
-  smartnewsystem_registro_equipamento               smartnewsystem_registro_equipamento[]
+  registerEquipment                                 smartnewsystem_registro_equipamento?
 
   @@unique([ID_filial, equipamento_codigo], map: "unq_filial_equipamento_codigo")
   @@index([criticidade], map: "criticidade")
@@ -3548,12 +3548,14 @@ model smartnewsystem_registro_producao_destino_destino_dmt {
 model smartnewsystem_registro_equipamento {
   id             Int     @id @default(autoincrement())
   id_cliente     Int
-  id_equipamento Int
+  id_equipamento Int     @unique
   horimetro      Decimal @db.Decimal(10, 2)
   quilometragem  Decimal @db.Decimal(10, 2)
 
   company   cadastro_de_empresas     @relation(fields: [id_cliente], references: [ID])
   equipment cadastro_de_equipamentos @relation(fields: [id_equipamento], references: [ID])
+
+  @@unique([id_cliente, id_equipamento], map: "smartnewsystem_registro_equipamento_UN")
 }
 
 model smartnewsystem_registro_producao_origem {
