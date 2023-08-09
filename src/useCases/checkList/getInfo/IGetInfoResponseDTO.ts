@@ -9,8 +9,8 @@ export default interface IGetInfoResponseDTO {
   finalMileage: number | Decimal | null
   login: string
   date: Date | null
-  initialTime: Date | null
-  finalTime: Date | null
+  initialTime: Date | string | null
+  finalTime: Date | string | null
   status: 'open' | 'close'
   dataLog: Date | null
   code: string
