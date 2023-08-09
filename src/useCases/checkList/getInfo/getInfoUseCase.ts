@@ -23,15 +23,17 @@ export default class GetInfoUseCase implements IUseCase {
         costCenterId: item.id_centro_custo || 0,
         equipmentId: item.equipment?.ID || 0,
         periodId: item.id_turno,
-        data: item.DATA,
+        date: item.DATA,
         initialTime: item.data_hora_encerramento,
         finalTime: item.data_hora_inicio,
         status: item.status ? 'open' : 'close',
         dataLog: item.data_log,
         login: item.login || '',
-        initialMileage: item.quilometragem,
-        finalMileage: item.quilometragem_final,
-        period: item.turno,
+        initialMileage: Number(item.quilometragem) || 0,
+        finalMileage: Number(item.quilometragem_final) || 0,
+        period: item.turno || '',
+        code: item.equipment?.equipamento_codigo || '',
+        description: item.equipment?.descricao || '',
       }
     })
 
