@@ -1,4 +1,4 @@
-import PeriodRepository from '@/repositories/implementations/PeriodRepository'
+import PeriodRepository from '../../../repositories/implementations/PeriodRepository'
 import GetPeriodUseCase from './getPeriodUseCase'
 import GetPeriodController from './getPeriodController'
 

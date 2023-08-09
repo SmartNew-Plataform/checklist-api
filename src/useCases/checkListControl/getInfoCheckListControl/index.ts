@@ -1,4 +1,4 @@
-import CheckListControlRepository from '@/repositories/implementations/CheckListControlRepository'
+import CheckListControlRepository from '../../../repositories/implementations/CheckListControlRepository'
 import GetInfoCheckListControlUseCase from './getInfoCheckListControlUseCase'
 import GetInfoCheckListControlController from './getInfoCheckListControlController'
 

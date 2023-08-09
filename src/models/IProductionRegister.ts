@@ -1,5 +1,5 @@
 import { smartnewsystem_registro_producao_turno } from '@prisma/client'
-import { Decimal } from '@prisma/client/runtime'
+import { Decimal } from '@prisma/client/runtime/library'
 
 export interface IListRegisterByTime {
   id: number

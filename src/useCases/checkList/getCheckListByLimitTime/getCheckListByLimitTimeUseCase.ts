@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IGetCheckListLimitTimeRequestDTO from './IGetCheckListByLimitTimeRequestDTO'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
 import IGetCheckListByLimitTimeResponseDTO from './IGetCheckListByLimitTimeResponseDTO'
 
 export default class GetCheckListByLimitTimeUseCase implements IUseCase {

@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import IEquipmentRepository from '../IEquipmentRepository'
-import { IListByBranch, IListFamilyByBranch } from '@/models/IEquipment'
+import { IListByBranch, IListFamilyByBranch } from '../../models/IEquipment'
 import { cadastro_de_equipamentos } from '@prisma/client'
 
 export default class EquipmentRepository implements IEquipmentRepository {

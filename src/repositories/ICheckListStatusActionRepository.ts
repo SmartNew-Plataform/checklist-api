@@ -1,4 +1,4 @@
-import { IInfo } from '@/models/ICheckListStatusAction'
+import { IInfo } from '../models/ICheckListStatusAction'
 import { smartnewsystem_producao_checklist_status_acao } from '@prisma/client'
 
 export default interface ICheckListStatusActionRepository {

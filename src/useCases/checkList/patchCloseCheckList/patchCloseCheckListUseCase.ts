@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
+import IUseCase from '../../../models/IUseCase'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
 import IPatchCloseCheckListRequestDTO from './IPatchCloseCheckListRequestDTO'
 import IPatchCloseCheckListResponseDTO from './IPatchCloseCheckListResponseDTO'
 

@@ -1,10 +1,10 @@
-import EquipmentRepository from '@/repositories/implementations/EquipmentRepository'
-import PeriodRepository from '@/repositories/implementations/PeriodRepository'
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
+import PeriodRepository from '../../../repositories/implementations/PeriodRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import PostCheckListUseCase from './postCheckListUseCase'
 import PostCheckListController from './postCheckListController'
-import CheckListItemRepository from '@/repositories/implementations/CheckListItemRepository'
-import CheckListPeriodRepository from '@/repositories/implementations/CheckListPeriodRepository'
+import CheckListItemRepository from '../../../repositories/implementations/CheckListItemRepository'
+import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
 
 const productionRegisterRepository = new ProductionRegisterRepository()
 const equipmentRepository = new EquipmentRepository()

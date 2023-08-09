@@ -1,4 +1,4 @@
-import CheckListPeriodRepository from '@/repositories/implementations/CheckListPeriodRepository'
+import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
 import PutCheckListPeriodUseCase from './putCheckListPeriodUseCase'
 import PutChecKListPeriodController from './putCheckListPeriodController'
 

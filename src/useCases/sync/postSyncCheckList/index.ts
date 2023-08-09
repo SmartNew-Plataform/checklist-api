@@ -1,6 +1,6 @@
-import CheckListPeriodRepository from '@/repositories/implementations/CheckListPeriodRepository'
-import EquipmentRepository from '@/repositories/implementations/EquipmentRepository'
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
+import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import PostSyncCheckListUseCase from './postSyncCheckListUseCase'
 import PostSyncCheckListController from './postSyncCheckListController'
 

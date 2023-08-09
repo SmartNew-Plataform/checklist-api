@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListStatusActionRepository from '@/repositories/ICheckListStatusActionRepository'
+import IUseCase from '../../../models/IUseCase'
+import ICheckListStatusActionRepository from '../../../repositories/ICheckListStatusActionRepository'
 import IGetStatusActionRequestDTO from './IGetStatusActionRequestDTO'
 
 export default class GetStatusActionUseCase implements IUseCase {

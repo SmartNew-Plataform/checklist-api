@@ -1,8 +1,8 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../models/IUseCase'
 import IGetMileageRequestDTO from './IGetMileageRequestDTO'
 import IGetMileageResponseDTO from './IGetMileageResponseDTO'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
+import IProductionRegisterRepository from '../repositories/IProductionRegisterRepository'
+import IEquipmentRepository from '../repositories/IEquipmentRepository'
 import CustomError from '@/config/CustomError'
 
 export default class GetMileageUseCase implements IUseCase {

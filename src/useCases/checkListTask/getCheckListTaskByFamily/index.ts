@@ -1,5 +1,5 @@
-import CheckListItemRepository from '@/repositories/implementations/CheckListItemRepository'
-import EquipmentRepository from '@/repositories/implementations/EquipmentRepository'
+import CheckListItemRepository from '../../../repositories/implementations/CheckListItemRepository'
+import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
 import GetCheckListTaskByFamilyUseCase from './getCheckListTaskByFamilyUseCase'
 import GetCheckListTaskByFamilyController from './getCheckListTaskByFamilyController'
 

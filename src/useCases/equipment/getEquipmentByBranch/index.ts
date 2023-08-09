@@ -1,7 +1,7 @@
-import EquipmentRepository from '@/repositories/implementations/EquipmentRepository'
+import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
 import GetEquipmentByBranchUseCase from './getEquipmentByBranchUseCase'
 import GetEquipmentByBranchController from './getEquipmentByBranchController'
-import EquipmentRegisterRepository from '@/repositories/implementations/EquipmentRegisterRepository'
+import EquipmentRegisterRepository from '../../../repositories/implementations/EquipmentRegisterRepository'
 
 const equipmentRepository = new EquipmentRepository()
 const equipmentRegisterRepository = new EquipmentRegisterRepository()

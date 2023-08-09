@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IInfo } from '@/models/ICheckListStatus'
+import { IInfo } from '../../models/ICheckListStatus'
 import ICheckListStatusRepository from '../ICheckListStatusRepository'
 
 export default class CheckListStatusRepository

@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListRepository from '@/repositories/ICheckListRepository'
+import IUseCase from '../../../models/IUseCase'
+import ICheckListRepository from '../../../repositories/ICheckListRepository'
 import IGetBoundFamilyRequestDTO from './IGetBoundFamilyRequestDTO'
 
 export default class GetBoundFamilyUseCase implements IUseCase {
@@ -7,7 +7,7 @@ export default class GetBoundFamilyUseCase implements IUseCase {
 
   async execute(data: IGetBoundFamilyRequestDTO) {
     const allCheckList = await this.checkListRepository.findByClient(
-      data.user.id_cliente,
+      data.user.id_cliente || 0,
     )
 
     return {

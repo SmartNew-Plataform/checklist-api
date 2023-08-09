@@ -1,8 +1,8 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IGetCheckListTaskByFamilyResponseDTO from './IGetCheckListTaskByFamilyResposeDTO'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ICheckListItemRepository from '../../../repositories/ICheckListItemRepository'
 import IGetCheckListTaskByFamilyRequestDTO from './IGetCheckListTaskByFamilyRequestDTO'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
+import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
 import CustomError from '@/config/CustomError'
 
 export default class GetCheckListTaskByFamilyUseCase implements IUseCase {

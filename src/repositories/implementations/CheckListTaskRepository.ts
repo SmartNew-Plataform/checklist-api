@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IByClient } from '@/models/ICheckListTask'
+import { IByClient } from '../../models/ICheckListTask'
 import ICheckListTaskRepository from '../ICheckListTaskRepository'
 
 export default class CheckListTaskRepository

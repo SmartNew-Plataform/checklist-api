@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IInfo } from '@/models/ICheckListControl'
+import { IInfo } from '../models/ICheckListControl'
 
 export default class CheckListControlRepository {
   private table = prisma.smartnewsystem_producao_checklist_controle

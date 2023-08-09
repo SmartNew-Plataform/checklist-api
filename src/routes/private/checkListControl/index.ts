@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import getInfoCheckListControl from '@/useCases/checkListControl/getInfoCheckListControl'
+import getInfoCheckListControl from '../../../useCases/checkListControl/getInfoCheckListControl'
 
 export default async function checkListControlRoutes(
   checkListControl: FastifyInstance,

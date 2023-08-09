@@ -1,11 +1,11 @@
-import IUseCase from '@/models/IUseCase'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
+import IUseCase from '../models/IUseCase'
+import IProductionRegisterRepository from '../repositories/IProductionRegisterRepository'
 import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
-import IPeriodRepository from '@/repositories/IPeriodRepository'
+import IEquipmentRepository from '../repositories/IEquipmentRepository'
+import IPeriodRepository from '../repositories/IPeriodRepository'
 import CustomError from '@/config/CustomError'
-import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ICheckListPeriodRepository from '../repositories/ICheckListPeriodRepository'
+import ICheckListItemRepository from '../repositories/ICheckListItemRepository'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(

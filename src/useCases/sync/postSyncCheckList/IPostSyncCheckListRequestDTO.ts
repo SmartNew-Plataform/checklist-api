@@ -1,4 +1,4 @@
-import { IUser } from '@/models/IUser'
+import { IUser } from '../../../models/IUser'
 
 export default interface IPostSyncCheckListRequestDTO {
   user: IUser
@@ -45,6 +45,7 @@ export default interface IPostSyncCheckListRequestDTO {
       statusItem: number
       statusNC: number | null
       observation: string | null
+      image: string[]
       logDate: Date
     }[]
 
@@ -56,6 +57,7 @@ export default interface IPostSyncCheckListRequestDTO {
       statusItem: number
       statusNC: number | null
       observation: string | null
+      image: string[]
       logDate: Date
     }[]
   }

@@ -1,4 +1,4 @@
-import { IUser } from '@/models/IUser'
+import { IUser } from '../models/IUser'
 import '@fastify/jwt'
 
 declare module '@fastify/jwt' {

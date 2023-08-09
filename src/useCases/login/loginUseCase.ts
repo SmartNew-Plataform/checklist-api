@@ -2,7 +2,7 @@ import md5 from 'md5'
 import IUseCase from '../../models/IUseCase'
 import IUserRepository from '../../repositories/IUserRepository'
 import ILoginRequestDTO from './ILoginRequestDTO'
-import CustomError from '@/config/CustomError'
+import CustomError from '../../config/CustomError'
 
 export default class LoginUseCase implements IUseCase {
   constructor(private userRepository: IUserRepository) {}

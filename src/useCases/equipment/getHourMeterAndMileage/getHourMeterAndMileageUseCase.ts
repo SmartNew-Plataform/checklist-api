@@ -1,9 +1,9 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IGetHourMeterAndMileageRequestDTO from './IGetHourMeterAndMileageRequestDTO'
-import IProductionRegisterDataRepository from '@/repositories/IProductionRegisterDataRepository'
+import IProductionRegisterDataRepository from '../../../repositories/IProductionRegisterDataRepository'
 import IGetHourMeterAndMileageResponseDTO from './IGetHourMeterAndMileageResponseDTO'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
+import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
 import CustomError from '@/config/CustomError'
 
 export default class GetHourMeterAndMileageUseCase implements IUseCase {

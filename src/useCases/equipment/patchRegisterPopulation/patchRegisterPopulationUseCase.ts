@@ -1,9 +1,9 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IPatchRegisterPopulationRequestDTO from './IPatchRegisterPopulationRequestDTO'
-import IEquipmentRegisterRepository from '@/repositories/IEquipmentRegisterRepository'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import IProductionRegisterDataRepository from '@/repositories/IProductionRegisterDataRepository'
+import IEquipmentRegisterRepository from '../../../repositories/IEquipmentRegisterRepository'
+import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
+import IProductionRegisterDataRepository from '../../../repositories/IProductionRegisterDataRepository'
 
 export default class PatchRegisterPopulationUseCase implements IUseCase {
   constructor(

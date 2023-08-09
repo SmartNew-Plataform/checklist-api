@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListControlRepository from '@/repositories/ICheckListControlRepository'
+import IUseCase from '../models/IUseCase'
+import ICheckListControlRepository from '../repositories/ICheckListControlRepository'
 import IGetInfoCheckListControlRequestDTO from './IGetInfoCheckListControlRequestDTO'
 import IGetInfoCheckListControlResponseDTO from './IGetInfoCheckListControlResponse'
 

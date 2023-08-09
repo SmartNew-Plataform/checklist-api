@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IInfoByLogin } from '@/models/ICheckListPeriod'
+import { IInfoByLogin } from '../../models/ICheckListPeriod'
 import ICheckListPeriodRepository from '../ICheckListPeriodRepository'
 import { Prisma, smartnewsystem_producao_checklist_turno } from '@prisma/client'
 

@@ -1,4 +1,4 @@
-import { IByClient } from '@/models/IPeriod'
+import { IByClient } from '../models/IPeriod'
 import { smartnewsystem_registro_turno } from '@prisma/client'
 
 export default interface IPeriodRepository {

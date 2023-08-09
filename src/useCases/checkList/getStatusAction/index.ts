@@ -1,4 +1,4 @@
-import CheckListStatusActionRepository from '@/repositories/implementations/CheckListStatusActionRepository'
+import CheckListStatusActionRepository from '../../../repositories/implementations/CheckListStatusActionRepository'
 import GetStatusActionUseCase from './getStatusActionUseCase'
 import GetStatusActionController from './getStatusActionController'
 

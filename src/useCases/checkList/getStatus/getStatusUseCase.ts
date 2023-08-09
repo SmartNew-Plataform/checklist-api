@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListStatusRepository from '@/repositories/ICheckListStatusRepository'
+import IUseCase from '../../../models/IUseCase'
+import ICheckListStatusRepository from '../../../repositories/ICheckListStatusRepository'
 import IGetStatusRequestDTO from './IGetStatusRequestDTO'
 
 export default class GetStatusUseCase implements IUseCase {
@@ -7,7 +7,7 @@ export default class GetStatusUseCase implements IUseCase {
 
   async execute(data: IGetStatusRequestDTO) {
     const allCheckListStatus = await this.checkListStatusRepository.info(
-      data.user.id_cliente,
+      data.user.id_cliente || 0,
     )
 
     return {

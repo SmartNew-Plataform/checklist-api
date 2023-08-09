@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
+import IUseCase from '../../../models/IUseCase'
+import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
 import IPutCheckListPeriodRequestDTO from './IPutCheckListPeriodRequestDTO'
 
 export default class PutCheckListPeriodUseCase implements IUseCase {

@@ -1,4 +1,4 @@
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import GetInfoController from './getInfoController'
 import GetInfoUseCase from './getInfoUseCase'
 

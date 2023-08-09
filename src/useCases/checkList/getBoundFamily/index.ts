@@ -1,4 +1,4 @@
-import CheckListRepository from '@/repositories/implementations/CheckListRepository'
+import CheckListRepository from '../../../repositories/implementations/CheckListRepository'
 import GetBoundFamilyUseCase from './getBoundFamilyUseCase'
 import GetBoundFamilyController from './getBoundFamilyController'
 

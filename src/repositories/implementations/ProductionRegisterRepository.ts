@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IListRegisterByTime } from '@/models/IProductionRegister'
+import { IListRegisterByTime } from '../../models/IProductionRegister'
 import IProductionRegisterRepository from '../IProductionRegisterRepository'
 import { Decimal } from '@prisma/client/runtime/library'
 import { Prisma, smartnewsystem_registro_producao } from '@prisma/client'

@@ -1,4 +1,4 @@
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import PatchCloseCheckListUseCase from './patchCloseCheckListUseCase'
 import PatchCloseCheckListController from './patchCloseCheckListController'
 

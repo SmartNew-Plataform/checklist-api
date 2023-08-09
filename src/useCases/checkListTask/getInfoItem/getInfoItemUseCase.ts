@@ -1,5 +1,5 @@
-import IUseCase from '@/models/IUseCase'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import IUseCase from '../../../models/IUseCase'
+import ICheckListItemRepository from '../../../repositories/ICheckListItemRepository'
 import IGetInfoItemRequestDTO from './IGetInfoItemRequestDTO'
 
 export default class GetInfoItemUseCase implements IUseCase {
@@ -7,7 +7,7 @@ export default class GetInfoItemUseCase implements IUseCase {
 
   async execute(data: IGetInfoItemRequestDTO) {
     const allCheckListItem = await this.checkListItemRepository.info(
-      data.user.id_cliente,
+      data.user.id_cliente || 0,
     )
 
     return {

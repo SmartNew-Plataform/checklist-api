@@ -1,5 +1,5 @@
-import BranchXUserRepository from '@/repositories/implementations/BranchXUserRepository'
-import UserRepository from '@/repositories/implementations/UserRepository'
+import BranchXUserRepository from '../repositories/implementations/BranchXUserRepository'
+import UserRepository from '../repositories/implementations/UserRepository'
 import { FastifyRequest, FastifyReply } from 'fastify'
 
 export default async function verifyJWT(

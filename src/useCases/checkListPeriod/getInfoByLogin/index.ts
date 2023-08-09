@@ -1,4 +1,4 @@
-import CheckListPeriodRepository from '@/repositories/implementations/CheckListPeriodRepository'
+import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
 import GetInfoByLoginUseCase from './getInfoByLoginUseCase'
 import GetInfoByLoginController from './getInfoByLoginController'
 

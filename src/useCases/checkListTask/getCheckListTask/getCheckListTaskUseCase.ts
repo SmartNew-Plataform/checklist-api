@@ -1,7 +1,7 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IGetCheckListTaskByFamilyRequestDTO from '../getCheckListTaskByFamily/IGetCheckListTaskByFamilyRequestDTO'
-import IEquipmentRepository from '@/repositories/IEquipmentRepository'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
+import ICheckListItemRepository from '../../../repositories/ICheckListItemRepository'
 import IGetCheckListTaskResponseDTO from './IGetCheckListTaskResponseDTO'
 
 export default class GetCheckListTaskUseCase implements IUseCase {

@@ -1,4 +1,4 @@
-import { IListByBranch, IListFamilyByBranch } from '@/models/IEquipment'
+import { IListByBranch, IListFamilyByBranch } from '../models/IEquipment'
 import { cadastro_de_equipamentos } from '@prisma/client'
 
 export default interface IEquipmentRepository {

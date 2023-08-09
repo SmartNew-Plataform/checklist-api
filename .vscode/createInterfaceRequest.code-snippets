@@ -2,7 +2,7 @@
 	"createMainRoute": {
 		"prefix": "createInterfaceRequest",
 		"body": [
-			"import { IUser } from '@/models/IUser'",
+			"import { IUser } from '../models/IUser'",
       "",
       "export default interface IMyInterfaceRequestDTO {",
       "  user: IUser",

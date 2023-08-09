@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IFindTaskByFamily, IInfo } from '@/models/ICheckListItem'
+import { IFindTaskByFamily, IInfo } from '../../models/ICheckListItem'
 import ICheckListItemRepository from '../ICheckListItemRepository'
 
 export default class CheckListItemRepository

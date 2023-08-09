@@ -1,4 +1,4 @@
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import GetCheckListByLimitTimeUseCase from './getCheckListByLimitTimeUseCase'
 import GetCheckListByLimitTimeController from './getCheckListByLimitTimeController'
 

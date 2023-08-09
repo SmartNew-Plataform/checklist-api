@@ -1,7 +1,7 @@
-import EquipmentRegisterRepository from '@/repositories/implementations/EquipmentRegisterRepository'
-import EquipmentRepository from '@/repositories/implementations/EquipmentRepository'
-import ProductionRegisterDataRepository from '@/repositories/implementations/ProductionRegisterDataRepository'
-import ProductionRegisterRepository from '@/repositories/implementations/ProductionRegisterRepository'
+import EquipmentRegisterRepository from '../../../repositories/implementations/EquipmentRegisterRepository'
+import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
+import ProductionRegisterDataRepository from '../../../repositories/implementations/ProductionRegisterDataRepository'
+import ProductionRegisterRepository from '../../../repositories/implementations/ProductionRegisterRepository'
 import PatchRegisterPopulationUseCase from './patchRegisterPopulationUseCase'
 import PatchRegisterPopulationController from './patchRegisterPopulationController'
 

@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IFindByClient } from '@/models/ICheckList'
+import { IFindByClient } from '../../models/ICheckList'
 import ICheckListRepository from '../ICheckListRepository'
 
 export default class CheckListRepository implements ICheckListRepository {

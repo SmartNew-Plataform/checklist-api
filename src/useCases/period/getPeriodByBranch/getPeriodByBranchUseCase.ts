@@ -1,6 +1,6 @@
-import IUseCase from '@/models/IUseCase'
+import IUseCase from '../../../models/IUseCase'
 import IGetPeriodByBranchRequestDTO from './IGetPeriodByBranchRequestDTO'
-import IPeriodRepository from '@/repositories/IPeriodRepository'
+import IPeriodRepository from '../../../repositories/IPeriodRepository'
 
 export default class GetPeriodByBranchUseCase implements IUseCase {
   constructor(private periodRepository: IPeriodRepository) {}
