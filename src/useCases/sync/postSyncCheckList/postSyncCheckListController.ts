@@ -60,7 +60,12 @@ export default class PostSyncCheckListController implements IController {
             statusItem: z.coerce.number(),
             statusNC: z.coerce.number().nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(z.coerce.string()),
+            image: z.array(
+              z.object({
+                file: z.coerce.string(),
+                base64: z.coerce.string(),
+              }),
+            ),
             logDate: z.coerce.date(),
           }),
         ),
@@ -73,7 +78,12 @@ export default class PostSyncCheckListController implements IController {
             statusItem: z.coerce.number(),
             statusNC: z.coerce.number().nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(z.coerce.string()),
+            image: z.array(
+              z.object({
+                file: z.coerce.string(),
+                base64: z.coerce.string(),
+              }),
+            ),
             logDate: z.coerce.date(),
           }),
         ),

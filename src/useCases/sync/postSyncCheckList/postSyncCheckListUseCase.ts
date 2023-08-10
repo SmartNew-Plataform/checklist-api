@@ -35,7 +35,10 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       const productionRegister = await this.productionRegisterRepository.save({
         id_centro_custo: equipment.id_centro_custo,
         id_equipamento: equipment.ID,
-        id_turno: productionRegisterItem.periodId,
+        id_turno:
+          productionRegisterItem.periodId === 0
+            ? null
+            : productionRegisterItem.periodId,
         quilometragem: productionRegisterItem.mileage,
         quilometragem_final: productionRegisterItem.finalMileage,
         login: productionRegisterItem.login,
@@ -61,10 +64,10 @@ export default class PostSyncCheckListUseCase implements IUseCase {
         const pathName = `task_${checkListPeriod.id}`
 
         for await (const image of checkListPeriodItem.image) {
-          const decodeData = Buffer.from(image, 'base64')
+          const decodeData = Buffer.from(image.base64, 'base64')
 
           const filename = `${UUID4()}.jpeg`
-          console.log(filename)
+          // console.log(filename)
           const filePath = path.join(__dirname, filename)
           fs.writeFileSync(filePath, decodeData)
 
@@ -138,7 +141,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
         const pathName = `task_${checkListPeriod.id}`
 
         for await (const image of checkListPeriodItem.image) {
-          const decodeData = Buffer.from(image, 'base64')
+          const decodeData = Buffer.from(image.base64, 'base64')
 
           const filename = UUID4()
           const filePath = path.join(__dirname, filename)
