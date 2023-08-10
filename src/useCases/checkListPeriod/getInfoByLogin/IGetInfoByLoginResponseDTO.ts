@@ -3,7 +3,7 @@ export default interface IGetInfoByLoginResponseDTO {
   branchId: number
   productionRegisterId: number
   checkListItemId: number
-  img: string[]
+  img: string
   statusItem: number | null
   statusNC: number | null
   logDate: Date | null
