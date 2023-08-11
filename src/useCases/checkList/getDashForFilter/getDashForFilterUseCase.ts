@@ -112,10 +112,23 @@ export default class GetDashForFilterUseCase implements IUseCase {
       }
     }
 
+    const allCountStatus = summaryCards.reduce(
+      (acc, value) => value.quantity + acc,
+      0,
+    )
+
+    const status = summaryCards.map((item) => {
+      const value = (item.quantity / allCountStatus) * 100
+
+      return {
+        [item.description]: value,
+      }
+    })
+
     const response: IGetDashForFilterResponseDTO = {
       family: allFamily,
       summaryCards,
-      status: [],
+      status,
     }
 
     return response
