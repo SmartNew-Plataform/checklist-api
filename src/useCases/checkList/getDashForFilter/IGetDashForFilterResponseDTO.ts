@@ -10,7 +10,7 @@ export default interface IGetDashForFilterResponseDTO {
   family: {
     id: number
     name: string
-    count: number
+    quantity: number
     status: {
       id: number
       name: string

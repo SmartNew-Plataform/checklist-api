@@ -17,7 +17,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
     const allFamily: {
       id: number
       name: string
-      count: number
+      quantity: number
       status: {
         id: number
         name: string
@@ -42,6 +42,8 @@ export default class GetDashForFilterUseCase implements IUseCase {
         )
 
       for await (const productionRegister of allProductionRegister) {
+        console.log(productionRegister)
+
         let index = allFamily.findIndex(
           (item) =>
             item.id === equipment.cadastro_de_familias_de_equipamento?.ID || 0,
@@ -51,7 +53,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
           allFamily.push({
             id: equipment.cadastro_de_familias_de_equipamento?.ID || 0,
             name: equipment.cadastro_de_familias_de_equipamento?.familia || '',
-            count: 1,
+            quantity: 1,
             status: [],
           })
 
@@ -61,7 +63,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
               0,
           )
         } else {
-          allFamily[index].count++
+          allFamily[index].quantity++
         }
 
         const allStatus = await this.checkListStatusRepository.findByClient(
@@ -99,6 +101,8 @@ export default class GetDashForFilterUseCase implements IUseCase {
             (item) => item.id === Number(checkListPeriod.status_item),
           )
 
+          // allFamily[index].quantity++
+
           if (findIndexStatusFamily < 0) {
             allFamily[index].status.push({
               id: summaryCards[findIndexStatus].id,
@@ -106,9 +110,15 @@ export default class GetDashForFilterUseCase implements IUseCase {
               count: 1,
             })
           } else {
-            allFamily[index].count++
+            // allFamily[index].quantity++
+            allFamily[index].status[findIndexStatusFamily].count++
           }
         }
+
+        allFamily[index].quantity = allFamily.reduce(
+          (acc, value) => value.quantity + acc,
+          0,
+        )
       }
     }
 
