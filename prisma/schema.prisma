@@ -933,6 +933,7 @@ model cadastro_de_empresas {
   smartnewsystem_financeiro_meta                                                 smartnewsystem_financeiro_meta[]
   smartnewsystem_registro_turno                                                  smartnewsystem_registro_turno[]
   smartnewsystem_registro_equipamento                                            smartnewsystem_registro_equipamento[]
+  smartnewsystem_registro_equipamento_acao                                       smartnewsystem_registro_equipamento_acao[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -1042,6 +1043,7 @@ model cadastro_de_equipamentos {
   sofman_tempo_maquina_parada                       sofman_tempo_maquina_parada[]                       @ignore
   smartnewsystem_compras_item_solicitacao           smartnewsystem_compras_item_solicitacao[]
   registerEquipment                                 smartnewsystem_registro_equipamento?
+  registerEquipmentAction                           smartnewsystem_registro_equipamento_acao?
 
   @@unique([ID_filial, equipamento_codigo], map: "unq_filial_equipamento_codigo")
   @@index([criticidade], map: "criticidade")
@@ -3192,6 +3194,7 @@ model smartnewsystem_producao_checklist_status {
   id_cliente    Int?
   id_controle   Int?                                                    @default(1)
   descricao     String?                                                 @db.Char(50)
+  acao          Boolean?                                                @default(false)
   item_conforme smartnewsystem_producao_checklist_status_item_conforme?
   icone         String?                                                 @db.Char(50)
   cor           smartnewsystem_producao_checklist_status_cor?
@@ -3368,6 +3371,20 @@ model smartnewsystem_producao_ocorrencias_atalho {
   @@index([id_tarefa], map: "fk_id_tarefa")
 }
 
+model smartnewsystem_registro_equipamento_acao {
+  id             Int     @id
+  id_cliente     Int
+  id_equipamento Int     @unique
+  turno          Boolean @default(true)
+  horimetro      Boolean @default(true)
+  quilometragem  Boolean @default(true)
+
+  company   cadastro_de_empresas     @relation(fields: [id_cliente], references: [ID])
+  equipment cadastro_de_equipamentos @relation(fields: [id_equipamento], references: [ID])
+
+  @@unique([id_cliente, id_equipamento], map: "smartnewsystem_registro_equipamento_acao_UN")
+}
+
 model smartnewsystem_registro_producao {
   id                                                 Int                                                  @id @default(autoincrement())
   id_centro_custo                                    Int?
@@ -3393,7 +3410,7 @@ model smartnewsystem_registro_producao {
   idlog                                              Int
   aux                                                String?                                              @db.Text
   controle_de_ordens_de_servico                      controle_de_ordens_de_servico[]
-  smartnewsystem_producao_checklist_turno            smartnewsystem_producao_checklist_turno[]
+  checkListPeriod                                    smartnewsystem_producao_checklist_turno[]
   equipment                                          cadastro_de_equipamentos?                            @relation(fields: [id_equipamento], references: [ID], onDelete: Restrict, map: "fk_registro_producao_eqto")
   cadastro_de_centros_de_custo                       cadastro_de_centros_de_custo?                        @relation(fields: [id_centro_custo], references: [ID], onDelete: Restrict, map: "fk_registro_producao_filial")
   sec_users                                          sec_users?                                           @relation(fields: [login], references: [login], onDelete: Restrict, map: "fk_registro_producao_login")

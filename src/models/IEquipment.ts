@@ -1,4 +1,12 @@
+import {
+  cadastro_de_equipamentos,
+  cadastro_de_familias_de_equipamento,
+} from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
+
+export interface IFindById extends cadastro_de_equipamentos {
+  cadastro_de_familias_de_equipamento: cadastro_de_familias_de_equipamento | null
+}
 
 export interface IListByBranch {
   ID: number
@@ -11,6 +19,11 @@ export interface IListByBranch {
   registerEquipment: {
     horimetro: Decimal | null
     quilometragem: Decimal | null
+  } | null
+  registerEquipmentAction: {
+    turno: boolean
+    horimetro: boolean
+    quilometragem: boolean
   } | null
 }
 

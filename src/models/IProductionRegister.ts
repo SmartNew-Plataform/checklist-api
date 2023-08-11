@@ -1,4 +1,8 @@
-import { smartnewsystem_registro_producao_turno } from '@prisma/client'
+import {
+  smartnewsystem_producao_checklist_turno,
+  smartnewsystem_registro_producao,
+  smartnewsystem_registro_producao_turno,
+} from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 
 export interface IListRegisterByTime {
@@ -19,4 +23,8 @@ export interface IListRegisterByTime {
   quilometragem_final: Decimal | null
   data_hora_inicio: Date | null
   login: string | null
+}
+
+export interface IListByEquipment extends smartnewsystem_registro_producao {
+  checkListPeriod: smartnewsystem_producao_checklist_turno[]
 }

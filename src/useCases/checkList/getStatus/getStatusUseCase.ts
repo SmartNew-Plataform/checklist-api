@@ -14,6 +14,7 @@ export default class GetStatusUseCase implements IUseCase {
       checkListStatus: allCheckListStatus.map((item) => ({
         id: item.id,
         description: item.descricao || '',
+        action: item.acao,
         controlId: item.id_controle,
         icon: item.icone || '',
         color: item.cor || '',
