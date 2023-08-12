@@ -19,6 +19,7 @@ export default class GetAllEquipmentByLoginUseCase implements IUseCase {
         code: item.equipamento_codigo || '',
         description: item.descricao || '',
         familyId: item.ID_familia || 0,
+        branchId: item.ID_filial || 0,
       })
     }
 

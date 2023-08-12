@@ -3,4 +3,5 @@ export default interface IGetAllEquipmentByLoginResponseDTO {
   code: string
   description: string
   familyId: number
+  branchId: number
 }
