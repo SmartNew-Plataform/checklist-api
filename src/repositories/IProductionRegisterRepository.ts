@@ -1,8 +1,16 @@
-import { IListRegisterByTime } from '../models/IProductionRegister'
+import {
+  IListByEquipment,
+  IListRegisterByTime,
+} from '../models/IProductionRegister'
 import { Prisma, smartnewsystem_registro_producao } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 
 export default interface IProductionRegisterRepository {
+  listByEquipment(
+    equipmentId: number,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IListByEquipment[]>
   listRegisterByBranch(branch: number[]): Promise<IListRegisterByTime[]>
   listRegisterByTime(
     time: Date,

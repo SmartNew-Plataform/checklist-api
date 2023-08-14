@@ -1,6 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import loginRoutes from './login'
 import branchRoutes from './branch'
+import equipmentRoutes from './equipment'
+import checkListRoutes from './checkList'
 
 export default async function publicRoutes(app: FastifyInstance) {
   app.register(loginRoutes, {
@@ -9,5 +11,13 @@ export default async function publicRoutes(app: FastifyInstance) {
 
   app.register(branchRoutes, {
     prefix: '/branch',
+  })
+
+  app.register(equipmentRoutes, {
+    prefix: '/equipment',
+  })
+
+  app.register(checkListRoutes, {
+    prefix: '/checkList',
   })
 }

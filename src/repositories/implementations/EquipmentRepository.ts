@@ -1,7 +1,10 @@
 import { prisma } from '@/lib/prisma'
 import IEquipmentRepository from '../IEquipmentRepository'
-import { IListByBranch, IListFamilyByBranch } from '../../models/IEquipment'
-import { cadastro_de_equipamentos } from '@prisma/client'
+import {
+  IFindById,
+  IListByBranch,
+  IListFamilyByBranch,
+} from '../../models/IEquipment'
 
 export default class EquipmentRepository implements IEquipmentRepository {
   private table = prisma.cadastro_de_equipamentos
@@ -22,6 +25,13 @@ export default class EquipmentRepository implements IEquipmentRepository {
             quilometragem: true,
           },
         },
+        registerEquipmentAction: {
+          select: {
+            turno: true,
+            horimetro: true,
+            quilometragem: true,
+          },
+        },
       },
       where: {
         ID_filial: {
@@ -31,12 +41,17 @@ export default class EquipmentRepository implements IEquipmentRepository {
     })
   }
 
-  async findById(id: number): Promise<cadastro_de_equipamentos | null> {
-    return await this.table.findUnique({
+  async findById(id: number): Promise<IFindById | null> {
+    const equipment = await this.table.findUnique({
+      include: {
+        cadastro_de_familias_de_equipamento: true,
+      },
       where: {
         ID: id,
       },
     })
+
+    return equipment
   }
 
   async listFamilyByBranch(branch: number[]): Promise<IListFamilyByBranch[]> {

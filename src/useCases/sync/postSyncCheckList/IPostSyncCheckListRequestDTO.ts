@@ -45,7 +45,10 @@ export default interface IPostSyncCheckListRequestDTO {
       statusItem: number
       statusNC: number | null
       observation: string | null
-      image: string[]
+      image: {
+        file: string
+        base64: string
+      }[]
       logDate: Date
     }[]
 
@@ -57,7 +60,10 @@ export default interface IPostSyncCheckListRequestDTO {
       statusItem: number
       statusNC: number | null
       observation: string | null
-      image: string[]
+      image: {
+        file: string
+        base64: string
+      }[]
       logDate: Date
     }[]
   }

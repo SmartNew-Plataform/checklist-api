@@ -8,6 +8,38 @@ export default class CheckListPeriodRepository
 {
   private table = prisma.smartnewsystem_producao_checklist_turno
 
+  async countForStatus(statusId: number): Promise<number> {
+    const count = await this.table.count({
+      where: {
+        status_item: statusId,
+      },
+    })
+
+    return count
+  }
+
+  async countForEquipment(equipmentId: number): Promise<number> {
+    const count = await this.table.count({
+      where: {
+        productionRegister: {
+          id_equipamento: equipmentId,
+        },
+      },
+    })
+
+    return count
+  }
+
+  async listForProductionRegister(
+    productionRegisterId: number,
+  ): Promise<smartnewsystem_producao_checklist_turno[]> {
+    return await this.table.findMany({
+      where: {
+        id_registro_producao: productionRegisterId,
+      },
+    })
+  }
+
   async infoByLogin(login: string): Promise<IInfoByLogin[]> {
     return await this.table.findMany({
       select: {

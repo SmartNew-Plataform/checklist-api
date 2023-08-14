@@ -1,5 +1,8 @@
 import { prisma } from '@/lib/prisma'
-import { IListRegisterByTime } from '../../models/IProductionRegister'
+import {
+  IListByEquipment,
+  IListRegisterByTime,
+} from '../../models/IProductionRegister'
 import IProductionRegisterRepository from '../IProductionRegisterRepository'
 import { Decimal } from '@prisma/client/runtime/library'
 import { Prisma, smartnewsystem_registro_producao } from '@prisma/client'
@@ -8,6 +11,27 @@ export default class ProductionRegisterRepository
   implements IProductionRegisterRepository
 {
   private table = prisma.smartnewsystem_registro_producao
+
+  async listByEquipment(
+    equipmentId: number,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IListByEquipment[]> {
+    const productionRegister = await this.table.findMany({
+      include: {
+        checkListPeriod: true,
+      },
+      where: {
+        id_equipamento: equipmentId,
+        data_hora_inicio: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    })
+
+    return productionRegister
+  }
 
   async listRegisterByTime(
     time: Date,

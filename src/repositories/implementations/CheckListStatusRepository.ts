@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { IInfo } from '../../models/ICheckListStatus'
+import { IFindByClient, IInfo } from '../../models/ICheckListStatus'
 import ICheckListStatusRepository from '../ICheckListStatusRepository'
 
 export default class CheckListStatusRepository
@@ -13,6 +13,7 @@ export default class CheckListStatusRepository
         id: true,
         id_cliente: true,
         descricao: true,
+        acao: true,
         id_controle: true,
         cor: true,
         icone: true,
@@ -21,5 +22,21 @@ export default class CheckListStatusRepository
         id_cliente: clientId,
       },
     })
+  }
+
+  async findByClient(clientId: number): Promise<IFindByClient[]> {
+    const checkListStatus = await this.table.findMany({
+      select: {
+        id: true,
+        descricao: true,
+        icone: true,
+        cor: true,
+      },
+      where: {
+        id_cliente: clientId,
+      },
+    })
+
+    return checkListStatus
   }
 }
