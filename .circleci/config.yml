@@ -24,11 +24,8 @@ jobs:
           name: Generate Bank
           command: npx prisma generate dev
       - run:
-          name: Install Dependencies
-          command: npm run build
-      - run:
-          name: Install Dependencies
-          command: npm run start          
+          name: Build
+          command: npm run build         
 
 workflows:
   my-custom-workflow:
