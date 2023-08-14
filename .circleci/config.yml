@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  node: circleci/node@5.1.0
 executors:
   workflow:
     docker:
@@ -13,6 +15,7 @@ jobs:
     executor: workflow
     steps:
       - checkout
+      - node/install-packages
       - run: 
           name: Install Dependencies
           command: npm install
