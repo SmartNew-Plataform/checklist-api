@@ -10,12 +10,16 @@ executors:
           # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
           username: $DOCKER_HUB_USER
           password: $DOCKER_HUB_PASSWORD
+    steps: 
+      - node/install-packages
+          
 jobs:
   pull_and_start:
     executor: workflow
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          override-ci-command: npm install
       - run: 
           name: Install Dependencies
           command: npm install
