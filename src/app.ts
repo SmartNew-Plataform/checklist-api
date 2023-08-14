@@ -13,11 +13,6 @@ import { ZodError } from 'zod'
 
 export const app = fastify({
   logger: true,
-  // http2: true,
-  // https: {
-  //   key: keyContent,
-  //   cert: certContent,
-  // },
 })
 
 app.register(cors, {
