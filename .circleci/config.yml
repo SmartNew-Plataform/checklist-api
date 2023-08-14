@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
 executors:
-  workflow:
+  create_docker:
     docker:
       - image: cimg/base:stable
         auth:
@@ -12,8 +12,8 @@ executors:
           password: $DOCKER_HUB_PASSWORD
           
 jobs:
-  pull_and_start:
-    executor: workflow
+  pull_and_deploy:
+    executor: create_docker
     steps:
       - checkout
       - node/install
@@ -25,10 +25,14 @@ jobs:
           command: npx prisma generate dev
       - run:
           name: Build
-          command: npm run build         
+          command: npm run build      
 
 workflows:
-  my-custom-workflow:
+  workflow:
     jobs:
-      - pull_and_start
+      - pull_and_deploy:
+          filters:
+            branches:
+              only:
+                - master
 
