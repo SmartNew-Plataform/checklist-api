@@ -3406,7 +3406,6 @@ model smartnewsystem_registro_producao {
   data_log                                           DateTime?                                            @default(now()) @db.DateTime(0)
   assinatura_user                                    Bytes?
   assinatura_gestor                                  Bytes?
-  idapp                                              Int?
   idlog                                              Int
   aux                                                String?                                              @db.Text
   controle_de_ordens_de_servico                      controle_de_ordens_de_servico[]
