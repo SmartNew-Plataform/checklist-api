@@ -1,6 +1,6 @@
 version: 2.1
 executors:
-  my-custom-executor:
+  workflow:
     docker:
       - image: cimg/base:stable
         auth:
@@ -10,15 +10,21 @@ executors:
           password: $DOCKER_HUB_PASSWORD
 jobs:
   pull_and_start:
-
-    executor: my-custom-executor
+    executor: workflow
     steps:
       - checkout
-      - run: |
-          npm i
-          npx prisma generate dev
-          npm run build
-          npm run start
+      - run: 
+          name: Install Dependencies
+          command: npm install
+      - run: 
+          name: Generate Bank
+          command: npx prisma generate dev
+      - run:
+          name: Install Dependencies
+          command: npm run build
+      - run:
+          name: Install Dependencies
+          command: npm run start          
 
 workflows:
   my-custom-workflow:
