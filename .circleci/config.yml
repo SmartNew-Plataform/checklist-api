@@ -29,6 +29,9 @@ jobs:
       - run:
           name: Build
           command: npm run build
+      - run:
+          name: Deploy
+          command: scp ./prisma /build root@64.225.6.102:/home/circleci/www/checklist-api.smartnewservices.com.br
   deploy:
      executor: docker_ssh
      steps: 
@@ -43,7 +46,7 @@ jobs:
           name: Install curl
           command: apk add curl
        - run:
-          name: Install node
+          name: Install NVM
           command: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
        - run:
           name: NVM V16
@@ -53,7 +56,7 @@ jobs:
 workflows:
   workflow:
     jobs:
-      - deploy:
+      - pull:
           filters:
             branches:
               only:
