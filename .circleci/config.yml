@@ -10,9 +10,12 @@ executors:
           # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
           username: $DOCKER_HUB_USER
           password: $DOCKER_HUB_PASSWORD
+  dockerSSH:
+     docker:
+       - image: arvindr226/alpine-ssh
           
 jobs:
-  pull_and_deploy:
+  pull:
     executor: create_docker
     steps:
       - checkout
@@ -26,13 +29,21 @@ jobs:
       - run:
           name: Build
           command: npm run build
-      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
-
+  deploy:
+     executor: dockerSSH
+     steps: 
+       - checkout
+       - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
 
 workflows:
   workflow:
     jobs:
-      - pull_and_deploy:
+      - pull:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
           filters:
             branches:
               only:
