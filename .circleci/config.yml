@@ -33,6 +33,7 @@ jobs:
      executor: docker_ssh
      steps: 
        - checkout
+       - node/install
        - run: ssh -oStrictHostKeyChecking=no -v circleci@64.225.6.102 "./checklist-api.sh"
 
 workflows:
