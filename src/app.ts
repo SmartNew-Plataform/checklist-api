@@ -21,9 +21,6 @@ app.register(cors, {
 
 app.register(fastifyJwt, {
   secret: env.KEY,
-  // sign: {
-  //   expiresIn: env.NODE_ENV === 'dev' ? '2m' : '3d',
-  // },
 })
 
 app.get('/', (req, res) => res.status(HttpStatusCode.NO_CONTENT).send(''))
