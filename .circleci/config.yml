@@ -37,7 +37,7 @@ jobs:
           command: scp -o StrictHostKeyChecking=no -r ./deploy/* circleci@64.225.6.102:/home/circleci/www/checklist-api.smartnewservices.com.br
       - run:
           name: Execute deployment commands on server
-          command: ssh -o StrictHostKeyChecking=no -v circleci@64.225.6.102 "cd /home/circleci/www/checklist-api.smartnewservices.com.br && ./checklist-api.sh"
+          command: ssh -o StrictHostKeyChecking=no -v circleci@64.225.6.102 "cd /home/circleci/www/checklist-api.smartnewservices.com.br && ../../checklist-api.sh"
       
   deploy:
      executor: docker_ssh
