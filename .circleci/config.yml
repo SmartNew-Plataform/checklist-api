@@ -33,7 +33,6 @@ jobs:
      executor: docker_ssh
      steps: 
        - checkout
-       - node/install
        - run:
           name: APK UPDATE
           command: apk update
