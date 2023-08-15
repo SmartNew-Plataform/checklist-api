@@ -10,7 +10,7 @@ executors:
           # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
           username: $DOCKER_HUB_USER
           password: $DOCKER_HUB_PASSWORD
-  dockerSSH:
+  docker_ssh:
      docker:
        - image: arvindr226/alpine-ssh
           
@@ -30,7 +30,7 @@ jobs:
           name: Build
           command: npm run build
   deploy:
-     executor: dockerSSH
+     executor: docker_ssh
      steps: 
        - checkout
        - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
