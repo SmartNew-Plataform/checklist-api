@@ -1,5 +1,6 @@
 export interface IFindTaskByFamily {
   id: number
+  id_controle: number | null
   checkList: {
     id_familia: number | null
   } | null
