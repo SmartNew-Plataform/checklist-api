@@ -26,11 +26,6 @@ app.register(fastifyJwt, {
   // },
 })
 
-// app.register(proxy, {
-//   upstream: 'https://checklist-api.smartnewsistemas.com.br',
-//   http2: true,
-// })
-
 app.get('/', (req, res) => res.status(HttpStatusCode.NO_CONTENT).send(''))
 
 app.register(routes)
