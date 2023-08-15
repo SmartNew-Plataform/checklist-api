@@ -6,8 +6,6 @@ executors:
     docker:
       - image: cimg/base:stable
         auth:
-          # ensure you have first added these secrets
-          # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
           username: $DOCKER_HUB_USER
           password: $DOCKER_HUB_PASSWORD
   docker_ssh:
