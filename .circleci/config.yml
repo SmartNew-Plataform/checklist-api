@@ -34,6 +34,9 @@ jobs:
      steps: 
        - checkout
        - node/install
+       - run:
+          name: Install curl
+          command: apk add --no-cache curl
        - run: ssh -oStrictHostKeyChecking=no -v circleci@64.225.6.102 "./checklist-api.sh"
 
 workflows:
