@@ -4,7 +4,7 @@ orbs:
 executors:
   create_docker:
     docker:
-      - image: cimg/base:stable
+      - image: arvindr226/alpine-ssh
         auth:
           # ensure you have first added these secrets
           # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
@@ -25,7 +25,9 @@ jobs:
           command: npx prisma generate dev
       - run:
           name: Build
-          command: npm run build      
+          command: npm run build
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
+
 
 workflows:
   workflow:
