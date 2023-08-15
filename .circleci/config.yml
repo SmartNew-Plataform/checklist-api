@@ -4,7 +4,7 @@ orbs:
 executors:
   create_docker:
     docker:
-      - image: arvindr226/alpine-ssh
+      - image: cimg/base:stable
         auth:
           # ensure you have first added these secrets
           # visit app.circleci.com/settings/project/github/Checklist-App/server/environment-variables
