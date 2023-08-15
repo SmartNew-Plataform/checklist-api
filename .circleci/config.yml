@@ -28,8 +28,11 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Deploy
+          name: Transfer files to server
           command: scp -o StrictHostKeyChecking=no -r ./prisma ./build circleci@64.225.6.102:/home/circleci/www/checklist-api.smartnewservices.com.br
+      - run:
+           name: Close SSH Session
+           command: ssh -o StrictHostKeyChecking=no -v -O exit circleci@64.225.6.102
   deploy:
      executor: docker_ssh
      steps: 
