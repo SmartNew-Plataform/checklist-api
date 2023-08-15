@@ -28,7 +28,7 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Prepare files for transfer
+          name: Prepar files for transfer
           command: |
             mkdir deploy
             cp -r ./prisma ./build ./package.json deploy/ 
