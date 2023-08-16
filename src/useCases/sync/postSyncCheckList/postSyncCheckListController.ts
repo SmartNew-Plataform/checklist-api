@@ -17,7 +17,7 @@ export default class PostSyncCheckListController implements IController {
           z.object({
             _id: z.coerce.string(),
             id: z.coerce.number(),
-            date: z.coerce.date(),
+            date: z.coerce.string().transform((value) => new Date(value)),
             period: z.coerce.string(),
             code: z.coerce.string(),
             description: z.coerce.string(),
@@ -25,8 +25,13 @@ export default class PostSyncCheckListController implements IController {
             equipmentId: z.coerce.number(),
             mileage: z.coerce.number(),
             finalMileage: z.coerce.number(),
-            initialTime: z.coerce.date(),
-            finalTime: z.coerce.date().nullable(),
+            initialTime: z.coerce
+              .string()
+              .transform((value) => new Date(value)),
+            finalTime: z.coerce
+              .string()
+              .transform((value) => new Date(value))
+              .nullable(),
             login: z.coerce.string(),
             periodId: z.coerce.number(),
           }),
@@ -34,7 +39,7 @@ export default class PostSyncCheckListController implements IController {
         updated: z.array(
           z.object({
             id: z.coerce.number(),
-            date: z.coerce.date(),
+            date: z.coerce.string().transform((value) => new Date(value)),
             period: z.coerce.string(),
             code: z.coerce.string(),
             description: z.coerce.string(),
@@ -42,8 +47,13 @@ export default class PostSyncCheckListController implements IController {
             equipmentId: z.coerce.number(),
             mileage: z.coerce.number(),
             finalMileage: z.coerce.number(),
-            initialTime: z.coerce.date(),
-            finalTime: z.coerce.date().nullable(),
+            initialTime: z.coerce
+              .string()
+              .transform((value) => new Date(value)),
+            finalTime: z.coerce
+              .string()
+              .transform((value) => new Date(value))
+              .nullable(),
             login: z.coerce.string(),
             periodId: z.coerce.number(),
           }),
@@ -66,7 +76,7 @@ export default class PostSyncCheckListController implements IController {
                 base64: z.coerce.string(),
               }),
             ),
-            logDate: z.coerce.date(),
+            logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),
         updated: z.array(
@@ -84,7 +94,7 @@ export default class PostSyncCheckListController implements IController {
                 base64: z.coerce.string(),
               }),
             ),
-            logDate: z.coerce.date(),
+            logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),
       }),
