@@ -28,6 +28,7 @@ export default class GetCheckListTaskUseCase implements IUseCase {
             id: value.checkListTask?.id || 0,
             description: value.checkListTask?.descricao || '',
             familyId: item.ID_familia || 0,
+            controlId: value.id_controle || 0,
           }
         })
 
@@ -37,6 +38,7 @@ export default class GetCheckListTaskUseCase implements IUseCase {
               id: value.id,
               description: value.description,
               familyId: value.familyId,
+              controlId: value.controlId,
             })
           }
         })

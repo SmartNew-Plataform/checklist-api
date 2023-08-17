@@ -11,6 +11,7 @@ export default class CheckListItemRepository
     return await this.table.findMany({
       select: {
         id: true,
+        id_controle: true,
         checkList: {
           select: {
             id_familia: true,
