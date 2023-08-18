@@ -17,13 +17,21 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
     const response: IGetEquipmentByBranchResponseDTO[] = []
 
     for await (const item of allEquipment) {
+      console.log(item)
+
       response.push({
         id: item.ID,
         code: item.equipamento_codigo || '',
         description: item.descricao || '',
-        hasPeriod: item.registerEquipmentAction?.turno || true,
-        hasMileage: item.registerEquipmentAction?.quilometragem || true,
-        hasHourMeter: item.registerEquipmentAction?.horimetro || true,
+        hasPeriod: item.registerEquipmentAction
+          ? item.registerEquipmentAction.turno
+          : true,
+        hasMileage: item.registerEquipmentAction
+          ? item.registerEquipmentAction.quilometragem
+          : true,
+        hasHourMeter: item.registerEquipmentAction
+          ? item.registerEquipmentAction.horimetro
+          : true,
         costCenter: item.id_centro_custo || 0,
         clientId: item.ID_cliente || 0,
         branchId: item.ID_filial || 0,
