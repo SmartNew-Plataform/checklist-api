@@ -17,7 +17,7 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
     const response: IGetEquipmentByBranchResponseDTO[] = []
 
     for await (const item of allEquipment) {
-      console.log(item)
+      // console.log(item)
 
       response.push({
         id: item.ID,
