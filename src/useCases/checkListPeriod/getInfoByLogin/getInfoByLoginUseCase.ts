@@ -23,6 +23,11 @@ export default class GetInfoByLoginUseCase implements IUseCase {
         user: env.FTP_USER,
         password: env.FTP_PASS,
       })
+      .then(async () => {
+        const paths = await client.list()
+
+        console.log(paths)
+      })
       .catch((error) => {
         console.log('Nao Acessou FTP' + error)
       })
@@ -34,7 +39,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     const response: IGetInfoByLoginResponseDTO[] = []
     console.log('Buscando Imagens...')
 
-    const pathCheckList = '/www/sistemas/_lib/img/checkList'
+    const pathCheckList = 'sistemas/_lib/img/checkList'
 
     let allNamesIds: any[] = []
 
