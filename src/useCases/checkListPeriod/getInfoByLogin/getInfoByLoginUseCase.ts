@@ -7,7 +7,6 @@ import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRe
 import IGetInfoByLoginRequestDTO from './IGetInfoByLoginRequestDTO'
 import IGetInfoByLoginResponseDTO from './IGetInfoByLoginResponseDTO'
 import IFTPService from '@/services/IFTPService'
-import { error } from 'console'
 
 export default class GetInfoByLoginUseCase implements IUseCase {
   constructor(
