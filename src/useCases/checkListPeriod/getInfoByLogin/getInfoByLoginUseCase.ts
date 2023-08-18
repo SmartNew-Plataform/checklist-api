@@ -32,11 +32,18 @@ export default class GetInfoByLoginUseCase implements IUseCase {
 
     const pathCheckList = '/www/sistemas/_lib/img/checkList'
 
-    await client.cd(pathCheckList)
+    let allNamesIds: any[] = []
 
-    const fileList = await client.list()
+    await client
+      .cd(pathCheckList)
+      .then(async () => {
+        const fileList = await client.list()
 
-    const allNamesIds = fileList.map((item) => item.name.split('_')[1] || '')
+        allNamesIds = fileList.map((item) => item.name.split('_')[1] || '')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
 
     // console.log(allNamesIds)
 
