@@ -14,7 +14,7 @@ export default interface IPostSyncCheckListRequestDTO {
       mileage: number
       finalMileage: number
       initialTime: Date
-      finalTime: Date | null
+      finalTime: string | Date | null
       login: string
       periodId: number
     }[]
@@ -29,7 +29,7 @@ export default interface IPostSyncCheckListRequestDTO {
       mileage: number
       finalMileage: number
       initialTime: Date
-      finalTime: Date | null
+      finalTime: string | Date | null
       login: string
       periodId: number
     }[]

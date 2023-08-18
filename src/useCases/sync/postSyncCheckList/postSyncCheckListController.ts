@@ -30,7 +30,9 @@ export default class PostSyncCheckListController implements IController {
               .transform((value) => new Date(value)),
             finalTime: z.coerce
               .string()
-              .transform((value) => new Date(value))
+              .transform((value) =>
+                value.length === 0 ? null : new Date(value),
+              )
               .nullable(),
             login: z.coerce.string(),
             periodId: z.coerce.number(),
@@ -52,7 +54,9 @@ export default class PostSyncCheckListController implements IController {
               .transform((value) => new Date(value)),
             finalTime: z.coerce
               .string()
-              .transform((value) => new Date(value))
+              .transform((value) =>
+                value.length === 0 ? null : new Date(value),
+              )
               .nullable(),
             login: z.coerce.string(),
             periodId: z.coerce.number(),
