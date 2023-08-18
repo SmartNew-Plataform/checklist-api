@@ -17,11 +17,15 @@ export default class GetInfoByLoginUseCase implements IUseCase {
   async execute(data: IGetInfoByLoginRequestDTO) {
     const client = new Client()
 
-    await client.access({
-      host: env.FTP_HOST,
-      user: env.FTP_USER,
-      password: env.FTP_PASS,
-    })
+    await client
+      .access({
+        host: env.FTP_HOST,
+        user: env.FTP_USER,
+        password: env.FTP_PASS,
+      })
+      .catch((error) => {
+        console.log('Nao Acessou FTP' + error)
+      })
 
     const allCheckListPeriod = await this.checkListPeriodRepository.infoByLogin(
       data.user.login,
