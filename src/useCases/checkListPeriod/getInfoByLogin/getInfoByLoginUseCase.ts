@@ -28,43 +28,87 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     )
 
     const response: IGetInfoByLoginResponseDTO[] = []
+    console.log('Buscando Imagens...')
+
+    const pathCheckList = '/www/sistemas/_lib/img/checkList'
+
+    await client.cd(pathCheckList)
+
+    const fileList = await client.list()
+
+    const allNamesIds = fileList.map((item) => item.name.split('_')[1] || '')
+
+    // console.log(allNamesIds)
 
     for await (const item of allCheckListPeriod) {
       const remotePath = `/www/sistemas/_lib/img/checkList/task_${item.id}`
       try {
-        await client.cd(remotePath)
+        const findTask = allNamesIds.find((value) => Number(value) === item.id)
 
-        const fileList = await client.list()
+        if (findTask) {
+          // console.log('Encontrei Pasta : ' + findTask)
 
-        const fileInfoPromises = fileList.map(async (fileItem) => {
-          const filePath = path.join(remotePath, fileItem.name)
-          const localTempPath = path.join(__dirname, fileItem.name)
+          await client
+            .cd(remotePath)
+            .then(async () => {
+              const fileList = await client.list()
 
-          await this.FTPService.download(client, filePath, localTempPath)
+              const fileInfoPromises = fileList.map(async (fileItem) => {
+                const filePath = path.join(remotePath, fileItem.name)
+                const localTempPath = path.join(__dirname, fileItem.name)
 
-          const fileDataBuffer = await fs.readFileSync(localTempPath)
-          const fileDataBase64 = fileDataBuffer.toString('base64')
+                await this.FTPService.download(client, filePath, localTempPath)
 
-          await fs.unlinkSync(localTempPath)
+                const fileDataBuffer = await fs.readFileSync(localTempPath)
+                const fileDataBase64 = fileDataBuffer.toString('base64')
 
-          return {
-            file: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem.name}`,
-            base64: fileDataBase64,
-          }
-        })
+                await fs.unlinkSync(localTempPath)
 
-        const fileInfo = await Promise.all(fileInfoPromises)
+                return {
+                  file: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem.name}`,
+                  base64: fileDataBase64,
+                }
+              })
 
-        response.push({
-          id: item.id,
-          branchId: item.id_filial || 0,
-          productionRegisterId: item.id_registro_producao || 0,
-          checkListItemId: item.id_item_checklist || 0,
-          img: fileInfo,
-          statusItem: item.status_item || 0,
-          statusNC: item.status_item_nc || 0,
-          logDate: item.log_date,
-        })
+              const fileInfo = await Promise.all(fileInfoPromises)
+
+              response.push({
+                id: item.id,
+                branchId: item.id_filial || 0,
+                productionRegisterId: item.id_registro_producao || 0,
+                checkListItemId: item.id_item_checklist || 0,
+                img: fileInfo,
+                statusItem: item.status_item || 0,
+                statusNC: item.status_item_nc || 0,
+                logDate: item.log_date,
+              })
+            })
+            .catch(() => {
+              // console.error(error)
+
+              response.push({
+                id: item.id,
+                branchId: item.id_filial || 0,
+                productionRegisterId: item.id_registro_producao || 0,
+                checkListItemId: item.id_item_checklist || 0,
+                img: [],
+                statusItem: item.status_item || 0,
+                statusNC: item.status_item_nc || 0,
+                logDate: item.log_date,
+              })
+            })
+        } else {
+          response.push({
+            id: item.id,
+            branchId: item.id_filial || 0,
+            productionRegisterId: item.id_registro_producao || 0,
+            checkListItemId: item.id_item_checklist || 0,
+            img: [],
+            statusItem: item.status_item || 0,
+            statusNC: item.status_item_nc || 0,
+            logDate: item.log_date,
+          })
+        }
       } catch (error) {
         console.error(error)
 
@@ -80,7 +124,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
         })
       }
     }
-
+    console.log('Finalizado a busca...')
     client.close()
 
     return {
