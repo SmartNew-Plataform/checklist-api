@@ -7,6 +7,7 @@ import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRe
 import IGetInfoByLoginRequestDTO from './IGetInfoByLoginRequestDTO'
 import IGetInfoByLoginResponseDTO from './IGetInfoByLoginResponseDTO'
 import IFTPService from '@/services/IFTPService'
+import { error } from 'console'
 
 export default class GetInfoByLoginUseCase implements IUseCase {
   constructor(
@@ -83,8 +84,8 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 logDate: item.log_date,
               })
             })
-            .catch(() => {
-              // console.error(error)
+            .catch((error) => {
+              console.error(error)
 
               response.push({
                 id: item.id,
