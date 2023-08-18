@@ -54,6 +54,7 @@ app.setErrorHandler((error, _, res) => {
   if (env.NODE_ENV !== 'production') {
     console.error(error)
   } else {
+    console.error(error)
     // TODO: here we should log
   }
 

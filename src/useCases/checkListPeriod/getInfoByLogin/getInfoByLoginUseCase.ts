@@ -125,6 +125,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
       }
     }
     console.log('Finalizado a busca...')
+
     client.close()
 
     return {
