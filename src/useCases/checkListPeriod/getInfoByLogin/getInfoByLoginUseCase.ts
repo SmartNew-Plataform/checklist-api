@@ -26,7 +26,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
       .then(async () => {
         const paths = await client.list()
 
-        console.log(paths)
+        console.log('FTP: ' + paths)
       })
       .catch((error) => {
         console.log('Nao Acessou FTP' + error)
