@@ -3,6 +3,7 @@ import IGetEquipmentByBranchRequestDTO from './IGetEquipmentByBranchRequestDTO'
 import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
 import IGetEquipmentByBranchResponseDTO from './IGetEquipmentByBranchResponseDTO'
 import IEquipmentRegisterRepository from '../../../repositories/IEquipmentRegisterRepository'
+
 export default class GetEquipmentByBranchUseCase implements IUseCase {
   constructor(
     private equipmentRepository: IEquipmentRepository,

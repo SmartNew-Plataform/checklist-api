@@ -42,7 +42,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
         )
 
       for await (const productionRegister of allProductionRegister) {
-        console.log(productionRegister)
+        // console.log(productionRegister)
 
         let index = allFamily.findIndex(
           (item) =>

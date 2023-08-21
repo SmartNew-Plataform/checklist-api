@@ -23,12 +23,6 @@ export default class GetInfoByLoginUseCase implements IUseCase {
         user: env.FTP_USER,
         password: env.FTP_PASS,
       })
-      .then(async () => {
-        const paths = await client.list()
-
-        console.log('FTP:')
-        console.log(paths)
-      })
       .catch((error) => {
         console.log('Nao Acessou FTP' + error)
       })
