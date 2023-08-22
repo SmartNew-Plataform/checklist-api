@@ -13,6 +13,7 @@ import { ZodError } from 'zod'
 
 export const app = fastify({
   logger: true,
+  bodyLimit: 12485760,
 })
 
 app.register(cors, {
