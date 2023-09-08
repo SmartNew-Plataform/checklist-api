@@ -5,6 +5,7 @@ import IEquipmentRepository from '@/repositories/IEquipmentRepository'
 import IGetDashForFilterResponseDTO from './IGetDashForFilterResponseDTO'
 import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
 import CustomError from '@/config/CustomError'
+import dayjs from 'dayjs'
 
 export default class GetDashForFilterUseCase implements IUseCase {
   constructor(
@@ -26,10 +27,17 @@ export default class GetDashForFilterUseCase implements IUseCase {
     }[] = []
 
     const summaryCards: IGetDashForFilterResponseDTO['summaryCards'] = []
+    console.log(data.equipment)
+    if (!data.equipment) {
+      const allEquipment = await this.equipmentRepository.listByBranch(
+        data.user.branchBound.map((item) => item.branch.ID),
+      )
+      console.log(allEquipment)
+      data.equipment = allEquipment.map((item) => item.ID)
+    }
 
     for await (const equipmentId of data.equipment) {
       const equipment = await this.equipmentRepository.findById(equipmentId)
-
       if (!equipment) {
         throw CustomError.notFound('Equipamento não encontrado')
       }
@@ -37,8 +45,8 @@ export default class GetDashForFilterUseCase implements IUseCase {
       const allProductionRegister =
         await this.productionRegisterRepository.listByEquipment(
           equipment.ID,
-          data.startDate,
-          data.endDate,
+          data.startDate || dayjs().subtract(1, 'M').toDate(),
+          data.endDate || dayjs().toDate(),
         )
 
       for await (const productionRegister of allProductionRegister) {

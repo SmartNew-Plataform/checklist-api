@@ -11,6 +11,11 @@ export default interface IProductionRegisterRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<IListByEquipment[]>
+  listByBranch(
+    startDate: Date,
+    endDate: Date,
+    branch: number[],
+  ): Promise<IListByEquipment[]>
   listRegisterByBranch(branch: number[]): Promise<IListRegisterByTime[]>
   listRegisterByTime(
     time: Date,

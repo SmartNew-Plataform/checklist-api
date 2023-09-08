@@ -2,8 +2,8 @@ import { IUser } from '@/models/IUser'
 
 export default interface IGetDashForFilterRequestDTO {
   user: IUser
-  startDate: Date
-  endDate: Date
-  equipment: number[]
+  startDate?: Date | undefined
+  endDate?: Date | undefined
+  equipment?: number[] | undefined
   branch: number[]
 }

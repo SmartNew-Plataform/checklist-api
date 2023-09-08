@@ -13,11 +13,13 @@ export default class GetDashForFilterController implements IController {
 
   async handle(req: FastifyRequest, res: FastifyReply) {
     const querySchema = z.object({
-      startDate: z.coerce.date(),
-      endDate: z.coerce.date(),
+      startDate: z.coerce.date().optional(),
+      endDate: z.coerce.date().optional(),
       equipment: z.coerce
         .string()
-        .transform((item) => item.split(',').map((value) => Number(value))),
+        .transform((item) => item.split(',').map((value) => Number(value)))
+        .or(z.undefined())
+        .optional(),
       branch: z
         .string()
         .transform((item) => item.split(',').map((value) => Number(value))),

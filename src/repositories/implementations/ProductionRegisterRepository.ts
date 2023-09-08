@@ -23,6 +23,36 @@ export default class ProductionRegisterRepository
       },
       where: {
         id_equipamento: equipmentId,
+        equipment: {
+          ID_filial: {
+            in: [],
+          },
+        },
+        data_hora_inicio: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    })
+
+    return productionRegister
+  }
+
+  async listByBranch(
+    startDate: Date,
+    endDate: Date,
+    branch: number[],
+  ): Promise<IListByEquipment[]> {
+    const productionRegister = await this.table.findMany({
+      include: {
+        checkListPeriod: true,
+      },
+      where: {
+        equipment: {
+          ID_filial: {
+            in: branch,
+          },
+        },
         data_hora_inicio: {
           gte: startDate,
           lte: endDate,
