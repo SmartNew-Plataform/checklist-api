@@ -1,19 +1,20 @@
 import fastify from 'fastify'
 // import fs from 'fs'
 // import proxy from '@fastify/http-proxy'
-import routes from './routes'
-import fastifyJwt from '@fastify/jwt'
 import cors from '@fastify/cors'
-import { env } from './env'
-import CustomError, { HttpStatusCode } from './config/CustomError'
+import fastifyJwt from '@fastify/jwt'
+import fastifyMultipart from '@fastify/multipart'
 import { ZodError } from 'zod'
+import CustomError, { HttpStatusCode } from './config/CustomError'
+import { env } from './env'
+import routes from './routes'
 
 // const keyContent = fs.readFileSync(env.KEY_PATH)
 // const certContent = fs.readFileSync(env.CERT_PATH)
 
 export const app = fastify({
   logger: true,
-  bodyLimit: 12485760,
+  bodyLimit: 50048576,
 })
 
 app.register(cors, {
@@ -23,6 +24,8 @@ app.register(cors, {
 app.register(fastifyJwt, {
   secret: env.KEY,
 })
+
+app.register(fastifyMultipart)
 
 app.get('/', (req, res) => res.status(HttpStatusCode.NO_CONTENT).send(''))
 

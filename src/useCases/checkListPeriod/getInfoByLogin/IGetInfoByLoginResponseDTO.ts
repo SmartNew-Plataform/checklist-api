@@ -4,8 +4,8 @@ export default interface IGetInfoByLoginResponseDTO {
   productionRegisterId: number
   checkListItemId: number
   img: {
-    file: string
-    base64: string
+    url: string
+    path: string
   }[]
   statusItem: number | null
   statusNC: number | null

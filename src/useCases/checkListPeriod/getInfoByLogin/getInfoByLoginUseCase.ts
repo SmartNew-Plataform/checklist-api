@@ -1,12 +1,10 @@
-import { Client } from 'basic-ftp'
 import { env } from '@/env'
-import path from 'path'
-import fs from 'fs'
+import IFTPService from '@/services/IFTPService'
+import { Client } from 'basic-ftp'
 import IUseCase from '../../../models/IUseCase'
 import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
 import IGetInfoByLoginRequestDTO from './IGetInfoByLoginRequestDTO'
 import IGetInfoByLoginResponseDTO from './IGetInfoByLoginResponseDTO'
-import IFTPService from '@/services/IFTPService'
 
 export default class GetInfoByLoginUseCase implements IUseCase {
   constructor(
@@ -65,19 +63,10 @@ export default class GetInfoByLoginUseCase implements IUseCase {
               const fileList = await client.list()
 
               const fileInfoPromises = fileList.map(async (fileItem) => {
-                const filePath = path.join(remotePath, fileItem.name)
-                const localTempPath = path.join(__dirname, fileItem.name)
-
-                await this.FTPService.download(client, filePath, localTempPath)
-
-                const fileDataBuffer = await fs.readFileSync(localTempPath)
-                const fileDataBase64 = fileDataBuffer.toString('base64')
-
-                await fs.unlinkSync(localTempPath)
-
                 return {
-                  file: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem.name}`,
-                  base64: fileDataBase64,
+                  name: fileItem.name,
+                  url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem.name}`,
+                  path: '',
                 }
               })
 
