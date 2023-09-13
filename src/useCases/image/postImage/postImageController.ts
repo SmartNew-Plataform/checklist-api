@@ -1,4 +1,4 @@
-import { HttpStatusCode } from '@/config/CustomError'
+import CustomError, { HttpStatusCode } from '@/config/CustomError'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import IController from '../../../models/IController'
@@ -12,15 +12,20 @@ export default class PostImageController implements IController {
 
   async handle(req: FastifyRequest, res: FastifyReply) {
     const queryParams = z.object({
-      checkListPeriodId: z.coerce.number(),
+      checkListPeriodId: z.coerce.number().refine((item) => item > 0),
     })
 
     const { checkListPeriodId } = queryParams.parse(req.params)
+    const file = await req.file()
+
+    if (!file) {
+      throw CustomError.badRequest('Nenhum arquivo enviado')
+    }
 
     const request: IPostImageRequestDTO = {
       user: req.user,
       checkListPeriodId,
-      file: req.file(),
+      file,
     }
 
     const response = await this.useCase.execute(request)
