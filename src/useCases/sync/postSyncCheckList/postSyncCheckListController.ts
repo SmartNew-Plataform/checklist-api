@@ -1,9 +1,9 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
+import { HttpStatusCode } from '@/config/CustomError'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 import IController from '../../../models/IController'
 import IUseCase from '../../../models/IUseCase'
 import IPostSyncCheckListRequestDTO from './IPostSyncCheckListRequestDTO'
-import { z } from 'zod'
-import { HttpStatusCode } from '@/config/CustomError'
 
 export default class PostSyncCheckListController implements IController {
   constructor(private useCase: IUseCase) {
@@ -74,12 +74,6 @@ export default class PostSyncCheckListController implements IController {
             statusItem: z.coerce.number(),
             statusNC: z.coerce.number().nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(
-              z.object({
-                file: z.coerce.string(),
-                base64: z.coerce.string(),
-              }),
-            ),
             logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),
@@ -92,12 +86,6 @@ export default class PostSyncCheckListController implements IController {
             statusItem: z.coerce.number(),
             statusNC: z.coerce.number().nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(
-              z.object({
-                file: z.coerce.string(),
-                base64: z.coerce.string(),
-              }),
-            ),
             logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),

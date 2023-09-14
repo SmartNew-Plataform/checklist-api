@@ -1,14 +1,9 @@
-import { v4 as UUID4 } from 'uuid'
-import fs from 'fs'
-import path from 'path'
-import { Client } from 'basic-ftp'
+import CustomError from '@/config/CustomError'
 import IUseCase from '../../../models/IUseCase'
-import IPostSyncCheckListRequestDTO from './IPostSyncCheckListRequestDTO'
-import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
 import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
 import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
-import CustomError from '@/config/CustomError'
-import { env } from '@/env'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
+import IPostSyncCheckListRequestDTO from './IPostSyncCheckListRequestDTO'
 
 export default class PostSyncCheckListUseCase implements IUseCase {
   constructor(
@@ -51,7 +46,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       })
 
       for await (const checkListPeriodItem of allCheckListPeriod) {
-        const checkListPeriod = await this.checkListPeriodRepository.create({
+        await this.checkListPeriodRepository.create({
           id_filial: checkListPeriodItem.branchId,
           id_registro_producao: productionRegister.id,
           id_item_checklist: checkListPeriodItem.checkListItemId,
@@ -60,50 +55,6 @@ export default class PostSyncCheckListUseCase implements IUseCase {
           observacao: checkListPeriodItem.observation,
           log_date: checkListPeriodItem.logDate,
         })
-
-        const pathName = `task_${checkListPeriod.id}`
-
-        for await (const image of checkListPeriodItem.image) {
-          const decodeData = Buffer.from(image.base64, 'base64')
-
-          const filename = `${UUID4()}.jpeg`
-          // console.log(filename)
-          const filePath = path.join(__dirname, filename)
-          fs.writeFileSync(filePath, decodeData)
-
-          try {
-            const client = new Client()
-
-            await client.access({
-              host: env.FTP_HOST,
-              user: env.FTP_USER,
-              password: env.FTP_PASS,
-            })
-
-            const remotePath = `/www/sistemas/_lib/img/checkList/${pathName}`
-            await client
-              .cd(remotePath)
-              .then(async () => {
-                await client.uploadFrom(
-                  filePath,
-                  path.join(remotePath, filename),
-                )
-              })
-              .catch(async () => {
-                await client.ensureDir(remotePath)
-                await client.uploadFrom(
-                  filePath,
-                  path.join(remotePath, filename),
-                )
-              })
-
-            client.close()
-
-            fs.unlinkSync(filePath)
-          } catch (error) {
-            throw CustomError.badRequest('Erro ao acessar servidor FTP')
-          }
-        }
       }
     }
 
@@ -128,56 +79,12 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       )
 
       for await (const checkListPeriodItem of allCheckListPeriod) {
-        const checkListPeriod = await this.checkListPeriodRepository.update(
-          checkListPeriodItem.id,
-          {
-            status_item: checkListPeriodItem.statusItem,
-            status_item_nc: checkListPeriodItem.statusNC,
-            observacao: checkListPeriodItem.observation,
-            log_date: checkListPeriodItem.logDate,
-          },
-        )
-
-        const pathName = `task_${checkListPeriod.id}`
-
-        for await (const image of checkListPeriodItem.image) {
-          const decodeData = Buffer.from(image.base64, 'base64')
-
-          const filename = UUID4()
-          const filePath = path.join(__dirname, filename)
-          fs.writeFileSync(filePath, decodeData)
-
-          try {
-            const client = new Client()
-
-            await client.access({
-              host: env.FTP_HOST,
-              user: env.FTP_USER,
-              password: env.FTP_PASS,
-            })
-
-            const remotePath = `/www/sistemas/_lib/img/checkList/${pathName}`
-            await client
-              .cd(remotePath)
-              .then(async () => {
-                await client.uploadFrom(
-                  filePath,
-                  path.join(remotePath, filename),
-                )
-              })
-              .catch(async () => {
-                await client.ensureDir(remotePath)
-                await client.uploadFrom(
-                  filePath,
-                  path.join(remotePath, filename),
-                )
-              })
-
-            client.close()
-          } catch (error) {
-            throw CustomError.badRequest('Erro ao acessar servidor FTP')
-          }
-        }
+        await this.checkListPeriodRepository.update(checkListPeriodItem.id, {
+          status_item: checkListPeriodItem.statusItem,
+          status_item_nc: checkListPeriodItem.statusNC,
+          observacao: checkListPeriodItem.observation,
+          log_date: checkListPeriodItem.logDate,
+        })
       }
     }
 
