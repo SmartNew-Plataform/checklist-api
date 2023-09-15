@@ -1,9 +1,9 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
+import { HttpStatusCode } from '@/config/CustomError'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 import IController from '../../../models/IController'
 import IUseCase from '../../../models/IUseCase'
 import IPostSyncCheckListRequestDTO from './IPostSyncCheckListRequestDTO'
-import { z } from 'zod'
-import { HttpStatusCode } from '@/config/CustomError'
 
 export default class PostSyncCheckListController implements IController {
   constructor(private useCase: IUseCase) {
@@ -15,7 +15,7 @@ export default class PostSyncCheckListController implements IController {
       checkListSchema: z.object({
         inserted: z.array(
           z.object({
-            _id: z.coerce.string(),
+            _id: z.coerce.string({ description: 'Erro no formato de _id' }),
             id: z.coerce.number(),
             date: z.coerce.string().transform((value) => new Date(value)),
             period: z.coerce.string(),
@@ -66,20 +66,24 @@ export default class PostSyncCheckListController implements IController {
       checkListPeriod: z.object({
         inserted: z.array(
           z.object({
-            _id: z.coerce.string(),
-            id: z.coerce.number(),
-            branchId: z.coerce.number(),
-            productionRegisterId: z.coerce.string(),
-            checkListItemId: z.coerce.number(),
-            statusItem: z.coerce.number(),
-            statusNC: z.coerce.number().nullable(),
+            _id: z.coerce.string({ description: 'Erro no formato de _id' }),
+            id: z.coerce.number({ description: 'Erro no formato de id' }),
+            branchId: z.coerce.number({
+              description: 'Erro no formato de branchId',
+            }),
+            productionRegisterId: z.coerce.string({
+              description: 'Erro no formato de productionRegisterId',
+            }),
+            checkListItemId: z.coerce.number({
+              description: 'Erro no formato de checkListItemId',
+            }),
+            statusItem: z.coerce.number({
+              description: 'Erro no formato de statusItem',
+            }),
+            statusNC: z.coerce
+              .number({ description: 'Erro no formato de statusNC' })
+              .nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(
-              z.object({
-                file: z.coerce.string(),
-                base64: z.coerce.string(),
-              }),
-            ),
             logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),
@@ -92,12 +96,6 @@ export default class PostSyncCheckListController implements IController {
             statusItem: z.coerce.number(),
             statusNC: z.coerce.number().nullable(),
             observation: z.coerce.string().nullable(),
-            image: z.array(
-              z.object({
-                file: z.coerce.string(),
-                base64: z.coerce.string(),
-              }),
-            ),
             logDate: z.coerce.string().transform((value) => new Date(value)),
           }),
         ),

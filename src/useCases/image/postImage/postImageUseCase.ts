@@ -22,6 +22,8 @@ export default class PostImageUseCase implements IUseCase {
 
     try {
       fs.writeFileSync(path, await file.toBuffer())
+
+      await client.ensureDir(remotePath)
       await client.uploadFrom(path, `${remotePath}/${fileName}`)
     } catch (error) {
       console.log(error)
@@ -30,6 +32,7 @@ export default class PostImageUseCase implements IUseCase {
       )
     }
 
+    client.close()
     fs.unlink(path, (error) => {
       if (error) console.log(error)
     })
