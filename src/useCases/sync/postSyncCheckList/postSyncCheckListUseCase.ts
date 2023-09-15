@@ -4,6 +4,7 @@ import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRe
 import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
 import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
 import IPostSyncCheckListRequestDTO from './IPostSyncCheckListRequestDTO'
+import IPostSyncCheckListResponseDTO from './IPostSyncCheckListResponseDTO'
 
 export default class PostSyncCheckListUseCase implements IUseCase {
   constructor(
@@ -12,8 +13,11 @@ export default class PostSyncCheckListUseCase implements IUseCase {
     private checkListPeriodRepository: ICheckListPeriodRepository,
   ) {}
 
-  async execute(data: IPostSyncCheckListRequestDTO) {
+  async execute(
+    data: IPostSyncCheckListRequestDTO,
+  ): Promise<IPostSyncCheckListResponseDTO> {
     // inserted
+    const insertedPeriodsIds: { id: number; _id: number }[] = []
     for await (const productionRegisterItem of data.checkListSchema.inserted) {
       const allCheckListPeriod = data.checkListPeriod.inserted.filter(
         (item) => item.productionRegisterId === productionRegisterItem._id,
@@ -46,7 +50,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       })
 
       for await (const checkListPeriodItem of allCheckListPeriod) {
-        await this.checkListPeriodRepository.create({
+        const result = await this.checkListPeriodRepository.create({
           id_filial: checkListPeriodItem.branchId,
           id_registro_producao: productionRegister.id,
           id_item_checklist: checkListPeriodItem.checkListItemId,
@@ -55,6 +59,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
           observacao: checkListPeriodItem.observation,
           log_date: checkListPeriodItem.logDate,
         })
+        insertedPeriodsIds.push({ id: result.id, _id: checkListPeriodItem.id })
       }
     }
 
@@ -89,7 +94,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
     }
 
     return {
-      synchronized: true,
+      insertedCheckListPeriods: insertedPeriodsIds,
     }
   }
 }
