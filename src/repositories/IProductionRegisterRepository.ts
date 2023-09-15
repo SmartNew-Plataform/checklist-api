@@ -7,9 +7,10 @@ import { Decimal } from '@prisma/client/runtime/library'
 
 export default interface IProductionRegisterRepository {
   listByEquipment(
-    equipmentId: number,
+    equipmentId: number | null,
     startDate: Date,
     endDate: Date,
+    branch: number[],
   ): Promise<IListByEquipment[]>
   listByBranch(
     startDate: Date,

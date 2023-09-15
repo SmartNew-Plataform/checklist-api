@@ -13,21 +13,29 @@ export default class ProductionRegisterRepository
   private table = prisma.smartnewsystem_registro_producao
 
   async listByEquipment(
-    equipmentId: number,
+    equipmentId: number | null,
     startDate: Date,
     endDate: Date,
+    branch: number[],
   ): Promise<IListByEquipment[]> {
+    const haveEquipment = equipmentId
+      ? {
+          id_equipamento: equipmentId,
+        }
+      : {
+          equipment: {
+            ID_filial: {
+              in: branch,
+            },
+          },
+        }
+
     const productionRegister = await this.table.findMany({
       include: {
         checkListPeriod: true,
       },
       where: {
-        id_equipamento: equipmentId,
-        equipment: {
-          ID_filial: {
-            in: [],
-          },
-        },
+        ...haveEquipment,
         data_hora_inicio: {
           gte: startDate,
           lte: endDate,
