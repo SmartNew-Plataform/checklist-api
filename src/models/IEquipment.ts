@@ -5,7 +5,7 @@ import {
 import { Decimal } from '@prisma/client/runtime/library'
 
 export interface IFindById extends cadastro_de_equipamentos {
-  cadastro_de_familias_de_equipamento: cadastro_de_familias_de_equipamento | null
+  familyEquipment: cadastro_de_familias_de_equipamento | null
 }
 
 export interface IListByBranch {

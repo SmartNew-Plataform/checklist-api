@@ -44,7 +44,7 @@ export default class EquipmentRepository implements IEquipmentRepository {
   async findById(id: number): Promise<IFindById | null> {
     const equipment = await this.table.findUnique({
       include: {
-        cadastro_de_familias_de_equipamento: true,
+        familyEquipment: true,
       },
       where: {
         ID: id,
