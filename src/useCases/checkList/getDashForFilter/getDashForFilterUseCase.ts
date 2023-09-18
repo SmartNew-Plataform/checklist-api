@@ -137,24 +137,19 @@ export default class GetDashForFilterUseCase implements IUseCase {
           // console.log(productionRegister)
 
           let index = allFamily.findIndex(
-            (item) =>
-              item.id === equipment.cadastro_de_familias_de_equipamento?.ID ||
-              0,
+            (item) => item.id === equipment.familyEquipment?.ID || 0,
           )
 
           if (index < 0) {
             allFamily.push({
-              id: equipment.cadastro_de_familias_de_equipamento?.ID || 0,
-              name:
-                equipment.cadastro_de_familias_de_equipamento?.familia || '',
+              id: equipment.familyEquipment?.ID || 0,
+              name: equipment.familyEquipment?.familia || '',
               quantity: 1,
               status: [],
             })
 
             index = allFamily.findIndex(
-              (item) =>
-                item.id === equipment.cadastro_de_familias_de_equipamento?.ID ||
-                0,
+              (item) => item.id === equipment.familyEquipment?.ID || 0,
             )
           } else {
             allFamily[index].quantity++
