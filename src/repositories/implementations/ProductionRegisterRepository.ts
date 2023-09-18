@@ -33,6 +33,11 @@ export default class ProductionRegisterRepository
     const productionRegister = await this.table.findMany({
       include: {
         checkListPeriod: true,
+        equipment: {
+          include: {
+            familyEquipment: true,
+          },
+        },
       },
       where: {
         ...haveEquipment,
@@ -54,6 +59,11 @@ export default class ProductionRegisterRepository
     const productionRegister = await this.table.findMany({
       include: {
         checkListPeriod: true,
+        equipment: {
+          include: {
+            familyEquipment: true,
+          },
+        },
       },
       where: {
         equipment: {

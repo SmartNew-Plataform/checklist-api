@@ -39,31 +39,26 @@ export default class GetDashForFilterUseCase implements IUseCase {
 
       for await (const productionRegister of allProductionRegister) {
         // console.log(productionRegister)
-        const equipment = await this.equipmentRepository.findById(
-          productionRegister.id_equipamento || 0,
-        )
+        const { equipment } = productionRegister
 
         if (!equipment) {
           throw CustomError.badRequest('Equipamento nao encontrado')
         }
 
         let index = allFamily.findIndex(
-          (item) =>
-            item.id === equipment.cadastro_de_familias_de_equipamento?.ID || 0,
+          (item) => item.id === equipment.ID_familia || 0,
         )
 
         if (index < 0) {
           allFamily.push({
-            id: equipment.cadastro_de_familias_de_equipamento?.ID || 0,
-            name: equipment.cadastro_de_familias_de_equipamento?.familia || '',
+            id: equipment.ID_familia || 0,
+            name: equipment.familyEquipment?.familia || '',
             quantity: 1,
             status: [],
           })
 
           index = allFamily.findIndex(
-            (item) =>
-              item.id === equipment.cadastro_de_familias_de_equipamento?.ID ||
-              0,
+            (item) => item.id === equipment.ID_familia || 0,
           )
         } else {
           allFamily[index].quantity++

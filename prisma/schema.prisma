@@ -1013,7 +1013,7 @@ model cadastro_de_equipamentos {
   cadastro_de_centros_de_custo                      cadastro_de_centros_de_custo?                       @relation(fields: [id_centro_custo], references: [ID], onDelete: Restrict, map: "fk_equipamento_centro_custo")
   cadastro_de_empresas                              cadastro_de_empresas?                               @relation(fields: [ID_cliente], references: [ID], onDelete: Cascade, map: "fk_equipamentos_cliente")
   branch                                            cadastro_de_filiais?                                @relation(fields: [ID_filial], references: [ID], onDelete: Cascade, map: "fk_equipamentos_filial")
-  cadastro_de_familias_de_equipamento               cadastro_de_familias_de_equipamento?                @relation(fields: [ID_familia], references: [ID], onDelete: Restrict, map: "fk_familia_equipamento")
+  familyEquipment                                   cadastro_de_familias_de_equipamento?                @relation(fields: [ID_familia], references: [ID], onDelete: Restrict, map: "fk_familia_equipamento")
   cadastro_de_tipos_de_equipamentos                 cadastro_de_tipos_de_equipamentos?                  @relation(fields: [ID_tipoeqto], references: [ID], onDelete: Restrict, map: "fk_tipos_equipamentos")
   controle_de_ordens_de_servico                     controle_de_ordens_de_servico[]
   smartnewsystem_calibragem_horimetro_odometro      smartnewsystem_calibragem_horimetro_odometro[]

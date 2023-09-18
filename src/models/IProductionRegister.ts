@@ -1,4 +1,6 @@
 import {
+  cadastro_de_equipamentos,
+  cadastro_de_familias_de_equipamento,
   smartnewsystem_producao_checklist_turno,
   smartnewsystem_registro_producao,
   smartnewsystem_registro_producao_turno,
@@ -27,4 +29,9 @@ export interface IListRegisterByTime {
 
 export interface IListByEquipment extends smartnewsystem_registro_producao {
   checkListPeriod: smartnewsystem_producao_checklist_turno[]
+  equipment:
+    | (cadastro_de_equipamentos & {
+        familyEquipment: cadastro_de_familias_de_equipamento | null
+      })
+    | null
 }
