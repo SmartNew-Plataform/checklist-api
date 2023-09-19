@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma'
+import { Prisma, smartnewsystem_producao_checklist_turno } from '@prisma/client'
 import { IInfoByLogin } from '../../models/ICheckListPeriod'
 import ICheckListPeriodRepository from '../ICheckListPeriodRepository'
-import { Prisma, smartnewsystem_producao_checklist_turno } from '@prisma/client'
 
 export default class CheckListPeriodRepository
   implements ICheckListPeriodRepository
@@ -40,7 +40,7 @@ export default class CheckListPeriodRepository
     })
   }
 
-  async infoByLogin(login: string): Promise<IInfoByLogin[]> {
+  async infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]> {
     return await this.table.findMany({
       select: {
         id: true,
@@ -54,6 +54,11 @@ export default class CheckListPeriodRepository
       where: {
         productionRegister: {
           login,
+          data_hora_inicio: {
+            gte: date,
+            // gte: new Date('2023-09-01'),
+            // gte: new Date(new Date().setDate(new Date().getDate() - 1)), // Ontem
+          },
         },
       },
     })

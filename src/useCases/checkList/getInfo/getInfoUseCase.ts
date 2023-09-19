@@ -1,7 +1,7 @@
-import IUseCase from '../../../models/IUseCase'
-import IGetInfoRequestDTO from './IGetInfoRequestDTO'
-import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
 import dayjs from 'dayjs'
+import IUseCase from '../../../models/IUseCase'
+import IProductionRegisterRepository from '../../../repositories/IProductionRegisterRepository'
+import IGetInfoRequestDTO from './IGetInfoRequestDTO'
 import IGetInfoResponseDTO from './IGetInfoResponseDTO'
 
 export default class GetInfoUseCase implements IUseCase {
@@ -15,6 +15,7 @@ export default class GetInfoUseCase implements IUseCase {
       dateStatic.toDate(),
       data.user.branchBound.map((item) => item.branch.ID),
       data.user.login,
+      new Date(new Date().setDate(new Date().getDate() - 1)), // Ontem
     )
 
     const response: IGetInfoResponseDTO[] = register.map((item) => {

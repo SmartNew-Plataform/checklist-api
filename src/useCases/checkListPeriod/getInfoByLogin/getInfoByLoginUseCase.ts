@@ -27,6 +27,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
 
     const allCheckListPeriod = await this.checkListPeriodRepository.infoByLogin(
       data.user.login,
+      new Date(new Date().setDate(new Date().getDate() - 1)), // Ontem
     )
 
     const response: IGetInfoByLoginResponseDTO[] = []

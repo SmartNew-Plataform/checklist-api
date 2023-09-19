@@ -1,10 +1,10 @@
-import { IInfoByLogin } from '../models/ICheckListPeriod'
 import { Prisma, smartnewsystem_producao_checklist_turno } from '@prisma/client'
+import { IInfoByLogin } from '../models/ICheckListPeriod'
 
 export default interface ICheckListPeriodRepository {
   countForStatus(statusId: number): Promise<number>
   countForEquipment(equipmentId: number): Promise<number>
-  infoByLogin(login: string): Promise<IInfoByLogin[]>
+  infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]>
   listForProductionRegister(
     productionRegisterId: number,
   ): Promise<smartnewsystem_producao_checklist_turno[]>

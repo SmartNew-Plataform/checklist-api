@@ -1,11 +1,11 @@
 import { prisma } from '@/lib/prisma'
+import { Prisma, smartnewsystem_registro_producao } from '@prisma/client'
+import { Decimal } from '@prisma/client/runtime/library'
 import {
   IListByEquipment,
   IListRegisterByTime,
 } from '../../models/IProductionRegister'
 import IProductionRegisterRepository from '../IProductionRegisterRepository'
-import { Decimal } from '@prisma/client/runtime/library'
-import { Prisma, smartnewsystem_registro_producao } from '@prisma/client'
 
 export default class ProductionRegisterRepository
   implements IProductionRegisterRepository
@@ -85,6 +85,7 @@ export default class ProductionRegisterRepository
     time: Date,
     branch: number[],
     login: string,
+    fromDate: Date,
   ): Promise<IListRegisterByTime[]> {
     const register = await this.table.findMany({
       select: {
@@ -110,7 +111,7 @@ export default class ProductionRegisterRepository
       },
       where: {
         data_hora_inicio: {
-          gte: time,
+          gte: fromDate,
         },
         equipment: {
           ID_filial: {
