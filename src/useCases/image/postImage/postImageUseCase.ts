@@ -17,7 +17,7 @@ export default class PostImageUseCase implements IUseCase {
     const remotePath = `/www/sistemas/_lib/img/checkList/task_${data.checkListPeriodId}`
     const client = new Client()
     await this.FTPService.connect(client).catch((error) => {
-      console.log('Nao Acessou FTP' + error)
+      console.log(`[${new Date()}]: Nao Acessou FTP ${error}`)
     })
 
     try {
@@ -25,6 +25,9 @@ export default class PostImageUseCase implements IUseCase {
 
       await client.ensureDir(remotePath)
       await client.uploadFrom(path, `${remotePath}/${fileName}`)
+      console.log(
+        `[${new Date()}]: Escreveu arquivo no diretorio ${remotePath}/${fileName}`,
+      )
     } catch (error) {
       console.log(error)
       throw CustomError.internalServerError(
