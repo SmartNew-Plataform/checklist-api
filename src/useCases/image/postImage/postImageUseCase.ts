@@ -12,7 +12,7 @@ export default class PostImageUseCase implements IUseCase {
   async execute(data: IPostImageRequestDTO): Promise<IPostImageResponseDTO> {
     const file = data.file
     const fileName = `${new Date().toISOString()}-${file.filename}`
-    const path = `/home/joao/Documents/Coding/checklist/server/public/uploads/${fileName}`
+    const path = `../../../../public/uploads/${fileName}`
 
     const remotePath = `/www/sistemas/_lib/img/checkList/task_${data.checkListPeriodId}`
     const client = new Client()
