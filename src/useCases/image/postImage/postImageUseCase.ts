@@ -16,6 +16,7 @@ export default class PostImageUseCase implements IUseCase {
 
     const remotePath = `/www/sistemas/_lib/img/checkList/task_${data.checkListPeriodId}`
     const client = new Client()
+    console.log('[[ POST IMAGE ]]')
     await this.FTPService.connect(client).catch((error) => {
       console.log(`[${new Date()}]: Nao Acessou FTP ${error}`)
     })

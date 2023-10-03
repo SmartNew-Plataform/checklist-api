@@ -21,7 +21,7 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
           log_date: checkListPeriod.logDate,
         }
         const result = await this.checkListPeriodRepository.create(periodObject)
-        console.log(result)
+        // console.log(result)
 
         return {
           inserted: true,

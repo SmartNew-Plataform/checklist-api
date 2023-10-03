@@ -39,7 +39,7 @@ export default class PostSyncCheckListSchemaUseCase implements IUseCase {
             idlog: 0,
           },
         )
-        console.log(productionRegister)
+        // console.log(productionRegister)
         return {
           inserted: true,
           id: productionRegister.id,
