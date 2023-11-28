@@ -7,6 +7,7 @@ import checkListPeriodRoutes from './checkListPeriod'
 import equipmentRoutes from './equipment'
 import imageRoutes from './image'
 import periodRoutes from './period'
+import responsiblesRoutes from './responsibles'
 import syncRoutes from './sync'
 
 export default async function privateRoutes(app: FastifyInstance) {
@@ -35,5 +36,8 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(imageRoutes, {
     prefix: '/image',
+  })
+  app.register(responsiblesRoutes, {
+    prefix: '/responsibles',
   })
 }

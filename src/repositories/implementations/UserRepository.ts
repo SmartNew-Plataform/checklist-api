@@ -1,6 +1,6 @@
 import { prisma } from '../../lib/prisma'
+import { IFindByClient, IFindByLogin } from '../../models/IUser'
 import IUserRepository from '../IUserRepository'
-import { IFindByLogin } from '../../models/IUser'
 
 export default class UserRepository implements IUserRepository {
   private table = prisma.sec_users
@@ -16,6 +16,18 @@ export default class UserRepository implements IUserRepository {
       },
       where: {
         login,
+      },
+    })
+  }
+
+  async listByClient(clientId: number): Promise<IFindByClient[]> {
+    return await this.table.findMany({
+      select: {
+        login: true,
+        name: true,
+      },
+      where: {
+        id_cliente: clientId,
       },
     })
   }

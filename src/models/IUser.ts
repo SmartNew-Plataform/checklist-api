@@ -17,3 +17,8 @@ export interface IUser {
   id_cliente: number | null
   branchBound: IListBoundBranch[]
 }
+
+export interface IFindByClient {
+  login: string
+  name: string | null
+}
