@@ -6,4 +6,26 @@ export interface IInfoByLogin {
   status_item: number | null
   status_item_nc: number | null
   log_date: Date | null
+  smartnewsystem_producao_checklist_acao: {
+    id: number
+    descricao: string
+    responsavel: string
+    descricao_acao: string | null
+    id_registro_producao: number
+    id_item: number
+    data_inicio: Date | null
+    data_fim: Date | null
+    data_fechamento: Date | null
+    productionRegister: {
+      equipment: {
+        ID: number
+        ID_cliente: number | null
+        ID_filial: number | null
+        ID_familia: number | null
+        centro_custo: string | null
+        equipamento_codigo: string | null
+        descricao: string | null
+      } | null
+    }
+  }[]
 }

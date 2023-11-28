@@ -82,6 +82,36 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 statusItem: item.status_item || 0,
                 statusNC: item.status_item_nc || 0,
                 logDate: item.log_date,
+                actions: item.smartnewsystem_producao_checklist_acao.map(
+                  (action) => ({
+                    id: action.id,
+                    title: action.descricao,
+                    responsible: action.responsavel,
+                    description: action.descricao_acao,
+                    checklistId: action.id_registro_producao,
+                    checklistPeriodId: action.id_item,
+                    startDate: action.data_inicio,
+                    dueDate: action.data_fechamento,
+                    endDate: action.data_fim,
+                    equipment: {
+                      id: action.productionRegister.equipment?.ID || 0,
+                      clientId:
+                        action.productionRegister.equipment?.ID_cliente || null,
+                      branchId:
+                        action.productionRegister.equipment?.ID_filial || null,
+                      familyId:
+                        action.productionRegister.equipment?.ID_familia || null,
+                      costCenter:
+                        action.productionRegister.equipment?.centro_custo ||
+                        null,
+                      code:
+                        action.productionRegister.equipment
+                          ?.equipamento_codigo || null,
+                      description:
+                        action.productionRegister.equipment?.descricao || null,
+                    },
+                  }),
+                ),
               })
             })
             .catch((error) => {
@@ -96,6 +126,36 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 statusItem: item.status_item || 0,
                 statusNC: item.status_item_nc || 0,
                 logDate: item.log_date,
+                actions: item.smartnewsystem_producao_checklist_acao.map(
+                  (action) => ({
+                    id: action.id,
+                    title: action.descricao,
+                    responsible: action.responsavel,
+                    description: action.descricao_acao,
+                    checklistId: action.id_registro_producao,
+                    checklistPeriodId: action.id_item,
+                    startDate: action.data_inicio,
+                    dueDate: action.data_fechamento,
+                    endDate: action.data_fim,
+                    equipment: {
+                      id: action.productionRegister.equipment?.ID || 0,
+                      clientId:
+                        action.productionRegister.equipment?.ID_cliente || null,
+                      branchId:
+                        action.productionRegister.equipment?.ID_filial || null,
+                      familyId:
+                        action.productionRegister.equipment?.ID_familia || null,
+                      costCenter:
+                        action.productionRegister.equipment?.centro_custo ||
+                        null,
+                      code:
+                        action.productionRegister.equipment
+                          ?.equipamento_codigo || null,
+                      description:
+                        action.productionRegister.equipment?.descricao || null,
+                    },
+                  }),
+                ),
               })
             })
         } else {
@@ -108,6 +168,35 @@ export default class GetInfoByLoginUseCase implements IUseCase {
             statusItem: item.status_item || 0,
             statusNC: item.status_item_nc || 0,
             logDate: item.log_date,
+            actions: item.smartnewsystem_producao_checklist_acao.map(
+              (action) => ({
+                id: action.id,
+                title: action.descricao,
+                responsible: action.responsavel,
+                description: action.descricao_acao,
+                checklistId: action.id_registro_producao,
+                checklistPeriodId: action.id_item,
+                startDate: action.data_inicio,
+                dueDate: action.data_fechamento,
+                endDate: action.data_fim,
+                equipment: {
+                  id: action.productionRegister.equipment?.ID || 0,
+                  clientId:
+                    action.productionRegister.equipment?.ID_cliente || null,
+                  branchId:
+                    action.productionRegister.equipment?.ID_filial || null,
+                  familyId:
+                    action.productionRegister.equipment?.ID_familia || null,
+                  costCenter:
+                    action.productionRegister.equipment?.centro_custo || null,
+                  code:
+                    action.productionRegister.equipment?.equipamento_codigo ||
+                    null,
+                  description:
+                    action.productionRegister.equipment?.descricao || null,
+                },
+              }),
+            ),
           })
         }
       } catch (error) {
@@ -122,6 +211,35 @@ export default class GetInfoByLoginUseCase implements IUseCase {
           statusItem: item.status_item || 0,
           statusNC: item.status_item_nc || 0,
           logDate: item.log_date,
+          actions: item.smartnewsystem_producao_checklist_acao.map(
+            (action) => ({
+              id: action.id,
+              title: action.descricao,
+              responsible: action.responsavel,
+              description: action.descricao_acao,
+              checklistId: action.id_registro_producao,
+              checklistPeriodId: action.id_item,
+              startDate: action.data_inicio,
+              dueDate: action.data_fechamento,
+              endDate: action.data_fim,
+              equipment: {
+                id: action.productionRegister.equipment?.ID || 0,
+                clientId:
+                  action.productionRegister.equipment?.ID_cliente || null,
+                branchId:
+                  action.productionRegister.equipment?.ID_filial || null,
+                familyId:
+                  action.productionRegister.equipment?.ID_familia || null,
+                costCenter:
+                  action.productionRegister.equipment?.centro_custo || null,
+                code:
+                  action.productionRegister.equipment?.equipamento_codigo ||
+                  null,
+                description:
+                  action.productionRegister.equipment?.descricao || null,
+              },
+            }),
+          ),
         })
       }
     }

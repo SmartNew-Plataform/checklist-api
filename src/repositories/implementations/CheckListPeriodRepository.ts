@@ -41,7 +41,7 @@ export default class CheckListPeriodRepository
   }
 
   async infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]> {
-    return await this.table.findMany({
+    const data = await this.table.findMany({
       select: {
         id: true,
         id_filial: true,
@@ -50,6 +50,34 @@ export default class CheckListPeriodRepository
         status_item: true,
         status_item_nc: true,
         log_date: true,
+        smartnewsystem_producao_checklist_acao: {
+          select: {
+            id: true,
+            descricao: true,
+            responsavel: true,
+            descricao_acao: true,
+            id_registro_producao: true,
+            id_item: true,
+            data_inicio: true,
+            data_fim: true,
+            data_fechamento: true,
+            productionRegister: {
+              select: {
+                equipment: {
+                  select: {
+                    ID: true,
+                    ID_cliente: true,
+                    ID_filial: true,
+                    ID_familia: true,
+                    centro_custo: true,
+                    equipamento_codigo: true,
+                    descricao: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       where: {
         productionRegister: {
@@ -62,6 +90,7 @@ export default class CheckListPeriodRepository
         },
       },
     })
+    return data
   }
 
   async create(
