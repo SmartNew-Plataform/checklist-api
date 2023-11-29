@@ -19,15 +19,7 @@ export default interface IGetInfoByLoginResponseDTO {
     startDate: Date | null
     dueDate: Date | null
     endDate: Date | null
-    equipment: {
-      id: number
-      clientId: number | null
-      branchId: number | null
-      familyId: number | null
-      costCenter: string | null
-      code: string | null
-      description: string | null
-    }
+    equipmentId: number
   }[]
   logDate: Date | null
 }

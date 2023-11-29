@@ -66,12 +66,6 @@ export default class CheckListPeriodRepository
                 equipment: {
                   select: {
                     ID: true,
-                    ID_cliente: true,
-                    ID_filial: true,
-                    ID_familia: true,
-                    centro_custo: true,
-                    equipamento_codigo: true,
-                    descricao: true,
                   },
                 },
               },

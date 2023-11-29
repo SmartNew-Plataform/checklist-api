@@ -19,12 +19,6 @@ export interface IInfoByLogin {
     productionRegister: {
       equipment: {
         ID: number
-        ID_cliente: number | null
-        ID_filial: number | null
-        ID_familia: number | null
-        centro_custo: string | null
-        equipamento_codigo: string | null
-        descricao: string | null
       } | null
     }
   }[]

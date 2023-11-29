@@ -1,10 +1,14 @@
 import CustomError from '@/config/CustomError'
+import IActionRepository from '@/repositories/IActionRepository'
 import IUseCase from '../../../models/IUseCase'
 import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
 import IPostSyncCheckListPeriodRequestDTO from './IPostSyncCheckListPeriodRequestDTO'
 
 export default class PostSyncCheckListPeriodUseCase implements IUseCase {
-  constructor(private checkListPeriodRepository: ICheckListPeriodRepository) {}
+  constructor(
+    private checkListPeriodRepository: ICheckListPeriodRepository,
+    private actionRepository: IActionRepository,
+  ) {}
 
   async execute(data: IPostSyncCheckListPeriodRequestDTO) {
     const checkListPeriod = data.checkListPeriod
@@ -21,6 +25,20 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
           log_date: checkListPeriod.logDate,
         }
         const result = await this.checkListPeriodRepository.create(periodObject)
+
+        for (const action of data.checkListPeriod.actions) {
+          await this.actionRepository.create({
+            data_fim: action.endDate,
+            data_inicio: action.startDate,
+            descricao: action.title,
+            descricao_acao: action.description,
+            id_item: result.id,
+            id_registro_producao: result.id_registro_producao || 0,
+            responsavel: action.responsible,
+            data_fechamento: action.dueDate,
+          })
+        }
+
         // console.log(result)
 
         return {
@@ -41,6 +59,17 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
           observacao: checkListPeriod.observation,
           log_date: checkListPeriod.logDate,
         })
+
+        for (const action of data.checkListPeriod.actions) {
+          await this.actionRepository.update(action.id, {
+            data_fechamento: action.dueDate,
+            data_fim: action.endDate,
+            responsavel: action.responsible,
+            data_inicio: action.startDate,
+            descricao: action.title,
+            descricao_acao: action.description,
+          })
+        }
 
         return {
           updated: true,

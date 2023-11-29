@@ -6,6 +6,6 @@ export default interface IActionRepository {
   ): Promise<void>
   update(
     id: number,
-    data: Prisma.smartnewsystem_producao_checklist_acaoUpdateInput,
+    data: Prisma.smartnewsystem_producao_checklist_acaoUncheckedUpdateInput,
   ): Promise<void>
 }

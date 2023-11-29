@@ -93,23 +93,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                     startDate: action.data_inicio,
                     dueDate: action.data_fechamento,
                     endDate: action.data_fim,
-                    equipment: {
-                      id: action.productionRegister.equipment?.ID || 0,
-                      clientId:
-                        action.productionRegister.equipment?.ID_cliente || null,
-                      branchId:
-                        action.productionRegister.equipment?.ID_filial || null,
-                      familyId:
-                        action.productionRegister.equipment?.ID_familia || null,
-                      costCenter:
-                        action.productionRegister.equipment?.centro_custo ||
-                        null,
-                      code:
-                        action.productionRegister.equipment
-                          ?.equipamento_codigo || null,
-                      description:
-                        action.productionRegister.equipment?.descricao || null,
-                    },
+                    equipmentId: action.productionRegister.equipment?.ID || 0,
                   }),
                 ),
               })
@@ -137,23 +121,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                     startDate: action.data_inicio,
                     dueDate: action.data_fechamento,
                     endDate: action.data_fim,
-                    equipment: {
-                      id: action.productionRegister.equipment?.ID || 0,
-                      clientId:
-                        action.productionRegister.equipment?.ID_cliente || null,
-                      branchId:
-                        action.productionRegister.equipment?.ID_filial || null,
-                      familyId:
-                        action.productionRegister.equipment?.ID_familia || null,
-                      costCenter:
-                        action.productionRegister.equipment?.centro_custo ||
-                        null,
-                      code:
-                        action.productionRegister.equipment
-                          ?.equipamento_codigo || null,
-                      description:
-                        action.productionRegister.equipment?.descricao || null,
-                    },
+                    equipmentId: action.productionRegister.equipment?.ID || 0,
                   }),
                 ),
               })
@@ -179,22 +147,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 startDate: action.data_inicio,
                 dueDate: action.data_fechamento,
                 endDate: action.data_fim,
-                equipment: {
-                  id: action.productionRegister.equipment?.ID || 0,
-                  clientId:
-                    action.productionRegister.equipment?.ID_cliente || null,
-                  branchId:
-                    action.productionRegister.equipment?.ID_filial || null,
-                  familyId:
-                    action.productionRegister.equipment?.ID_familia || null,
-                  costCenter:
-                    action.productionRegister.equipment?.centro_custo || null,
-                  code:
-                    action.productionRegister.equipment?.equipamento_codigo ||
-                    null,
-                  description:
-                    action.productionRegister.equipment?.descricao || null,
-                },
+                equipmentId: action.productionRegister.equipment?.ID || 0,
               }),
             ),
           })
@@ -222,22 +175,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
               startDate: action.data_inicio,
               dueDate: action.data_fechamento,
               endDate: action.data_fim,
-              equipment: {
-                id: action.productionRegister.equipment?.ID || 0,
-                clientId:
-                  action.productionRegister.equipment?.ID_cliente || null,
-                branchId:
-                  action.productionRegister.equipment?.ID_filial || null,
-                familyId:
-                  action.productionRegister.equipment?.ID_familia || null,
-                costCenter:
-                  action.productionRegister.equipment?.centro_custo || null,
-                code:
-                  action.productionRegister.equipment?.equipamento_codigo ||
-                  null,
-                description:
-                  action.productionRegister.equipment?.descricao || null,
-              },
+              equipmentId: action.productionRegister.equipment?.ID || 0,
             }),
           ),
         })
