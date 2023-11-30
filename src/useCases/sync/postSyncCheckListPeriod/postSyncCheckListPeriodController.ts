@@ -34,6 +34,30 @@ export default class PostSyncCheckListPeriodController implements IController {
           .nullable(),
         observation: z.coerce.string().nullable(),
         logDate: z.coerce.string().transform((value) => new Date(value)),
+        actions: z.array(
+          z.object({
+            id: z.coerce.number({ description: 'Erro no formato de id' }),
+            title: z.coerce.string({ description: 'Erro no formato de title' }),
+            responsible: z.coerce.string({
+              description: 'Erro no formato de responsible',
+            }),
+            description: z.coerce.string({
+              description: 'Erro no formato de string',
+            }),
+            checklistId: z.coerce.number({
+              description: 'Erro no formato de checklistid',
+            }),
+            checklistPeriodId: z.coerce.number({
+              description: 'Erro no formato de checklistperiodid',
+            }),
+            startDate: z.coerce.string().transform((value) => new Date(value)),
+            dueDate: z.coerce.string().transform((value) => new Date(value)),
+            endDate: z.coerce.string().transform((value) => new Date(value)),
+            equipmentId: z.coerce.number({
+              description: 'Erro no formato de equipmentId',
+            }),
+          }),
+        ),
       }),
     })
 

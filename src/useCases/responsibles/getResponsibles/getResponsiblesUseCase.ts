@@ -10,6 +10,6 @@ export default class GetResponsiblesUseCase implements IUseCase {
       data.user.id_cliente || 0,
     )
 
-    return usersByClient
+    return usersByClient || []
   }
 }
