@@ -74,14 +74,14 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
             })
           } else {
             await this.actionRepository.create({
-              data_fim: action.endDate,
-              data_inicio: action.startDate,
+              data_fim: new Date(action.endDate) || null,
+              data_inicio: new Date(action.startDate) || null,
               descricao: action.title,
               descricao_acao: action.description,
               id_item: checkListPeriod.id,
               id_registro_producao: checkListPeriod.productionRegisterId,
               responsavel: action.responsible,
-              data_fechamento: action.dueDate,
+              data_fechamento: new Date(action.dueDate) || null,
             })
           }
         }
@@ -90,6 +90,7 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
           updated: true,
         }
       } catch (error) {
+        console.log(JSON.stringify(error, null, 2))
         throw CustomError.internalServerError(
           'Erro ao atualizar dados ' + JSON.stringify(error),
         )
