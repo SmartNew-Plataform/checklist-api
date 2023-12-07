@@ -5,5 +5,5 @@ export default interface IGetDashForFilterRequestDTO {
   startDate?: Date | undefined
   endDate?: Date | undefined
   equipment?: number[] | undefined
-  branch: number[]
+  branch?: number[]
 }

@@ -1,10 +1,4 @@
-import {
-  cadastro_de_equipamentos,
-  cadastro_de_familias_de_equipamento,
-  smartnewsystem_producao_checklist_turno,
-  smartnewsystem_registro_producao,
-  smartnewsystem_registro_producao_turno,
-} from '@prisma/client'
+import { smartnewsystem_registro_producao_turno } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 
 export interface IListRegisterByTime {
@@ -27,11 +21,17 @@ export interface IListRegisterByTime {
   login: string | null
 }
 
-export interface IListByEquipment extends smartnewsystem_registro_producao {
-  checkListPeriod: smartnewsystem_producao_checklist_turno[]
-  equipment:
-    | (cadastro_de_equipamentos & {
-        familyEquipment: cadastro_de_familias_de_equipamento | null
-      })
-    | null
+export interface IListByEquipment {
+  checkListPeriod: {
+    status_item: number | null
+  }[]
+  equipment: {
+    ID: number
+    descricao: string | null
+    equipamento_codigo: string | null
+    ID_familia: number | null
+    familyEquipment: {
+      familia: string | null
+    } | null
+  } | null
 }

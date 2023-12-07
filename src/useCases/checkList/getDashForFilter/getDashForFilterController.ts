@@ -22,7 +22,8 @@ export default class GetDashForFilterController implements IController {
         .optional(),
       branch: z
         .string()
-        .transform((item) => item.split(',').map((value) => Number(value))),
+        .transform((item) => item.split(',').map((value) => Number(value)))
+        .optional(),
     })
 
     const request: IGetDashForFilterRequestDTO = {

@@ -948,7 +948,7 @@ model cadastro_de_equipamentos {
   ID_predios                                        Int?
   ID_setores                                        Int?
   ID_departamentos                                  Int?
-  ID_familia                                        Int?                                                @default(0)
+  ID_familia                                        Int                                                 @default(0)
   id_categoria                                      Int?
   ID_tipoeqto                                       Int?
   centro_custo                                      String?                                             @db.VarChar(45)
@@ -1013,7 +1013,7 @@ model cadastro_de_equipamentos {
   cadastro_de_centros_de_custo                      cadastro_de_centros_de_custo?                       @relation(fields: [id_centro_custo], references: [ID], onDelete: Restrict, map: "fk_equipamento_centro_custo")
   cadastro_de_empresas                              cadastro_de_empresas?                               @relation(fields: [ID_cliente], references: [ID], onDelete: Cascade, map: "fk_equipamentos_cliente")
   branch                                            cadastro_de_filiais?                                @relation(fields: [ID_filial], references: [ID], onDelete: Cascade, map: "fk_equipamentos_filial")
-  familyEquipment                                   cadastro_de_familias_de_equipamento?                @relation(fields: [ID_familia], references: [ID], onDelete: Restrict, map: "fk_familia_equipamento")
+  familyEquipment                                   cadastro_de_familias_de_equipamento                 @relation(fields: [ID_familia], references: [ID], onDelete: Restrict, map: "fk_familia_equipamento")
   cadastro_de_tipos_de_equipamentos                 cadastro_de_tipos_de_equipamentos?                  @relation(fields: [ID_tipoeqto], references: [ID], onDelete: Restrict, map: "fk_tipos_equipamentos")
   controle_de_ordens_de_servico                     controle_de_ordens_de_servico[]
   smartnewsystem_calibragem_horimetro_odometro      smartnewsystem_calibragem_horimetro_odometro[]
@@ -1065,7 +1065,7 @@ model cadastro_de_familias_de_equipamento {
   ID                                         Int                                          @id @default(autoincrement())
   ID_cliente                                 Int?
   ID_filial                                  Int?
-  familia                                    String?                                      @db.VarChar(45)
+  familia                                    String                                       @db.VarChar(45)
   observacoes                                String?                                      @db.VarChar(100)
   log_user                                   String?                                      @db.VarChar(45)
   log_date                                   DateTime                                     @default(now()) @db.Timestamp(0)
@@ -3222,6 +3222,7 @@ model smartnewsystem_producao_checklist_status {
   company               cadastro_de_empresas?                           @relation(fields: [id_cliente], references: [ID], onDelete: Restrict, map: "fk_prod_checklist_id_cliente")
   checkListStatusAction smartnewsystem_producao_checklist_status_acao[]
   checkListControl      smartnewsystem_producao_checklist_controle?     @relation(fields: [id_controle], references: [id])
+  checklistPeriod       smartnewsystem_producao_checklist_turno[]
 
   @@unique([id_cliente, descricao], map: "id_cliente")
 }
@@ -3258,21 +3259,22 @@ model smartnewsystem_producao_checklist_tarefas {
 }
 
 model smartnewsystem_producao_checklist_turno {
-  id                                     Int                                      @id @default(autoincrement())
+  id                                     Int                                       @id @default(autoincrement())
   cod                                    Int?
   cod_pro                                Int?
   id_filial                              Int?
-  id_registro_producao                   Int?
+  id_registro_producao                   Int
   id_item_checklist                      Int?
   status_item                            Int?
   status_item_nc                         Int?
   observacao                             String?
-  imagem                                 String?                                  @db.VarChar(200)
-  log_date                               DateTime?                                @default(now()) @db.DateTime(0)
-  branch                                 cadastro_de_filiais?                     @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "fk_checklist_turno_filial_id")
-  productionRegister                     smartnewsystem_registro_producao?        @relation(fields: [id_registro_producao], references: [id], onDelete: Restrict, map: "fk_prod_chechklist_reg_prod_id")
-  checkListItem                          smartnewsystem_producao_checklist_itens? @relation(fields: [id_item_checklist], references: [id], onDelete: Restrict, map: "fk_prod_checklist_item_id")
+  imagem                                 String?                                   @db.VarChar(200)
+  log_date                               DateTime?                                 @default(now()) @db.DateTime(0)
+  branch                                 cadastro_de_filiais?                      @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "fk_checklist_turno_filial_id")
+  productionRegister                     smartnewsystem_registro_producao          @relation(fields: [id_registro_producao], references: [id], onDelete: Restrict, map: "fk_prod_chechklist_reg_prod_id")
+  checkListItem                          smartnewsystem_producao_checklist_itens?  @relation(fields: [id_item_checklist], references: [id], onDelete: Restrict, map: "fk_prod_checklist_item_id")
   smartnewsystem_producao_checklist_acao smartnewsystem_producao_checklist_acao[]
+  status                                 smartnewsystem_producao_checklist_status? @relation(fields: [status_item], references: [id])
 
   @@index([id_filial], map: "fk_checklist_turno_filial_id")
   @@index([id_registro_producao], map: "fk_prod_chechklist_reg_prod_id")
@@ -3407,7 +3409,7 @@ model smartnewsystem_registro_equipamento_acao {
 model smartnewsystem_registro_producao {
   id                                                 Int                                                  @id @default(autoincrement())
   id_centro_custo                                    Int?
-  id_equipamento                                     Int?
+  id_equipamento                                     Int
   id_turno                                           Int?
   contador_inicial                                   Decimal?                                             @db.Decimal(10, 2)
   contador_final                                     Decimal?                                             @db.Decimal(10, 2)
@@ -3429,7 +3431,7 @@ model smartnewsystem_registro_producao {
   aux                                                String?                                              @db.Text
   controle_de_ordens_de_servico                      controle_de_ordens_de_servico[]
   checkListPeriod                                    smartnewsystem_producao_checklist_turno[]
-  equipment                                          cadastro_de_equipamentos?                            @relation(fields: [id_equipamento], references: [ID], onDelete: Restrict, map: "fk_registro_producao_eqto")
+  equipment                                          cadastro_de_equipamentos                             @relation(fields: [id_equipamento], references: [ID], onDelete: Restrict, map: "fk_registro_producao_eqto")
   cadastro_de_centros_de_custo                       cadastro_de_centros_de_custo?                        @relation(fields: [id_centro_custo], references: [ID], onDelete: Restrict, map: "fk_registro_producao_filial")
   sec_users                                          sec_users?                                           @relation(fields: [login], references: [login], onDelete: Restrict, map: "fk_registro_producao_login")
   smartnewsystem_registro_producao_aprovacao         smartnewsystem_registro_producao_aprovacao[]

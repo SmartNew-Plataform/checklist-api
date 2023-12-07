@@ -31,11 +31,32 @@ export default class ProductionRegisterRepository
         }
 
     const productionRegister = await this.table.findMany({
-      include: {
-        checkListPeriod: true,
+      // include: {
+      //   checkListPeriod: true,
+      //   equipment: {
+      //     include: {
+      //       familyEquipment: true,
+      //     },
+      //   },
+      // },
+      select: {
+        checkListPeriod: {
+          select: {
+            status_item: true,
+          },
+        },
         equipment: {
-          include: {
-            familyEquipment: true,
+          select: {
+            ID: true,
+            descricao: true,
+            equipamento_codigo: true,
+            ID_familia: true,
+            familyEquipment: {
+              select: {
+                ID: true,
+                familia: true,
+              },
+            },
           },
         },
       },

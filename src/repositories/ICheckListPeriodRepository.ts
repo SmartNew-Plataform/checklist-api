@@ -2,6 +2,7 @@ import { Prisma, smartnewsystem_producao_checklist_turno } from '@prisma/client'
 import { IInfoByLogin } from '../models/ICheckListPeriod'
 
 export default interface ICheckListPeriodRepository {
+  countForStatusByBranch(branches: number[]): Promise<any>
   countForStatus(statusId: number): Promise<number>
   countForEquipment(equipmentId: number): Promise<number>
   infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]>

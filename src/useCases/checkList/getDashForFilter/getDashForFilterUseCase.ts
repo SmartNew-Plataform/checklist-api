@@ -4,232 +4,61 @@ import ICheckListStatusRepository from '@/repositories/ICheckListStatusRepositor
 import IEquipmentRepository from '@/repositories/IEquipmentRepository'
 import IGetDashForFilterResponseDTO from './IGetDashForFilterResponseDTO'
 import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import CustomError from '@/config/CustomError'
 import dayjs from 'dayjs'
+import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
 
 export default class GetDashForFilterUseCase implements IUseCase {
   constructor(
     private checkListStatusRepository: ICheckListStatusRepository,
     private equipmentRepository: IEquipmentRepository,
     private productionRegisterRepository: IProductionRegisterRepository,
+    private checklistPeriodRepository: ICheckListPeriodRepository,
   ) {}
 
   async execute(data: IGetDashForFilterRequestDTO) {
-    const allFamily: {
-      id: number
-      name: string
-      quantity: number
-      status: {
-        id: number
-        name: string
-        count: number
-      }[]
-    }[] = []
+    const startDate = data.startDate
+      ? data.startDate
+      : dayjs().subtract(1, 'month').toDate()
+    const endDate = data.endDate ? data.endDate : dayjs().toDate()
 
-    const summaryCards: IGetDashForFilterResponseDTO['summaryCards'] = []
-    console.log(data.equipment)
-    if (!data.equipment) {
-      const allProductionRegister =
-        await this.productionRegisterRepository.listByEquipment(
-          null,
-          data.startDate || dayjs().subtract(1, 'M').toDate(),
-          data.endDate || dayjs().toDate(),
+    const countStatus = data.equipment
+      ? await this.checkListStatusRepository.listByEquipmentAndDate(
+          data.equipment,
+          startDate,
+          endDate,
+        )
+      : await this.checkListStatusRepository.countByBranch(
           data.user.branchBound.map((item) => item.branch.ID),
+          startDate,
+          endDate,
         )
 
-      for await (const productionRegister of allProductionRegister) {
-        // console.log(productionRegister)
-        const { equipment } = productionRegister
+    const response: IGetDashForFilterResponseDTO[] = []
 
-        if (!equipment) {
-          throw CustomError.badRequest('Equipamento nao encontrado')
-        }
-
-        let index = allFamily.findIndex(
-          (item) => item.id === equipment.ID_familia || 0,
-        )
-
-        if (index < 0) {
-          allFamily.push({
-            id: equipment.ID_familia || 0,
-            name: equipment.familyEquipment?.familia || '',
-            quantity: 1,
-            status: [],
-          })
-
-          index = allFamily.findIndex(
-            (item) => item.id === equipment.ID_familia || 0,
-          )
-        } else {
-          allFamily[index].quantity++
-        }
-
-        const allStatus = await this.checkListStatusRepository.findByClient(
-          data.user.id_cliente || 0,
-        )
-
-        for await (const checkListPeriod of productionRegister.checkListPeriod) {
-          const status = allStatus.find(
-            (item) => item.id === checkListPeriod.status_item,
-          )
-
-          let findIndexStatus = summaryCards.findIndex(
-            (item) => item.id === Number(checkListPeriod.status_item),
-          )
-
-          if (findIndexStatus < 0 && status) {
-            summaryCards.push({
-              id: status.id,
-              color: status.cor || '',
-              description: status.descricao || '',
-              icon: status.icone || '',
-              quantity: 1,
-            })
-
-            findIndexStatus = summaryCards.findIndex(
-              (item) => item.id === Number(checkListPeriod.status_item),
-            )
-          } else if (findIndexStatus > 0) {
-            summaryCards[findIndexStatus].quantity++
-          } else {
-            continue
+    countStatus.forEach((value) => {
+      const family = value.checklistPeriod.reduce(
+        (total: { [key: string]: number }, item) => {
+          const familia =
+            item.productionRegister.equipment.familyEquipment.familia
+          if (!total[familia]) {
+            total[familia] = 0
           }
+          total[familia] = (total[familia] || 0) + 1
+          return total
+        },
+        {} as { [key: string]: number },
+      )
 
-          const findIndexStatusFamily = allFamily[index].status.findIndex(
-            (item) => item.id === Number(checkListPeriod.status_item),
-          )
-
-          // allFamily[index].quantity++
-
-          if (findIndexStatusFamily < 0) {
-            allFamily[index].status.push({
-              id: summaryCards[findIndexStatus].id,
-              name: summaryCards[findIndexStatus].description,
-              count: 1,
-            })
-          } else {
-            // allFamily[index].quantity++
-            allFamily[index].status[findIndexStatusFamily].count++
-          }
-        }
-
-        allFamily[index].quantity = allFamily.reduce(
-          (acc, value) => value.quantity + acc,
-          0,
-        )
-      }
-    } else {
-      for await (const equipmentId of data.equipment) {
-        const equipment = await this.equipmentRepository.findById(equipmentId)
-        if (!equipment) {
-          throw CustomError.notFound('Equipamento não encontrado')
-        }
-
-        const allProductionRegister =
-          await this.productionRegisterRepository.listByEquipment(
-            equipment.ID,
-            data.startDate || dayjs().subtract(1, 'M').toDate(),
-            data.endDate || dayjs().toDate(),
-            [],
-          )
-
-        for await (const productionRegister of allProductionRegister) {
-          // console.log(productionRegister)
-
-          let index = allFamily.findIndex(
-            (item) => item.id === equipment.familyEquipment?.ID || 0,
-          )
-
-          if (index < 0) {
-            allFamily.push({
-              id: equipment.familyEquipment?.ID || 0,
-              name: equipment.familyEquipment?.familia || '',
-              quantity: 1,
-              status: [],
-            })
-
-            index = allFamily.findIndex(
-              (item) => item.id === equipment.familyEquipment?.ID || 0,
-            )
-          } else {
-            allFamily[index].quantity++
-          }
-
-          const allStatus = await this.checkListStatusRepository.findByClient(
-            data.user.id_cliente || 0,
-          )
-
-          for await (const checkListPeriod of productionRegister.checkListPeriod) {
-            const status = allStatus.find(
-              (item) => item.id === checkListPeriod.status_item,
-            )
-
-            let findIndexStatus = summaryCards.findIndex(
-              (item) => item.id === Number(checkListPeriod.status_item),
-            )
-
-            if (findIndexStatus < 0 && status) {
-              summaryCards.push({
-                id: status.id,
-                color: status.cor || '',
-                description: status.descricao || '',
-                icon: status.icone || '',
-                quantity: 1,
-              })
-
-              findIndexStatus = summaryCards.findIndex(
-                (item) => item.id === Number(checkListPeriod.status_item),
-              )
-            } else if (findIndexStatus > 0) {
-              summaryCards[findIndexStatus].quantity++
-            } else {
-              continue
-            }
-
-            const findIndexStatusFamily = allFamily[index].status.findIndex(
-              (item) => item.id === Number(checkListPeriod.status_item),
-            )
-
-            // allFamily[index].quantity++
-
-            if (findIndexStatusFamily < 0) {
-              allFamily[index].status.push({
-                id: summaryCards[findIndexStatus].id,
-                name: summaryCards[findIndexStatus].description,
-                count: 1,
-              })
-            } else {
-              // allFamily[index].quantity++
-              allFamily[index].status[findIndexStatusFamily].count++
-            }
-          }
-
-          allFamily[index].quantity = allFamily.reduce(
-            (acc, value) => value.quantity + acc,
-            0,
-          )
-        }
-      }
-    }
-
-    const allCountStatus = summaryCards.reduce(
-      (acc, value) => value.quantity + acc,
-      0,
-    )
-
-    const status = summaryCards.map((item) => {
-      const value = (item.quantity / allCountStatus) * 100
-
-      return {
-        [item.description]: value,
-      }
+      response.push({
+        id: value.id,
+        icon: value.icone,
+        color: value.cor,
+        description: value.descricao || '',
+        action: value.acao || true,
+        quantity: value.checklistPeriod.length,
+        family,
+      })
     })
-
-    const response: IGetDashForFilterResponseDTO = {
-      family: allFamily,
-      summaryCards,
-      status,
-    }
 
     return response
   }

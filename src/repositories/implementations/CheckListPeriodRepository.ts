@@ -18,6 +18,27 @@ export default class CheckListPeriodRepository
     return count
   }
 
+  async countForStatusByBranch(branches: number[]) {
+    const count = await this.table.aggregate({
+      _count: {
+        status_item: true,
+      },
+      where: {
+        productionRegister: {
+          equipment: {
+            branch: {
+              ID: {
+                in: branches,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return count
+  }
+
   async countForEquipment(equipmentId: number): Promise<number> {
     const count = await this.table.count({
       where: {
