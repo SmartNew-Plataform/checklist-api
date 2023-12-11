@@ -65,23 +65,23 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
 
           if (found) {
             await this.actionRepository.update(action.id, {
-              data_fechamento: action.dueDate,
-              data_fim: action.endDate,
+              data_fim: new Date(action.endDate),
+              data_inicio: new Date(action.startDate),
               responsavel: action.responsible,
-              data_inicio: action.startDate,
+              data_fechamento: action.dueDate ? new Date(action.dueDate) : null,
               descricao: action.title,
               descricao_acao: action.description,
             })
           } else {
             await this.actionRepository.create({
-              data_fim: new Date(action.endDate) || null,
-              data_inicio: new Date(action.startDate) || null,
+              data_fim: new Date(action.startDate),
+              data_inicio: new Date(action.startDate),
               descricao: action.title,
               descricao_acao: action.description,
               id_item: checkListPeriod.id,
               id_registro_producao: checkListPeriod.productionRegisterId,
               responsavel: action.responsible,
-              data_fechamento: new Date(action.dueDate) || null,
+              data_fechamento: action.dueDate ? new Date(action.dueDate) : null,
             })
           }
         }
