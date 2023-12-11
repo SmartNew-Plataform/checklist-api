@@ -1749,54 +1749,54 @@ model sec_logged {
 }
 
 model sec_users {
-  login                                                                                                              String                                       @id @db.VarChar(60)
+  login                                                                                                              String                                         @id @db.VarChar(60)
   id_cliente                                                                                                         Int?
   id_filial                                                                                                          Int?
-  tipo_acesso                                                                                                        Int?                                         @default(2)
+  tipo_acesso                                                                                                        Int?                                           @default(2)
   id_modulo_padrao                                                                                                   Int?
-  acesso_solicitacoes                                                                                                Int?                                         @default(0)
-  filtro_mantenedor                                                                                                  String?                                      @default("TODOS") @db.Char(20)
-  status_ordem                                                                                                       String?                                      @default("S,N,C") @db.Char(5)
-  limite_inferior_dias                                                                                               Int?                                         @default(15)
-  limite_superior_dias                                                                                               Int?                                         @default(1)
+  acesso_solicitacoes                                                                                                Int?                                           @default(0)
+  filtro_mantenedor                                                                                                  String?                                        @default("TODOS") @db.Char(20)
+  status_ordem                                                                                                       String?                                        @default("S,N,C") @db.Char(5)
+  limite_inferior_dias                                                                                               Int?                                           @default(15)
+  limite_superior_dias                                                                                               Int?                                           @default(1)
   nivel_acesso                                                                                                       sec_users_nivel_acesso?
-  notificacoes                                                                                                       String?                                      @db.Char(200)
-  id_setor_executante                                                                                                String?                                      @db.VarChar(255)
+  notificacoes                                                                                                       String?                                        @db.Char(200)
+  id_setor_executante                                                                                                String?                                        @db.VarChar(255)
   id_mantenedor                                                                                                      Int?
-  menu                                                                                                               Int?                                         @default(2)
-  empresa                                                                                                            String?                                      @db.VarChar(100)
-  filial                                                                                                             String?                                      @db.VarChar(100)
-  pswd                                                                                                               String                                       @db.VarChar(32)
-  new_pswd                                                                                                           String?                                      @db.Char(60)
-  name                                                                                                               String?                                      @db.VarChar(64)
+  menu                                                                                                               Int?                                           @default(2)
+  empresa                                                                                                            String?                                        @db.VarChar(100)
+  filial                                                                                                             String?                                        @db.VarChar(100)
+  pswd                                                                                                               String                                         @db.VarChar(32)
+  new_pswd                                                                                                           String?                                        @db.Char(60)
+  name                                                                                                               String?                                        @db.VarChar(64)
   assinatura                                                                                                         Bytes?
-  foto                                                                                                               String?                                      @default("default.png") @db.Char(100)
+  foto                                                                                                               String?                                        @default("default.png") @db.Char(100)
   cargo                                                                                                              Int?
-  email                                                                                                              String?                                      @db.VarChar(64)
-  email_2                                                                                                            String?                                      @db.VarChar(64)
-  active                                                                                                             String?                                      @default("Y") @db.VarChar(1)
-  activation_code                                                                                                    String?                                      @db.VarChar(32)
-  priv_admin                                                                                                         String?                                      @default("N") @db.VarChar(1)
-  blocked                                                                                                            sec_users_blocked?                           @default(N)
-  sapiKey                                                                                                            String?                                      @db.Text
-  app_versao                                                                                                         String?                                      @db.Char(10)
-  plataforma                                                                                                         String?                                      @db.Char(20)
-  device                                                                                                             String?                                      @db.Text
-  imei                                                                                                               String?                                      @db.VarChar(255)
-  log_smartnewsystem_contrato_log_smartnewsystem_contrato_login_aprovadorTosec_users                                 log_smartnewsystem_contrato[]                @relation("log_smartnewsystem_contrato_login_aprovadorTosec_users")
-  log_smartnewsystem_contrato_log_smartnewsystem_contrato_login_solicitanteTosec_users                               log_smartnewsystem_contrato[]                @relation("log_smartnewsystem_contrato_login_solicitanteTosec_users")
+  email                                                                                                              String?                                        @db.VarChar(64)
+  email_2                                                                                                            String?                                        @db.VarChar(64)
+  active                                                                                                             String?                                        @default("Y") @db.VarChar(1)
+  activation_code                                                                                                    String?                                        @db.VarChar(32)
+  priv_admin                                                                                                         String?                                        @default("N") @db.VarChar(1)
+  blocked                                                                                                            sec_users_blocked?                             @default(N)
+  sapiKey                                                                                                            String?                                        @db.Text
+  app_versao                                                                                                         String?                                        @db.Char(10)
+  plataforma                                                                                                         String?                                        @db.Char(20)
+  device                                                                                                             String?                                        @db.Text
+  imei                                                                                                               String?                                        @db.VarChar(255)
+  log_smartnewsystem_contrato_log_smartnewsystem_contrato_login_aprovadorTosec_users                                 log_smartnewsystem_contrato[]                  @relation("log_smartnewsystem_contrato_login_aprovadorTosec_users")
+  log_smartnewsystem_contrato_log_smartnewsystem_contrato_login_solicitanteTosec_users                               log_smartnewsystem_contrato[]                  @relation("log_smartnewsystem_contrato_login_solicitanteTosec_users")
   mod_seguranca_permissoes_usuario                                                                                   mod_seguranca_permissoes_usuario[]
-  smartnewsystem_modulo_nome                                                                                         smartnewsystem_modulo_nome?                  @relation(fields: [id_modulo_padrao], references: [id], onDelete: Restrict, map: "fk_login_modulo")
-  cadastro_de_empresas                                                                                               cadastro_de_empresas?                        @relation(fields: [id_cliente], references: [ID], onDelete: Restrict, map: "fk_user_cliente")
-  smartnewsystem_user_cargo                                                                                          smartnewsystem_user_cargo?                   @relation(fields: [cargo], references: [id], onDelete: Restrict, map: "fk_users_cargo_id")
-  cadastro_de_filiais                                                                                                cadastro_de_filiais?                         @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "sec_users_ibfk_1")
+  smartnewsystem_modulo_nome                                                                                         smartnewsystem_modulo_nome?                    @relation(fields: [id_modulo_padrao], references: [id], onDelete: Restrict, map: "fk_login_modulo")
+  cadastro_de_empresas                                                                                               cadastro_de_empresas?                          @relation(fields: [id_cliente], references: [ID], onDelete: Restrict, map: "fk_user_cliente")
+  smartnewsystem_user_cargo                                                                                          smartnewsystem_user_cargo?                     @relation(fields: [cargo], references: [id], onDelete: Restrict, map: "fk_users_cargo_id")
+  cadastro_de_filiais                                                                                                cadastro_de_filiais?                           @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "sec_users_ibfk_1")
   sec_users_groups                                                                                                   sec_users_groups[]
   smartnewsystem_alcadas                                                                                             smartnewsystem_alcadas[]
   smartnewsystem_gestor_controle_status                                                                              smartnewsystem_gestor_controle_status[]
   smartnewsystem_pendencias_checklist_users                                                                          smartnewsystem_pendencias_checklist_users[]
   smartnewsystem_registro_producao                                                                                   smartnewsystem_registro_producao[]
-  smartnewsystem_registro_producao_aprovacao_smartnewsystem_registro_producao_aprovacao_login_aprovadorTosec_users   smartnewsystem_registro_producao_aprovacao[] @relation("smartnewsystem_registro_producao_aprovacao_login_aprovadorTosec_users")
-  smartnewsystem_registro_producao_aprovacao_smartnewsystem_registro_producao_aprovacao_login_solicitanteTosec_users smartnewsystem_registro_producao_aprovacao[] @relation("smartnewsystem_registro_producao_aprovacao_login_solicitanteTosec_users")
+  smartnewsystem_registro_producao_aprovacao_smartnewsystem_registro_producao_aprovacao_login_aprovadorTosec_users   smartnewsystem_registro_producao_aprovacao[]   @relation("smartnewsystem_registro_producao_aprovacao_login_aprovadorTosec_users")
+  smartnewsystem_registro_producao_aprovacao_smartnewsystem_registro_producao_aprovacao_login_solicitanteTosec_users smartnewsystem_registro_producao_aprovacao[]   @relation("smartnewsystem_registro_producao_aprovacao_login_solicitanteTosec_users")
   smartnewsystem_registro_producao_dados                                                                             smartnewsystem_registro_producao_dados[]
   smartnewsystem_user_equipamento                                                                                    smartnewsystem_user_equipamento[]
   smartnewsystem_users_modulos                                                                                       smartnewsystem_users_modulos[]
@@ -1810,13 +1810,14 @@ model sec_users {
   sofman_ordem_permissao_app                                                                                         sofman_ordem_permissao_app?
   sofman_pswd_default                                                                                                sofman_pswd_default[]
   sofman_users_master                                                                                                sofman_users_master?
-  buy                                                                                                                smartnewsystem_compras_solicitacao[]         @relation("log_user")
-  buyResponsable                                                                                                     smartnewsystem_compras_solicitacao[]         @relation("responsavel_fechamento")
+  buy                                                                                                                smartnewsystem_compras_solicitacao[]           @relation("log_user")
+  buyResponsable                                                                                                     smartnewsystem_compras_solicitacao[]           @relation("responsavel_fechamento")
   log_smartnewsystem_compras_aprovacao                                                                               log_smartnewsystem_compras_aprovacao[]
   smartnewsystem_compras_aprovacao                                                                                   smartnewsystem_compras_aprovacao[]
-  user                                                                                                               smartnewsystem_compras_cotacao[]             @relation("log_user")
-  userClose                                                                                                          smartnewsystem_compras_cotacao[]             @relation("fechado_por")
+  user                                                                                                               smartnewsystem_compras_cotacao[]               @relation("log_user")
+  userClose                                                                                                          smartnewsystem_compras_cotacao[]               @relation("fechado_por")
   smartnewsystem_producao_checklist_acao                                                                             smartnewsystem_producao_checklist_acao[]
+  smartnewsystem_producao_checklist_acao_grupo                                                                       smartnewsystem_producao_checklist_acao_grupo[]
 
   @@unique([email, id_cliente], map: "email")
   @@index([id_modulo_padrao], map: "fk_login_modulo")
@@ -1951,15 +1952,16 @@ model smartnewsystem_calibragem_horimetro_odometro {
 }
 
 model smartnewsystem_composicao_grupo {
-  id                             Int                              @id @default(autoincrement())
-  id_cliente                     Int
-  id_centro_custo                Int
-  composicao                     String                           @db.VarChar(60)
-  descricao                      String                           @db.VarChar(60)
-  log_user                       String                           @db.VarChar(45)
-  log_date                       DateTime?                        @default(now()) @db.DateTime(0)
-  costCenter                     cadastro_de_centros_de_custo     @relation(fields: [id_centro_custo], references: [ID])
-  smartnewsystem_composicao_item smartnewsystem_composicao_item[]
+  id                                     Int                                      @id @default(autoincrement())
+  id_cliente                             Int
+  id_centro_custo                        Int
+  composicao                             String                                   @db.VarChar(60)
+  descricao                              String                                   @db.VarChar(60)
+  log_user                               String                                   @db.VarChar(45)
+  log_date                               DateTime?                                @default(now()) @db.DateTime(0)
+  costCenter                             cadastro_de_centros_de_custo             @relation(fields: [id_centro_custo], references: [ID])
+  smartnewsystem_composicao_item         smartnewsystem_composicao_item[]
+  smartnewsystem_producao_checklist_acao smartnewsystem_producao_checklist_acao[]
 }
 
 model smartnewsystem_composicao_item {
@@ -3192,6 +3194,7 @@ model smartnewsystem_producao_checklist_itens {
 
 model smartnewsystem_producao_checklist_acao {
   id                   Int       @id @default(autoincrement())
+  id_grupo             Int
   id_registro_producao Int
   id_item              Int
   descricao            String
@@ -3202,9 +3205,31 @@ model smartnewsystem_producao_checklist_acao {
   descricao_acao       String?
   log_date             DateTime  @default(now())
 
-  productionRegister smartnewsystem_registro_producao        @relation(fields: [id_registro_producao], references: [id])
-  checklistPeriod    smartnewsystem_producao_checklist_turno @relation(fields: [id_item], references: [id])
-  user               sec_users                               @relation(fields: [responsavel], references: [login])
+  group                             smartnewsystem_producao_checklist_acao_grupo @relation(fields: [id_grupo], references: [id])
+  productionRegister                smartnewsystem_registro_producao             @relation(fields: [id_registro_producao], references: [id])
+  checklistPeriod                   smartnewsystem_producao_checklist_turno      @relation(fields: [id_item], references: [id])
+  user                              sec_users                                    @relation(fields: [responsavel], references: [login])
+  smartnewsystem_composicao_grupo   smartnewsystem_composicao_grupo?             @relation(fields: [smartnewsystem_composicao_grupoId], references: [id])
+  smartnewsystem_composicao_grupoId Int?
+}
+
+model smartnewsystem_producao_checklist_acao_grupo {
+  id                   Int       @id @default(autoincrement())
+  id_cliente           Int
+  id_registro_producao Int?
+  numero               Int
+  titulo               String?
+  responsavel          String
+  descricao            String
+  data_inicio          DateTime
+  data_fim             DateTime
+  data_concluida       DateTime?
+  descricao_acao       String?
+  log_date             DateTime  @default(now())
+
+  productionRegister             smartnewsystem_registro_producao?        @relation(fields: [id_registro_producao], references: [id])
+  user                           sec_users                                @relation(fields: [responsavel], references: [login])
+  productionChecklistActionItems smartnewsystem_producao_checklist_acao[]
 }
 
 model smartnewsystem_producao_checklist_status {
@@ -3440,6 +3465,7 @@ model smartnewsystem_registro_producao {
   sofman_tarefas_ordem_servico                       sofman_tarefas_ordem_servico[]
   period                                             smartnewsystem_registro_turno?                       @relation(fields: [id_turno], references: [id])
   smartnewsystem_producao_checklist_acao             smartnewsystem_producao_checklist_acao[]
+  smartnewsystem_producao_checklist_acao_grupo       smartnewsystem_producao_checklist_acao_grupo[]
 
   @@unique([login, id_centro_custo, id_equipamento, DATA, turno], map: "login")
   @@index([id_equipamento], map: "fk_registro_producao_eqto")

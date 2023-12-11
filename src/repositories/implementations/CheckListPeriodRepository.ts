@@ -8,6 +8,15 @@ export default class CheckListPeriodRepository
 {
   private table = prisma.smartnewsystem_producao_checklist_turno
 
+  async findById(id: number) {
+    const found = await this.table.findUnique({
+      where: {
+        id,
+      },
+    })
+    return found
+  }
+
   async countForStatus(statusId: number): Promise<number> {
     const count = await this.table.count({
       where: {

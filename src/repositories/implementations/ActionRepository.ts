@@ -18,7 +18,9 @@ export default class ActionRepository implements IActionRepository {
   async create(
     data: Prisma.smartnewsystem_producao_checklist_acaoUncheckedCreateInput,
   ) {
-    await this.table.create({ data })
+    await this.table.create({
+      data,
+    })
   }
 
   async update(
