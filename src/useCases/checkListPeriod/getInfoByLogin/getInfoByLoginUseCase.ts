@@ -1,4 +1,5 @@
 import { env } from '@/env'
+import { IAction } from '@/models/ICheckListPeriod'
 import IFTPService from '@/services/IFTPService'
 import { Client } from 'basic-ftp'
 import IUseCase from '../../../models/IUseCase'
@@ -73,6 +74,31 @@ export default class GetInfoByLoginUseCase implements IUseCase {
 
               const fileInfo = await Promise.all(fileInfoPromises)
 
+              const actions: IAction[] = []
+              for await (const action of item.smartnewsystem_producao_checklist_acao) {
+                if (action.id_grupo) {
+                  const actionRemotePath = `/www/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}`
+                  await client.cd(actionRemotePath).then(async () => {
+                    const fileList = await client.list()
+
+                    const actionFilePromises = fileList.map((fileItem) => {
+                      return {
+                        name: fileItem.name,
+                        img: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}/${fileItem.name}`,
+                        path: '',
+                      }
+                    })
+
+                    const actionFileInfo = await Promise.all(actionFilePromises)
+
+                    actions.push({
+                      ...action,
+                      img: actionFileInfo,
+                    })
+                  })
+                }
+              }
+
               response.push({
                 id: item.id,
                 branchId: item.id_filial || 0,
@@ -82,20 +108,20 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 statusItem: item.status_item || 0,
                 statusNC: item.status_item_nc || 0,
                 logDate: item.log_date,
-                actions: item.smartnewsystem_producao_checklist_acao.map(
-                  (action) => ({
-                    id: action.id,
-                    title: action.descricao,
-                    responsible: action.responsavel,
-                    description: action.descricao_acao,
-                    checklistId: action.id_registro_producao,
-                    checklistPeriodId: action.id_item,
-                    startDate: action.data_inicio,
-                    dueDate: action.data_fechamento,
-                    endDate: action.data_fim,
-                    equipmentId: action.productionRegister.equipment?.ID || 0,
-                  }),
-                ),
+                actions: actions.map((action) => ({
+                  id: action.id,
+                  groupId: action.id_grupo,
+                  title: action.descricao,
+                  responsible: action.responsavel,
+                  description: action.descricao_acao,
+                  checklistId: action.id_registro_producao,
+                  checklistPeriodId: action.id_item,
+                  startDate: action.data_inicio,
+                  dueDate: action.data_fechamento,
+                  endDate: action.data_fim,
+                  equipmentId: action.productionRegister.equipment?.ID || 0,
+                  img: action.img,
+                })),
               })
             })
             .catch((error) => {
@@ -113,6 +139,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 actions: item.smartnewsystem_producao_checklist_acao.map(
                   (action) => ({
                     id: action.id,
+                    groupId: action.id_grupo,
                     title: action.descricao,
                     responsible: action.responsavel,
                     description: action.descricao_acao,
@@ -122,6 +149,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                     dueDate: action.data_fechamento,
                     endDate: action.data_fim,
                     equipmentId: action.productionRegister.equipment?.ID || 0,
+                    img: [],
                   }),
                 ),
               })
@@ -139,6 +167,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
             actions: item.smartnewsystem_producao_checklist_acao.map(
               (action) => ({
                 id: action.id,
+                groupId: action.id_grupo,
                 title: action.descricao,
                 responsible: action.responsavel,
                 description: action.descricao_acao,
@@ -148,6 +177,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
                 dueDate: action.data_fechamento,
                 endDate: action.data_fim,
                 equipmentId: action.productionRegister.equipment?.ID || 0,
+                img: [],
               }),
             ),
           })
@@ -167,6 +197,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
           actions: item.smartnewsystem_producao_checklist_acao.map(
             (action) => ({
               id: action.id,
+              groupId: action.id_grupo,
               title: action.descricao,
               responsible: action.responsavel,
               description: action.descricao_acao,
@@ -176,6 +207,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
               dueDate: action.data_fechamento,
               endDate: action.data_fim,
               equipmentId: action.productionRegister.equipment?.ID || 0,
+              img: [],
             }),
           ),
         })

@@ -5,6 +5,16 @@ import IActionRepository from '../IActionRepository'
 export default class ActionRepository implements IActionRepository {
   private table = prisma.smartnewsystem_producao_checklist_acao
 
+  async listByGroup(groupIds: number[]) {
+    return await this.table.findMany({
+      where: {
+        id_grupo: {
+          in: groupIds,
+        },
+      },
+    })
+  }
+
   async findById(id: number) {
     const found = await this.table.findUnique({
       where: {
@@ -18,7 +28,7 @@ export default class ActionRepository implements IActionRepository {
   async create(
     data: Prisma.smartnewsystem_producao_checklist_acaoUncheckedCreateInput,
   ) {
-    await this.table.create({
+    return await this.table.create({
       data,
     })
   }
@@ -27,7 +37,7 @@ export default class ActionRepository implements IActionRepository {
     id: number,
     data: Prisma.smartnewsystem_producao_checklist_acaoUpdateInput,
   ) {
-    await this.table.update({
+    return await this.table.update({
       data,
       where: {
         id,

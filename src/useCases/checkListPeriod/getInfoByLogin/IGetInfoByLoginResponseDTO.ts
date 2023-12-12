@@ -11,8 +11,9 @@ export default interface IGetInfoByLoginResponseDTO {
   statusNC: number | null
   actions: {
     id: number
-    title: string
-    responsible: string
+    groupId: number | null
+    title: string | null
+    responsible: string | null
     description: string | null
     checklistId: number
     checklistPeriodId: number
@@ -20,6 +21,11 @@ export default interface IGetInfoByLoginResponseDTO {
     dueDate: Date | null
     endDate: Date | null
     equipmentId: number
+    img: {
+      img: string
+      name: string
+      path: string
+    }[]
   }[]
   logDate: Date | null
 }

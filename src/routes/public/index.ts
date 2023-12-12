@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify'
-import loginRoutes from './login'
 import branchRoutes from './branch'
-import equipmentRoutes from './equipment'
 import checkListRoutes from './checkList'
+import equipmentRoutes from './equipment'
+import loginRoutes from './login'
 
 export default async function publicRoutes(app: FastifyInstance) {
   app.register(loginRoutes, {

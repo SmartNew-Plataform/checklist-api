@@ -1,5 +1,6 @@
 import verifyJWT from '@/middleware/verifyJWT'
 import { FastifyInstance } from 'fastify'
+import actionsRoutes from './actions'
 import authRoutes from './auth'
 import checkListRoutes from './checkList'
 import checkListControlRoutes from './checkListControl'
@@ -39,5 +40,8 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(responsiblesRoutes, {
     prefix: '/responsibles',
+  })
+  app.register(actionsRoutes, {
+    prefix: '/actions',
   })
 }

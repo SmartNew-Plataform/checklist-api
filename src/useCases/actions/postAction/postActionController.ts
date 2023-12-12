@@ -1,0 +1,44 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import IController from '../../../models/IController'
+import IUseCase from '../../../models/IUseCase'
+import IPostActionRequestDTO from './IPostActionRequestDTO'
+
+export default class PostActionController implements IController {
+  constructor(private useCase: IUseCase) {
+    this.handle = this.handle.bind(this)
+  }
+
+  async handle(req: FastifyRequest, res: FastifyReply) {
+    const bodySchema = z.object({
+      title: z.coerce.string({ description: 'Erro no formato de title' }),
+      responsible: z.coerce.string({
+        description: 'Erro no formato de responsible',
+      }),
+      description: z.coerce.string({
+        description: 'Erro no formato de string',
+      }),
+      checklistId: z.coerce.number({
+        description: 'Erro no formato de checklistid',
+      }),
+      checklistPeriodId: z.coerce.number({
+        description: 'Erro no formato de checklistperiodid',
+      }),
+      startDate: z.coerce.string().transform((value) => new Date(value)),
+      dueDate: z.coerce.string().transform((value) => new Date(value)),
+      endDate: z.coerce.string().transform((value) => new Date(value)),
+      equipmentId: z.coerce.number({
+        description: 'Erro no formato de equipmentId',
+      }),
+    })
+
+    const request: IPostActionRequestDTO = {
+      user: req.user,
+      ...bodySchema.parse(req.body),
+    }
+
+    const response = await this.useCase.execute(request)
+
+    res.status(200).send(response)
+  }
+}
