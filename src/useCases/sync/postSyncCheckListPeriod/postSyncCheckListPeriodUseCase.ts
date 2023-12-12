@@ -63,7 +63,8 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
         }
       } catch (error) {
         throw CustomError.internalServerError(
-          'Erro ao salvar dados ' + JSON.stringify(error),
+          'Erro ao salvar dados',
+          error as object,
         )
       }
     } else if (data.type === 'updated') {

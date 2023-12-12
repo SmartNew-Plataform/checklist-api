@@ -43,7 +43,7 @@ export default class CustomError extends Error {
     return new CustomError(message, HttpStatusCode.UNAUTHORIZED)
   }
 
-  static internalServerError(message: string) {
+  static internalServerError(message: string, error?: object) {
     return new CustomError(message, HttpStatusCode.INTERNAL_SERVER_ERROR)
   }
 
