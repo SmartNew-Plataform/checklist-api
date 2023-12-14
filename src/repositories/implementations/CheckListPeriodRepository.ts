@@ -80,29 +80,6 @@ export default class CheckListPeriodRepository
         status_item: true,
         status_item_nc: true,
         log_date: true,
-        smartnewsystem_producao_checklist_acao: {
-          select: {
-            id: true,
-            id_grupo: true,
-            descricao: true,
-            responsavel: true,
-            descricao_acao: true,
-            id_registro_producao: true,
-            id_item: true,
-            data_inicio: true,
-            data_fim: true,
-            data_fechamento: true,
-            productionRegister: {
-              select: {
-                equipment: {
-                  select: {
-                    ID: true,
-                  },
-                },
-              },
-            },
-          },
-        },
       },
       where: {
         productionRegister: {
@@ -127,7 +104,7 @@ export default class CheckListPeriodRepository
 
   async update(
     id: number,
-    data: Prisma.smartnewsystem_producao_checklist_turnoUpdateInput,
+    data: Prisma.smartnewsystem_producao_checklist_turnoUncheckedUpdateInput,
   ): Promise<smartnewsystem_producao_checklist_turno> {
     return await this.table.update({
       data,

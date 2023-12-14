@@ -13,17 +13,5 @@ export default interface IPostSyncCheckListPeriodRequestDTO {
     statusNC: number | null
     observation: string | null
     logDate: Date
-    actions: {
-      id: number
-      title: string
-      responsible: string
-      description: string | null
-      checklistId: number
-      checklistPeriodId: number
-      startDate: Date
-      dueDate: Date
-      endDate: Date
-      equipmentId: number
-    }[]
   }
 }

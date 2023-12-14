@@ -1,12 +1,16 @@
 import CustomError from '@/config/CustomError'
 import { env } from '@/env'
+import IActionGroupRepository from '@/repositories/IActionGroupRepository'
 import IActionRepository from '@/repositories/IActionRepository'
 import { Client } from 'basic-ftp'
 import IUseCase from '../../../models/IUseCase'
 import IPutActionRequestDTO from './IPutActionRequestDTO'
 
 export default class PutActionUseCase implements IUseCase {
-  constructor(private actionRepository: IActionRepository) {}
+  constructor(
+    private actionRepository: IActionRepository,
+    private actionGroupRepository: IActionGroupRepository,
+  ) {}
 
   async execute(data: IPutActionRequestDTO) {
     if (!data.user.id_cliente) {
@@ -14,33 +18,58 @@ export default class PutActionUseCase implements IUseCase {
     }
 
     try {
+      const foundAction = await this.actionRepository.findById(data.id)
+      if (!foundAction) {
+        throw CustomError.badRequest('Ação não encontrada')
+      }
+
+      const groupId = foundAction.id_grupo
+      if (!groupId) {
+        console.log(foundAction)
+        throw CustomError.badRequest('Grupo não encontrado')
+      }
       if (data.endDate) {
+        await this.actionGroupRepository.update(groupId, {
+          data_fim: new Date(data.endDate),
+        })
         await this.actionRepository.update(data.id, {
           data_fim: new Date(data.endDate),
         })
       }
       if (data.title) {
+        await this.actionGroupRepository.update(groupId, {
+          descricao: data.title,
+        })
         await this.actionRepository.update(data.id, {
           descricao: data.title,
         })
       }
       if (data.description) {
+        await this.actionGroupRepository.update(groupId, {
+          descricao_acao: data.description,
+        })
         await this.actionRepository.update(data.id, {
           descricao_acao: data.description,
         })
       }
       if (data.responsible) {
+        await this.actionGroupRepository.update(groupId, {
+          responsavel: data.responsible,
+        })
         await this.actionRepository.update(data.id, {
           responsavel: data.responsible,
         })
       }
       if (data.dueDate) {
+        await this.actionGroupRepository.update(groupId, {
+          data_concluida: data.dueDate,
+        })
         await this.actionRepository.update(data.id, {
           data_fechamento: data.dueDate,
         })
       }
 
-      const updated = await this.actionRepository.findById(data.id)
+      const updated = await this.actionGroupRepository.findById(groupId)
       if (!updated) {
         throw CustomError.badRequest('Não foi possivel editar essa ação')
       }
@@ -57,7 +86,7 @@ export default class PutActionUseCase implements IUseCase {
           console.log('Nao Acessou FTP' + error)
         })
 
-      const remotePath = `/www/sistemas/_lib/img/checkListAction/groupAction_${updated.id_grupo}`
+      const remotePath = `/www/sistemas/_lib/img/checkListAction/groupAction_${updated.id}`
       const img: {
         name: string
         url: string
@@ -70,7 +99,7 @@ export default class PutActionUseCase implements IUseCase {
         const fileInfoPromises = fileList.map(async (fileItem) => {
           return {
             name: fileItem.name,
-            url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${updated.id_grupo}/${fileItem.name}`,
+            url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${updated.id}/${fileItem.name}`,
             path: '',
           }
         })
@@ -85,6 +114,7 @@ export default class PutActionUseCase implements IUseCase {
         img,
       }
     } catch (error) {
+      console.log(error)
       throw CustomError.internalServerError(
         'Erro ao atualizar dados ' + JSON.stringify(error),
       )

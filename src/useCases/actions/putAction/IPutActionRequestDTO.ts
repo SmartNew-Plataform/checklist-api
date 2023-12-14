@@ -3,9 +3,9 @@ import { IUser } from '@/models/IUser'
 export default interface IPutActionRequestDTO {
   user: IUser
   id: number
-  title?: string
-  responsible?: string
-  description?: string
-  dueDate?: Date
-  endDate?: Date
+  title?: string | null
+  responsible?: string | null
+  description?: string | null
+  dueDate?: Date | null
+  endDate?: Date | null
 }

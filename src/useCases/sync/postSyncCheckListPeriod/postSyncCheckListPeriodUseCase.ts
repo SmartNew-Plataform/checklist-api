@@ -30,94 +30,28 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
         }
         const result = await this.checkListPeriodRepository.create(periodObject)
 
-        for (const action of data.checkListPeriod.actions) {
-          const group = await this.actionGroupRepository.create({
-            id_cliente: data.user.id_cliente,
-            numero: 1,
-            data_fim: new Date(action.startDate),
-            data_inicio: new Date(action.startDate),
-            descricao: action.title,
-            descricao_acao: action.description,
-            id_registro_producao: checkListPeriod.productionRegisterId,
-            responsavel: action.responsible,
-          })
-          await this.actionRepository.create({
-            id_grupo: group.id,
-            data_fim: new Date(action.startDate),
-            data_inicio: new Date(action.startDate),
-            descricao: action.title,
-            descricao_acao: action.description,
-            id_item: checkListPeriod.id,
-            id_registro_producao: checkListPeriod.productionRegisterId,
-            responsavel: action.responsible,
-            data_fechamento: action.dueDate ? new Date(action.dueDate) : null,
-          })
-        }
-
-        // console.log(result)
-
-        return {
-          inserted: true,
-          id: result.id,
-          _id: checkListPeriod._id,
-        }
+        return result
       } catch (error) {
         throw CustomError.internalServerError(
-          'Erro ao salvar dados',
+          'Erro ao salvar dados ' + JSON.stringify(error),
           error as object,
         )
       }
     } else if (data.type === 'updated') {
       try {
-        await this.checkListPeriodRepository.update(checkListPeriod.id, {
-          // status_item: checkListPeriod.statusItem,
-          status_item_nc: checkListPeriod.statusNC,
-          observacao: checkListPeriod.observation,
-          log_date: checkListPeriod.logDate,
-        })
+        const updated = await this.checkListPeriodRepository.update(
+          checkListPeriod.id,
+          {
+            status_item: checkListPeriod.statusItem,
+            status_item_nc: checkListPeriod.statusNC,
+            observacao: checkListPeriod.observation,
+            log_date: checkListPeriod.logDate,
+          },
+        )
 
-        for (const action of data.checkListPeriod.actions) {
-          const found = await this.actionRepository.findById(action.id)
-
-          if (found) {
-            await this.actionRepository.update(action.id, {
-              data_fim: new Date(action.endDate),
-              data_inicio: new Date(action.startDate),
-              responsavel: action.responsible,
-              data_fechamento: action.dueDate ? new Date(action.dueDate) : null,
-              descricao: action.title,
-              descricao_acao: action.description,
-            })
-          } else {
-            const group = await this.actionGroupRepository.create({
-              id_cliente: data.user.id_cliente,
-              numero: 1,
-              data_fim: new Date(action.startDate),
-              data_inicio: new Date(action.startDate),
-              descricao: action.title,
-              descricao_acao: action.description,
-              id_registro_producao: checkListPeriod.productionRegisterId,
-              responsavel: action.responsible,
-            })
-            await this.actionRepository.create({
-              id_grupo: group.id,
-              data_fim: new Date(action.startDate),
-              data_inicio: new Date(action.startDate),
-              descricao: action.title,
-              descricao_acao: action.description,
-              id_item: checkListPeriod.id,
-              id_registro_producao: checkListPeriod.productionRegisterId,
-              responsavel: action.responsible,
-              data_fechamento: action.dueDate ? new Date(action.dueDate) : null,
-            })
-          }
-        }
-
-        return {
-          updated: true,
-        }
+        return updated
       } catch (error) {
-        console.log(JSON.stringify(error, null, 2))
+        // console.log(JSON.stringify(error, null, 2))
         throw CustomError.internalServerError(
           'Erro ao atualizar dados ' + JSON.stringify(error),
         )

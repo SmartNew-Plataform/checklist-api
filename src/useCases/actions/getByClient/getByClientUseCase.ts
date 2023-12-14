@@ -35,7 +35,10 @@ export default class GetByClientUseCase implements IUseCase {
 
     const groupIds = groupsByClient.map((group) => group.id)
 
-    const actions = await this.actionRepository.listByGroup(groupIds)
+    const actions = await this.actionRepository.listByGroup(
+      groupIds,
+      new Date(new Date().setDate(new Date().getDate() - 1)), // Ontem
+    )
     const response: IGetByClientResponseDTO[] = []
     for (const action of actions) {
       const remotePath = `/www/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}`
