@@ -29,6 +29,7 @@ export default class CheckListStatusRepository
             id: true,
             productionRegister: {
               select: {
+                id: true,
                 equipment: {
                   select: {
                     familyEquipment: {
@@ -83,6 +84,7 @@ export default class CheckListStatusRepository
             id: true,
             productionRegister: {
               select: {
+                id: true,
                 equipment: {
                   select: {
                     familyEquipment: {

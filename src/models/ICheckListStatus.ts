@@ -26,6 +26,7 @@ export interface ICountByBranch {
   checklistPeriod: {
     id: number
     productionRegister: {
+      id: number
       equipment: {
         familyEquipment: {
           ID: number
@@ -45,6 +46,7 @@ export interface IListByEquipmentAndDate {
   checklistPeriod: {
     id: number
     productionRegister: {
+      id: number
       equipment: {
         familyEquipment: {
           ID: number

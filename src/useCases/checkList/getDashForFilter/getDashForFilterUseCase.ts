@@ -36,18 +36,40 @@ export default class GetDashForFilterUseCase implements IUseCase {
     const response: IGetDashForFilterResponseDTO[] = []
 
     countStatus.forEach((value) => {
-      const family = value.checklistPeriod.reduce(
-        (total: { [key: string]: number }, item) => {
-          const familia =
+      const uniqueFamilies: { [key: string]: { [key: number]: boolean } } = {}
+
+      value.checklistPeriod.forEach((item) => {
+        if (
+          !uniqueFamilies[
             item.productionRegister.equipment.familyEquipment.familia
-          if (!total[familia]) {
-            total[familia] = 0
-          }
-          total[familia] = (total[familia] || 0) + 1
-          return total
-        },
-        {} as { [key: string]: number },
-      )
+          ]
+        ) {
+          uniqueFamilies[
+            item.productionRegister.equipment.familyEquipment.familia
+          ] = {}
+        }
+        uniqueFamilies[
+          item.productionRegister.equipment.familyEquipment.familia
+        ][item.productionRegister.id] = true
+      })
+
+      const count: { [key: string]: number } = {}
+      for (const key in uniqueFamilies) {
+        count[key] = Object.keys(uniqueFamilies[key]).length
+      }
+
+      // const family = value.checklistPeriod.reduce(
+      //   (total: { [key: string]: number }, item) => {
+      //     const familia =
+      //       item.productionRegister.equipment.familyEquipment.familia
+      //     if (!total[familia]) {
+      //       total[familia] = 0
+      //     }
+      //     total[familia] = (total[familia] || 0) + 1
+      //     return total
+      //   },
+      //   {} as { [key: string]: number },
+      // )
 
       response.push({
         id: value.id,
@@ -56,7 +78,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
         description: value.descricao || '',
         action: value.acao || true,
         quantity: value.checklistPeriod.length,
-        family,
+        family: count,
       })
     })
 
