@@ -70,6 +70,7 @@ export default class PutActionUseCase implements IUseCase {
       }
 
       const updated = await this.actionGroupRepository.findById(groupId)
+      const updatedAction = await this.actionRepository.findById(data.id)
       if (!updated) {
         throw CustomError.badRequest('Não foi possivel editar essa ação')
       }
@@ -110,7 +111,7 @@ export default class PutActionUseCase implements IUseCase {
 
       client.close()
       return {
-        ...updated,
+        ...updatedAction,
         img,
       }
     } catch (error) {
