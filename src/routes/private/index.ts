@@ -10,6 +10,7 @@ import imageRoutes from './image'
 import periodRoutes from './period'
 import responsiblesRoutes from './responsibles'
 import syncRoutes from './sync'
+import productionDiverseRoutes from './productionDiverse'
 
 export default async function privateRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
@@ -43,5 +44,8 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(actionsRoutes, {
     prefix: '/actions',
+  })
+  app.register(productionDiverseRoutes, {
+    prefix: '/productionDiverse',
   })
 }

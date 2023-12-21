@@ -934,6 +934,7 @@ model cadastro_de_empresas {
   smartnewsystem_registro_turno                                                  smartnewsystem_registro_turno[]
   smartnewsystem_registro_equipamento                                            smartnewsystem_registro_equipamento[]
   smartnewsystem_registro_equipamento_acao                                       smartnewsystem_registro_equipamento_acao[]
+  smartnewsystem_producao_categoria_diversos                                     smartnewsystem_producao_categoria_diversos[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -1188,6 +1189,7 @@ model cadastro_de_filiais {
   smartnewsystem_financeiro_meta                                                                                          smartnewsystem_financeiro_meta[]
   smartnewsystem_compras_pre_financeiro                                                                                   smartnewsystem_compras_pre_financeiro[]
   period                                                                                                                  smartnewsystem_registro_turno[]
+  smartnewsystem_producao_categoria_diversos                                                                              smartnewsystem_producao_categoria_diversos[]
 
   @@index([ID_cliente], map: "FK_cadastro_de_filiais_cadastro_de_empresas")
   @@index([ID], map: "ID")
@@ -1818,6 +1820,7 @@ model sec_users {
   userClose                                                                                                          smartnewsystem_compras_cotacao[]               @relation("fechado_por")
   smartnewsystem_producao_checklist_acao                                                                             smartnewsystem_producao_checklist_acao[]
   smartnewsystem_producao_checklist_acao_grupo                                                                       smartnewsystem_producao_checklist_acao_grupo[]
+  smartnewsystem_producao_categoria_diversos                                                                         smartnewsystem_producao_categoria_diversos[]
 
   @@unique([email, id_cliente], map: "email")
   @@index([id_modulo_padrao], map: "fk_login_modulo")
@@ -3160,6 +3163,29 @@ model smartnewsystem_pluviometria {
   cadastro_de_centros_de_custo cadastro_de_centros_de_custo? @relation(fields: [id_centro_custo], references: [ID], onDelete: Cascade, map: "fk_pluvimetria_centro_custo")
 
   @@unique([id_centro_custo, data], map: "id_filial")
+}
+
+model smartnewsystem_producao_categoria_diversos {
+  id         Int      @id @default(autoincrement())
+  id_cliente Int
+  id_filial  Int
+  nome       String
+  log_user   String
+  log_date   DateTime @default(now()) @db.DateTime(0)
+
+  company cadastro_de_empresas @relation(fields: [id_cliente], references: [ID])
+  branch  cadastro_de_filiais  @relation(fields: [id_filial], references: [ID])
+  user    sec_users            @relation(fields: [log_user], references: [login])
+
+  items smartnewsystem_producao_item_diversos[]
+}
+
+model smartnewsystem_producao_item_diversos {
+  id         Int    @id @default(autoincrement())
+  id_diverso Int
+  nome       String
+
+  categoryDiverse smartnewsystem_producao_categoria_diversos @relation(fields: [id_diverso], references: [id])
 }
 
 model smartnewsystem_producao_checklist {
