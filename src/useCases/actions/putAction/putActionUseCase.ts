@@ -30,7 +30,7 @@ export default class PutActionUseCase implements IUseCase {
       }
       if (data.endDate) {
         await this.actionGroupRepository.update(groupId, {
-          data_fim: new Date(data.endDate),
+          data_concluida: new Date(data.endDate),
         })
         await this.actionRepository.update(data.id, {
           data_fim: new Date(data.endDate),
@@ -62,7 +62,7 @@ export default class PutActionUseCase implements IUseCase {
       }
       if (data.dueDate) {
         await this.actionGroupRepository.update(groupId, {
-          data_concluida: data.dueDate,
+          data_fim: data.dueDate,
         })
         await this.actionRepository.update(data.id, {
           data_fechamento: data.dueDate,
