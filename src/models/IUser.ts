@@ -21,4 +21,5 @@ export interface IUser {
 export interface IFindByClient {
   login: string
   name: string | null
+  id_filial: number | null
 }

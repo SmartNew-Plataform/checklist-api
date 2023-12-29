@@ -25,6 +25,7 @@ export default class UserRepository implements IUserRepository {
       select: {
         login: true,
         name: true,
+        id_filial: true,
       },
       where: {
         id_cliente: clientId,
