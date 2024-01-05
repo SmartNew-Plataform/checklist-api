@@ -24,9 +24,9 @@ export default class PostActionController implements IController {
       checklistPeriodId: z.coerce.number({
         description: 'Erro no formato de checklistperiodid',
       }),
-      startDate: z.coerce.string().transform((value) => new Date(value)),
-      dueDate: z.coerce.string().transform((value) => new Date(value)),
-      endDate: z.coerce.string().transform((value) => new Date(value)),
+      startDate: z.coerce.string(),
+      dueDate: z.coerce.string(),
+      endDate: z.coerce.string().nullable(),
       equipmentId: z.coerce.number({
         description: 'Erro no formato de equipmentId',
       }),

@@ -36,7 +36,7 @@ export default class PostActionUseCase implements IUseCase {
         id_item: data.checklistPeriodId,
         id_registro_producao: data.checklistId,
         responsavel: data.responsible,
-        data_fechamento: data.dueDate ? new Date(data.dueDate) : null,
+        data_fechamento: new Date(data.dueDate),
       })
 
       return {
