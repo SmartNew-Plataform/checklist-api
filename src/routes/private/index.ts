@@ -8,9 +8,10 @@ import checkListPeriodRoutes from './checkListPeriod'
 import equipmentRoutes from './equipment'
 import imageRoutes from './image'
 import periodRoutes from './period'
+import productionDiverseRoutes from './productionDiverse'
 import responsiblesRoutes from './responsibles'
 import syncRoutes from './sync'
-import productionDiverseRoutes from './productionDiverse'
+import travelsRoutes from './travels'
 
 export default async function privateRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
@@ -44,6 +45,9 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(actionsRoutes, {
     prefix: '/actions',
+  })
+  app.register(travelsRoutes, {
+    prefix: 'travels',
   })
   app.register(productionDiverseRoutes, {
     prefix: '/productionDiverse',
