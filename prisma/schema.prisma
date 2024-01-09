@@ -935,6 +935,8 @@ model cadastro_de_empresas {
   smartnewsystem_registro_equipamento                                            smartnewsystem_registro_equipamento[]
   smartnewsystem_registro_equipamento_acao                                       smartnewsystem_registro_equipamento_acao[]
   smartnewsystem_producao_categoria_diversos                                     smartnewsystem_producao_categoria_diversos[]
+  smartnewsystem_producao_controle_viagem                                        smartnewsystem_producao_controle_viagem[]
+  smartnewsystem_producao_controle_pausa                                         smartnewsystem_producao_controle_pausa[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -1190,6 +1192,7 @@ model cadastro_de_filiais {
   smartnewsystem_compras_pre_financeiro                                                                                   smartnewsystem_compras_pre_financeiro[]
   period                                                                                                                  smartnewsystem_registro_turno[]
   smartnewsystem_producao_categoria_diversos                                                                              smartnewsystem_producao_categoria_diversos[]
+  smartnewsystem_producao_controle_viagem                                                                                 smartnewsystem_producao_controle_viagem[]
 
   @@index([ID_cliente], map: "FK_cadastro_de_filiais_cadastro_de_empresas")
   @@index([ID], map: "ID")
@@ -1821,6 +1824,7 @@ model sec_users {
   smartnewsystem_producao_checklist_acao                                                                             smartnewsystem_producao_checklist_acao[]
   smartnewsystem_producao_checklist_acao_grupo                                                                       smartnewsystem_producao_checklist_acao_grupo[]
   smartnewsystem_producao_categoria_diversos                                                                         smartnewsystem_producao_categoria_diversos[]
+  smartnewsystem_producao_controle_viagem                                                                            smartnewsystem_producao_controle_viagem[]
 
   @@unique([email, id_cliente], map: "email")
   @@index([id_modulo_padrao], map: "fk_login_modulo")
@@ -3186,6 +3190,44 @@ model smartnewsystem_producao_item_diversos {
   nome       String
 
   categoryDiverse smartnewsystem_producao_categoria_diversos @relation(fields: [id_diverso], references: [id])
+}
+
+model smartnewsystem_producao_controle_viagem {
+  id                            Int                                            @id @default(autoincrement())
+  id_cliente                    Int
+  id_filial                     Int
+  data_inicial                  DateTime
+  motorista                     String
+  destino_latitude              Int
+  destino_longitude             Int
+  status                        smartnewsystem_producao_controle_viagem_status @default(due)
+  distancia_percorrida          Int
+  localizacao_inicial_latitude  Int
+  localizacao_inicial_longitude Int
+  localizacao_atual_latitude    Int
+  localizacao_atual_longitude   Int
+  log_date                      DateTime                                       @default(now())
+
+  company                                cadastro_de_empresas                     @relation(fields: [id_cliente], references: [ID])
+  branch                                 cadastro_de_filiais                      @relation(fields: [id_filial], references: [ID])
+  user                                   sec_users                                @relation(fields: [motorista], references: [login])
+  smartnewsystem_producao_controle_pausa smartnewsystem_producao_controle_pausa[]
+}
+
+model smartnewsystem_producao_controle_pausa {
+  id                              Int       @id @default(autoincrement())
+  id_cliente                      Int
+  id_viagem                       Int
+  inico                           DateTime
+  fim                             DateTime?
+  localizacao_pausa_latitude      Int
+  localizacao_pausa_longitude     Int
+  localizacao_retornada_latitude  Int
+  localizacao_retornada_longitude Int
+  log_date                        DateTime  @default(now())
+
+  company cadastro_de_empresas                    @relation(fields: [id_cliente], references: [ID])
+  travel  smartnewsystem_producao_controle_viagem @relation(fields: [id_viagem], references: [id])
 }
 
 model smartnewsystem_producao_checklist {
@@ -8298,4 +8340,12 @@ enum sec_users_nivel_acesso {
   nivel_1     @map("1")
   nivel_2     @map("2")
   nivel_3     @map("3")
+}
+
+enum smartnewsystem_producao_controle_viagem_status {
+  due      @map("ABERTO")
+  progress @map("EM ANDAMENTO")
+  paused   @map("PAUSADO")
+  stopped  @map("CANCELADO")
+  finished @map("FINALIZADO")
 }
