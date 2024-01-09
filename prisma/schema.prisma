@@ -3185,7 +3185,8 @@ model smartnewsystem_producao_item_diversos {
   id_diverso Int
   nome       String
 
-  categoryDiverse smartnewsystem_producao_categoria_diversos @relation(fields: [id_diverso], references: [id])
+  categoryDiverse                  smartnewsystem_producao_categoria_diversos @relation(fields: [id_diverso], references: [id])
+  smartnewsystem_registro_producao smartnewsystem_registro_producao[]
 }
 
 model smartnewsystem_producao_checklist {
@@ -3457,7 +3458,8 @@ model smartnewsystem_registro_equipamento_acao {
 model smartnewsystem_registro_producao {
   id                                                 Int                                                  @id @default(autoincrement())
   id_centro_custo                                    Int?
-  id_equipamento                                     Int
+  id_equipamento                                     Int?
+  id_item_diverso                                    Int?
   id_turno                                           Int?
   contador_inicial                                   Decimal?                                             @db.Decimal(10, 2)
   contador_final                                     Decimal?                                             @db.Decimal(10, 2)
@@ -3479,7 +3481,8 @@ model smartnewsystem_registro_producao {
   aux                                                String?                                              @db.Text
   controle_de_ordens_de_servico                      controle_de_ordens_de_servico[]
   checkListPeriod                                    smartnewsystem_producao_checklist_turno[]
-  equipment                                          cadastro_de_equipamentos                             @relation(fields: [id_equipamento], references: [ID], onDelete: Restrict, map: "fk_registro_producao_eqto")
+  equipment                                          cadastro_de_equipamentos?                            @relation(fields: [id_equipamento], references: [ID], onDelete: Restrict, map: "fk_registro_producao_eqto")
+  itemDiverse                                        smartnewsystem_producao_item_diversos?               @relation(fields: [id_item_diverso], references: [id])
   cadastro_de_centros_de_custo                       cadastro_de_centros_de_custo?                        @relation(fields: [id_centro_custo], references: [ID], onDelete: Restrict, map: "fk_registro_producao_filial")
   sec_users                                          sec_users?                                           @relation(fields: [login], references: [login], onDelete: Restrict, map: "fk_registro_producao_login")
   smartnewsystem_registro_producao_aprovacao         smartnewsystem_registro_producao_aprovacao[]
