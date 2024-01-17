@@ -1,14 +1,14 @@
+import ActionGroupRepository from '@/repositories/implementations/ActionGroupRepository'
 import EquipmentRepository from '../../../repositories/implementations/EquipmentRepository'
-import GetEquipmentByBranchUseCase from './getEquipmentByBranchUseCase'
 import GetEquipmentByBranchController from './getEquipmentByBranchController'
-import EquipmentRegisterRepository from '../../../repositories/implementations/EquipmentRegisterRepository'
+import GetEquipmentByBranchUseCase from './getEquipmentByBranchUseCase'
 
 const equipmentRepository = new EquipmentRepository()
-const equipmentRegisterRepository = new EquipmentRegisterRepository()
+const actionGroupRepository = new ActionGroupRepository()
 
 const useCase = new GetEquipmentByBranchUseCase(
   equipmentRepository,
-  equipmentRegisterRepository,
+  actionGroupRepository,
 )
 
 const controller = new GetEquipmentByBranchController(useCase)
