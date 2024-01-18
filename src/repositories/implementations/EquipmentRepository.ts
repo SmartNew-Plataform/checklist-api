@@ -75,40 +75,45 @@ export default class EquipmentRepository implements IEquipmentRepository {
     hourMeter: number,
     mileage: number,
   ) {
-    return await this.table.update({
-      data: {
-        registerEquipment: {
-          update: {
-            horimetro: hourMeter,
-            quilometragem: mileage,
+    try {
+      const updated = await this.table.update({
+        data: {
+          registerEquipment: {
+            update: {
+              horimetro: hourMeter,
+              quilometragem: mileage,
+            },
           },
         },
-      },
-      where: {
-        ID,
-      },
-      select: {
-        ID: true,
-        equipamento_codigo: true,
-        descricao: true,
-        ID_cliente: true,
-        ID_filial: true,
-        id_centro_custo: true,
-        ID_familia: true,
-        registerEquipment: {
-          select: {
-            horimetro: true,
-            quilometragem: true,
+        where: {
+          ID,
+        },
+        select: {
+          ID: true,
+          equipamento_codigo: true,
+          descricao: true,
+          ID_cliente: true,
+          ID_filial: true,
+          id_centro_custo: true,
+          ID_familia: true,
+          registerEquipment: {
+            select: {
+              horimetro: true,
+              quilometragem: true,
+            },
+          },
+          registerEquipmentAction: {
+            select: {
+              turno: true,
+              horimetro: true,
+              quilometragem: true,
+            },
           },
         },
-        registerEquipmentAction: {
-          select: {
-            turno: true,
-            horimetro: true,
-            quilometragem: true,
-          },
-        },
-      },
-    })
+      })
+      return updated
+    } catch {
+      return null
+    }
   }
 }

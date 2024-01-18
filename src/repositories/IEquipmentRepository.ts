@@ -12,5 +12,5 @@ export default interface IEquipmentRepository {
     id: number,
     hourMeter: number,
     mileage: number,
-  ): Promise<IListByBranch>
+  ): Promise<IListByBranch | null>
 }
