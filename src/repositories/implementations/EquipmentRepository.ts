@@ -1,10 +1,10 @@
 import { prisma } from '@/lib/prisma'
-import IEquipmentRepository from '../IEquipmentRepository'
 import {
   IFindById,
   IListByBranch,
   IListFamilyByBranch,
 } from '../../models/IEquipment'
+import IEquipmentRepository from '../IEquipmentRepository'
 
 export default class EquipmentRepository implements IEquipmentRepository {
   private table = prisma.cadastro_de_equipamentos
@@ -68,5 +68,52 @@ export default class EquipmentRepository implements IEquipmentRepository {
     })
 
     return family
+  }
+
+  async updateHourMeterAndMileage(
+    ID: number,
+    hourMeter: number,
+    mileage: number,
+  ) {
+    try {
+      const updated = await this.table.update({
+        data: {
+          registerEquipment: {
+            update: {
+              horimetro: hourMeter,
+              quilometragem: mileage,
+            },
+          },
+        },
+        where: {
+          ID,
+        },
+        select: {
+          ID: true,
+          equipamento_codigo: true,
+          descricao: true,
+          ID_cliente: true,
+          ID_filial: true,
+          id_centro_custo: true,
+          ID_familia: true,
+          registerEquipment: {
+            select: {
+              horimetro: true,
+              quilometragem: true,
+            },
+          },
+          registerEquipmentAction: {
+            select: {
+              turno: true,
+              horimetro: true,
+              quilometragem: true,
+            },
+          },
+        },
+      })
+      return updated
+    } catch {
+      return null
+    }
   }
 }

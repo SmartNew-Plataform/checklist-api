@@ -13,6 +13,16 @@ export default class ActionGroupRepository implements IActionGroupRepository {
     })
   }
 
+  async listByEquipment(equipmentId: number) {
+    return await this.table.findMany({
+      where: {
+        productionRegister: {
+          id_equipamento: equipmentId,
+        },
+      },
+    })
+  }
+
   async create(
     data: Prisma.smartnewsystem_producao_checklist_acao_grupoUncheckedCreateInput,
   ) {
