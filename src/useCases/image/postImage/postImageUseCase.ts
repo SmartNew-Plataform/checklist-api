@@ -11,11 +11,12 @@ export default class PostImageUseCase implements IUseCase {
     const file = data.file
     const fileName = `${new Date().toISOString()}-${file.filename}`
 
-    const path = `/var/www/sistemas/_lib/img/checkList/task_${data.checkListPeriodId}/${fileName}`
+    const path = `../sistemas/_lib/img/checkList/task_${data.checkListPeriodId}`
+    // const path = `{${fileName}`
     console.log('[[ POST IMAGE ]]')
 
     try {
-      this.fileService.write(path, await file.toBuffer())
+      this.fileService.write(path, fileName, await file.toBuffer())
       console.log(`[${new Date()}]: Escreveu arquivo no diretorio ${path}`)
     } catch (error) {
       console.log(error)

@@ -13,11 +13,11 @@ export default class PostActionImageUseCase implements IUseCase {
     const file = data.file
     const fileName = `${new Date().toISOString()}-${file.filename}`
 
-    const path = `/var/www/sistemas/_lib/img/checkListAction/groupAction_${data.actionGroupId}/${fileName}`
+    const path = `../sistemas/_lib/img/checkListAction/groupAction_${data.actionGroupId}`
     console.log('[[ POST ACTION IMAGE ]]')
 
     try {
-      this.fileService.write(path, await file.toBuffer())
+      this.fileService.write(path, fileName, await file.toBuffer())
 
       console.log(`[${new Date()}]: Escreveu arquivo no diretorio ${path}`)
     } catch (error) {

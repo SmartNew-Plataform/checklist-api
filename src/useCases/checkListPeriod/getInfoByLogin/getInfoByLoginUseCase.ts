@@ -18,7 +18,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     )
 
     const response: IGetInfoByLoginResponseDTO[] = []
-    const pathCheckList = '/var/www/sistemas/_lib/img/checkList'
+    const pathCheckList = '../sistemas/_lib/img/checkList'
     const files = readdirSync(pathCheckList)
     console.log('Buscando Imagens...')
 
@@ -27,7 +27,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     // console.log(allNamesIds)
 
     for await (const item of allCheckListPeriod) {
-      const remotePath = `/var/www/sistemas/_lib/img/checkList/task_${item.id}`
+      const remotePath = `../sistemas/_lib/img/checkList/task_${item.id}`
       try {
         const findTask = allNamesIds.find((value) => Number(value) === item.id)
 
@@ -38,7 +38,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
           const fileInfo = fileList.map((fileItem) => {
             return {
               name: fileItem,
-              url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem}`,
+              url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem}`,
               path: '',
             }
           })

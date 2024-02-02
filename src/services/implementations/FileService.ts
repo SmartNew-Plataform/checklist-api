@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'fs'
 import IFileService from '../IFileService'
 
 export default class FileService implements IFileService {
@@ -12,7 +12,10 @@ export default class FileService implements IFileService {
     }
   }
 
-  write(path: string, file: Buffer): void {
-    writeFileSync(path, file)
+  write(path: string, fileName: string, file: Buffer): void {
+    if (!existsSync(path)) {
+      mkdirSync(path, { recursive: true })
+    }
+    writeFileSync(`${path}/${fileName}`, file)
   }
 }

@@ -21,14 +21,14 @@ export default class GetActionByIdUseCase implements IUseCase {
         throw CustomError.badRequest('Não foi possivel editar essa ação')
       }
 
-      const remotePath = `/var/www/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}`
+      const remotePath = `../sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}`
 
       const fileList = this.fileService.list(remotePath)
 
       const img = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
+          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
           path: '',
         }
       })

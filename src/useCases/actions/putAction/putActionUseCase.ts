@@ -75,13 +75,13 @@ export default class PutActionUseCase implements IUseCase {
         throw CustomError.badRequest('Não foi possivel editar essa ação')
       }
 
-      const path = `/var/www/sistemas/_lib/img/checkListAction/groupAction_${updated.id}`
+      const path = `../sistemas/_lib/img/checkListAction/groupAction_${updated.id}`
 
       const fileList = this.fileService.list(path)
       const img = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${updated.id}/${fileItem}`,
+          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${updated.id}/${fileItem}`,
           path: '',
         }
       })

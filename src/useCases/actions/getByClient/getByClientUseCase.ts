@@ -30,12 +30,12 @@ export default class GetByClientUseCase implements IUseCase {
     )
     const response: IGetByClientResponseDTO[] = []
     for (const action of actions) {
-      const remotePath = `/var/www/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}`
+      const remotePath = `../sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}`
       const fileList = this.fileService.list(remotePath)
       const fileInfo = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewsystem.com.br/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}/${fileItem}`,
+          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}/${fileItem}`,
           path: '',
         }
       })
