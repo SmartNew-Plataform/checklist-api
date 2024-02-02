@@ -18,7 +18,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     )
 
     const response: IGetInfoByLoginResponseDTO[] = []
-    const pathCheckList = 'sistemas/_lib/img/checkList'
+    const pathCheckList = '/sistemas/_lib/img/checkList'
     const files = readdirSync('/root/var/www' + pathCheckList)
     console.log('Buscando Imagens...')
 
