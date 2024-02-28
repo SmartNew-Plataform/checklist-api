@@ -67,6 +67,7 @@ export default class PostSyncCheckListSchemaUseCase implements IUseCase {
 
       return {
         updated: true,
+        id: productionRegisterItem.id,
       }
     }
   }
