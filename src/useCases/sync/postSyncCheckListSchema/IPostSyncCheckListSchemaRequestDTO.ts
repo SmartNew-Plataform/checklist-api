@@ -14,7 +14,7 @@ export default interface IPostSyncCheckListSchemaRequestDTO {
     mileage: number
     finalMileage: number
     initialTime: Date
-    finalTime?: Date | undefined
+    finalTime: Date | null
     login: string
     periodId: number
   }

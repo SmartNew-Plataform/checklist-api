@@ -26,7 +26,7 @@ export default class PostSyncCheckListSchemaController implements IController {
         mileage: z.coerce.number(),
         finalMileage: z.coerce.number(),
         initialTime: z.coerce.date(),
-        finalTime: z.coerce.date().optional(),
+        finalTime: z.coerce.date().nullable(),
         login: z.coerce.string(),
         periodId: z.coerce.number(),
       }),
