@@ -33,7 +33,7 @@ export default class PostSyncCheckListSchemaUseCase implements IUseCase {
             login: productionRegisterItem.login,
             DATA: productionRegisterItem.date,
             data_hora_inicio: productionRegisterItem.initialTime,
-            data_hora_encerramento: productionRegisterItem.finalTime,
+            data_hora_encerramento: productionRegisterItem.finalTime || null,
             turno: null,
             status: productionRegisterItem.status === 'open' ? 1 : 0,
             idlog: 0,
