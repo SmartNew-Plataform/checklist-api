@@ -17,7 +17,7 @@ export default class PostSyncCheckListSchemaController implements IController {
       checkListSchema: z.object({
         _id: z.coerce.string({ description: 'Erro no formato de _id' }),
         id: z.coerce.number(),
-        date: z.coerce.string().transform((value) => new Date(value)),
+        date: z.coerce.date(),
         period: z.coerce.string(),
         code: z.coerce.string(),
         description: z.coerce.string(),
@@ -25,11 +25,8 @@ export default class PostSyncCheckListSchemaController implements IController {
         equipmentId: z.coerce.number(),
         mileage: z.coerce.number(),
         finalMileage: z.coerce.number(),
-        initialTime: z.coerce.string().transform((value) => new Date(value)),
-        finalTime: z.coerce
-          .string()
-          .transform((value) => (value.length === 0 ? null : new Date(value)))
-          .nullable(),
+        initialTime: z.coerce.date(),
+        finalTime: z.coerce.date().nullable(),
         login: z.coerce.string(),
         periodId: z.coerce.number(),
       }),

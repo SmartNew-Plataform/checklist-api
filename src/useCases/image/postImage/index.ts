@@ -1,10 +1,10 @@
-import FTPService from '@/services/implementations/FTPService'
+import FileService from '@/services/implementations/FileService'
 import PostImageController from './postImageController'
 import PostImageUseCase from './postImageUseCase'
 
-const ftpService = new FTPService()
+const fileService = new FileService()
 
-const useCase = new PostImageUseCase(ftpService)
+const useCase = new PostImageUseCase(fileService)
 
 const controller = new PostImageController(useCase)
 

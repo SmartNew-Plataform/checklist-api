@@ -13,4 +13,5 @@ export default interface IGetEquipmentByBranchResponseDTO {
   hasPeriod: boolean
   hasMileage: boolean
   hasHourMeter: boolean
+  hasAction: boolean
 }
