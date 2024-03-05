@@ -1,5 +1,6 @@
 import IActionGroupRepository from '@/repositories/IActionGroupRepository'
-import { smartnewsystem_producao_checklist_acao_grupo } from '@prisma/client'
+// import actions from '@/routes/private/actions'
+// import { smartnewsystem_producao_checklist_acao_grupo } from '@prisma/client'
 import IUseCase from '../../../models/IUseCase'
 import IEquipmentRepository from '../../../repositories/IEquipmentRepository'
 import IGetEquipmentByBranchRequestDTO from './IGetEquipmentByBranchRequestDTO'
@@ -21,15 +22,18 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
     for await (const item of allEquipment) {
       // console.log(item)
 
-      const actions = await this.actionGroupRepository.listByEquipment(item.ID)
-      const openedActions: smartnewsystem_producao_checklist_acao_grupo[] = []
+      // const actions = await this.actionGroupRepository.listByEquipment(item.ID)
+      // const openedActions: smartnewsystem_producao_checklist_acao_grupo[] = []
+      let openedActions: number = 0
 
-      if (actions) {
-        actions.forEach((action) => {
-          if (!action.data_concluida) {
-            openedActions.push(action)
-          }
-        })
+      if (item._count.productionRegister > 0) {
+        // actions.forEach((action) => {
+        //   if (!action.data_concluida) {
+        //     openedActions.push(action)
+        //   }
+        // })
+
+        openedActions++
       }
 
       response.push({
@@ -45,7 +49,7 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
         hasHourMeter: item.registerEquipmentAction
           ? item.registerEquipmentAction.horimetro
           : true,
-        hasAction: openedActions.length > 0,
+        hasAction: openedActions > 0,
         costCenter: item.id_centro_custo || 0,
         clientId: item.ID_cliente || 0,
         branchId: item.ID_filial || 0,

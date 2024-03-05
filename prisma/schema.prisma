@@ -3529,8 +3529,8 @@ model smartnewsystem_registro_producao {
   smartnewsystem_registro_producao_dados_ocorrencias smartnewsystem_registro_producao_dados_ocorrencias[]
   sofman_tarefas_ordem_servico                       sofman_tarefas_ordem_servico[]
   period                                             smartnewsystem_registro_turno?                       @relation(fields: [id_turno], references: [id])
-  smartnewsystem_producao_checklist_acao             smartnewsystem_producao_checklist_acao[]
-  smartnewsystem_producao_checklist_acao_grupo       smartnewsystem_producao_checklist_acao_grupo[]
+  actionChecklist                                    smartnewsystem_producao_checklist_acao[]
+  actionGroup                                        smartnewsystem_producao_checklist_acao_grupo[]
 
   @@unique([login, id_centro_custo, id_equipamento, DATA, turno], map: "login")
   @@index([id_equipamento], map: "fk_registro_producao_eqto")

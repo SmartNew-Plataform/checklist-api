@@ -32,6 +32,19 @@ export default class EquipmentRepository implements IEquipmentRepository {
             quilometragem: true,
           },
         },
+        _count: {
+          select: {
+            productionRegister: {
+              where: {
+                actionGroup: {
+                  some: {
+                    data_concluida: null,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       where: {
         ID_filial: {
@@ -74,7 +87,7 @@ export default class EquipmentRepository implements IEquipmentRepository {
     ID: number,
     hourMeter: number,
     mileage: number,
-  ) {
+  ): Promise<IListByBranch | null> {
     try {
       const updated = await this.table.update({
         data: {
@@ -107,6 +120,19 @@ export default class EquipmentRepository implements IEquipmentRepository {
               turno: true,
               horimetro: true,
               quilometragem: true,
+            },
+          },
+          _count: {
+            select: {
+              productionRegister: {
+                where: {
+                  actionGroup: {
+                    some: {
+                      data_concluida: null,
+                    },
+                  },
+                },
+              },
             },
           },
         },
