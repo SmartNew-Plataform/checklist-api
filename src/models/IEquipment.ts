@@ -25,6 +25,9 @@ export interface IListByBranch {
     horimetro: boolean
     quilometragem: boolean
   } | null
+  _count: {
+    productionRegister: number
+  }
 }
 
 export interface IListFamilyByBranch {
