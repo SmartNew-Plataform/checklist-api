@@ -33,7 +33,7 @@ export default class CheckListPeriodRepository
         status_item: true,
       },
       where: {
-        productionRegister: {
+        checklist: {
           equipment: {
             branch: {
               ID: {
@@ -51,7 +51,7 @@ export default class CheckListPeriodRepository
   async countForEquipment(equipmentId: number): Promise<number> {
     const count = await this.table.count({
       where: {
-        productionRegister: {
+        checklist: {
           id_equipamento: equipmentId,
         },
       },
@@ -82,7 +82,7 @@ export default class CheckListPeriodRepository
         log_date: true,
       },
       where: {
-        productionRegister: {
+        checklist: {
           login,
           data_hora_inicio: {
             gte: date,

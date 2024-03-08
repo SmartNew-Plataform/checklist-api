@@ -937,6 +937,7 @@ model cadastro_de_empresas {
   smartnewsystem_producao_categoria_diversos                                     smartnewsystem_producao_categoria_diversos[]
   smartnewsystem_producao_controle_viagem                                        smartnewsystem_producao_controle_viagem[]
   smartnewsystem_producao_controle_pausa                                         smartnewsystem_producao_controle_pausa[]
+  smartnewsystem_checklist                                                       smartnewsystem_checklist[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -1008,7 +1009,7 @@ model cadastro_de_equipamentos {
   consumo_previsto                                  Decimal?                                            @default(0.00) @db.Decimal(10, 2)
   tipo_consumo                                      String?                                             @db.VarChar(45)
   proprietario                                      String?                                             @db.VarChar(255)
-  frota                                             String                                              @db.VarChar(45)
+  frota                                             String?                                             @db.VarChar(45)
   contador_arla                                     Int?                                                @default(0)
   tempo_sincronizacao                               Int?                                                @default(30)
   sofman_criticidade_equipamentos                   sofman_criticidade_equipamentos?                    @relation(fields: [criticidade], references: [id], onDelete: Restrict, map: "cadastro_de_equipamentos_ibfk_1")
@@ -1047,6 +1048,7 @@ model cadastro_de_equipamentos {
   smartnewsystem_compras_item_solicitacao           smartnewsystem_compras_item_solicitacao[]
   registerEquipment                                 smartnewsystem_registro_equipamento?
   registerEquipmentAction                           smartnewsystem_registro_equipamento_acao?
+  smartnewsystem_checklist                          smartnewsystem_checklist[]
 
   @@unique([ID_filial, equipamento_codigo], map: "unq_filial_equipamento_codigo")
   @@index([criticidade], map: "criticidade")
@@ -3231,14 +3233,19 @@ model smartnewsystem_producao_controle_pausa {
 }
 
 model smartnewsystem_producao_checklist {
-  id               Int                                       @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   id_familia       Int?
-  descricao        String?                                   @db.VarChar(200)
-  log_user         String?                                   @db.Char(50)
-  log_date         DateTime?                                 @default(now()) @db.DateTime(0)
-  status_checklist Boolean?                                  @default(true)
-  familyEquipment  cadastro_de_familias_de_equipamento?      @relation(fields: [id_familia], references: [ID], onDelete: Restrict, map: "fk_prod_checklist_familia")
-  checkListItens   smartnewsystem_producao_checklist_itens[]
+  id_localizacao   Int?
+  descricao        String?   @db.VarChar(200)
+  log_user         String?   @db.Char(50)
+  log_date         DateTime? @default(now()) @db.DateTime(0)
+  status_checklist Boolean?  @default(true)
+
+  familyEquipment cadastro_de_familias_de_equipamento? @relation(fields: [id_familia], references: [ID], onDelete: Restrict, map: "fk_prod_checklist_familia")
+  location        sofman_cad_localizacoes?             @relation(fields: [id_localizacao], references: [id])
+
+  checkListItens  smartnewsystem_producao_checklist_itens[]
+  checkListXModel smartnewsystem_checklist_x_modelo[]
 
   @@unique([id_familia, descricao], map: "id_familia")
 }
@@ -3349,22 +3356,26 @@ model smartnewsystem_producao_checklist_tarefas {
 }
 
 model smartnewsystem_producao_checklist_turno {
-  id                                     Int                                       @id @default(autoincrement())
-  cod                                    Int?
-  cod_pro                                Int?
-  id_filial                              Int?
-  id_registro_producao                   Int
-  id_item_checklist                      Int?
-  status_item                            Int?
-  status_item_nc                         Int?
-  observacao                             String?
-  imagem                                 String?                                   @db.VarChar(200)
-  log_date                               DateTime?                                 @default(now()) @db.DateTime(0)
-  branch                                 cadastro_de_filiais?                      @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "fk_checklist_turno_filial_id")
-  productionRegister                     smartnewsystem_registro_producao          @relation(fields: [id_registro_producao], references: [id], onDelete: Restrict, map: "fk_prod_chechklist_reg_prod_id")
-  checkListItem                          smartnewsystem_producao_checklist_itens?  @relation(fields: [id_item_checklist], references: [id], onDelete: Restrict, map: "fk_prod_checklist_item_id")
+  id                   Int       @id @default(autoincrement())
+  cod                  Int?
+  cod_pro              Int?
+  id_filial            Int?
+  id_registro_producao Int?
+  id_checklist         Int?
+  id_item_checklist    Int?
+  status_item          Int?
+  status_item_nc       Int?
+  observacao           String?
+  imagem               String?   @db.VarChar(200)
+  log_date             DateTime? @default(now()) @db.DateTime(0)
+
+  branch             cadastro_de_filiais?                      @relation(fields: [id_filial], references: [ID], onDelete: Restrict, map: "fk_checklist_turno_filial_id")
+  productionRegister smartnewsystem_registro_producao?         @relation(fields: [id_registro_producao], references: [id], onDelete: Restrict, map: "fk_prod_chechklist_reg_prod_id")
+  checkListItem      smartnewsystem_producao_checklist_itens?  @relation(fields: [id_item_checklist], references: [id], onDelete: Restrict, map: "fk_prod_checklist_item_id")
+  status             smartnewsystem_producao_checklist_status? @relation(fields: [status_item], references: [id])
+  checklist          smartnewsystem_checklist?                 @relation(fields: [id_checklist], references: [id])
+
   smartnewsystem_producao_checklist_acao smartnewsystem_producao_checklist_acao[]
-  status                                 smartnewsystem_producao_checklist_status? @relation(fields: [status_item], references: [id])
 
   @@index([id_filial], map: "fk_checklist_turno_filial_id")
   @@index([id_registro_producao], map: "fk_prod_chechklist_reg_prod_id")
@@ -3494,6 +3505,36 @@ model smartnewsystem_registro_equipamento_acao {
   equipment cadastro_de_equipamentos @relation(fields: [id_equipamento], references: [ID])
 
   @@unique([id_cliente, id_equipamento], map: "smartnewsystem_registro_equipamento_acao_UN")
+}
+
+model smartnewsystem_checklist {
+  id                     Int       @id @default(autoincrement())
+  id_cliente             Int
+  id_equipamento         Int?
+  id_localizacao         Int?
+  id_turno               Int?
+  login                  String
+  data_hora_inicio       DateTime?
+  data_hora_encerramento DateTime?
+  status                 Int       @default(0)
+  log_date               DateTime  @default(now())
+
+  company   cadastro_de_empresas           @relation(fields: [id_cliente], references: [ID])
+  equipment cadastro_de_equipamentos?      @relation(fields: [id_equipamento], references: [ID])
+  location  sofman_cad_localizacoes?       @relation(fields: [id_localizacao], references: [id])
+  period    smartnewsystem_registro_turno? @relation(fields: [id_turno], references: [id])
+
+  checkListPeriod smartnewsystem_producao_checklist_turno[]
+  checklistXModel smartnewsystem_checklist_x_modelo[]
+}
+
+model smartnewsystem_checklist_x_modelo {
+  id           Int @id @default(autoincrement())
+  id_checklist Int
+  id_modelo    Int
+
+  checklist smartnewsystem_checklist          @relation(fields: [id_checklist], references: [id])
+  model     smartnewsystem_producao_checklist @relation(fields: [id_modelo], references: [id])
 }
 
 model smartnewsystem_registro_producao {
@@ -3755,9 +3796,10 @@ model smartnewsystem_registro_turno {
   id_filial  Int
   turno      String
 
-  company            cadastro_de_empresas               @relation(fields: [id_cliente], references: [ID])
-  productionRegister smartnewsystem_registro_producao[]
-  branch             cadastro_de_filiais                @relation(fields: [id_filial], references: [ID])
+  company                  cadastro_de_empresas               @relation(fields: [id_cliente], references: [ID])
+  productionRegister       smartnewsystem_registro_producao[]
+  branch                   cadastro_de_filiais                @relation(fields: [id_filial], references: [ID])
+  smartnewsystem_checklist smartnewsystem_checklist[]
 }
 
 model smartnewsystem_reponsaveis_cotacao {
@@ -4748,14 +4790,16 @@ model sofman_cad_itens_controle_metas {
 }
 
 model sofman_cad_localizacoes {
-  id                  Int                 @id @default(autoincrement())
-  id_filial           Int
-  id_predio           Int
-  localizacao         String?             @db.Char(200)
-  log_user            String?             @db.Char(50)
-  log_date            DateTime?           @default(now()) @db.DateTime(0)
-  cadastro_de_predios cadastro_de_predios @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
-  cadastro_de_filiais cadastro_de_filiais @relation(fields: [id_filial], references: [ID], map: "sofman_cad_localizacoes_ibfk_1")
+  id                                Int                                 @id @default(autoincrement())
+  id_filial                         Int
+  id_predio                         Int
+  localizacao                       String?                             @db.Char(200)
+  log_user                          String?                             @db.Char(50)
+  log_date                          DateTime?                           @default(now()) @db.DateTime(0)
+  cadastro_de_predios               cadastro_de_predios                 @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
+  cadastro_de_filiais               cadastro_de_filiais                 @relation(fields: [id_filial], references: [ID], map: "sofman_cad_localizacoes_ibfk_1")
+  smartnewsystem_checklist          smartnewsystem_checklist[]
+  smartnewsystem_producao_checklist smartnewsystem_producao_checklist[]
 
   @@unique([id_filial, localizacao], map: "id_filial_2")
   @@index([id_predio], map: "fk_predio_local")

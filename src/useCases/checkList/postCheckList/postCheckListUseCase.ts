@@ -1,11 +1,13 @@
-import IUseCase from '../models/IUseCase'
-import IProductionRegisterRepository from '../repositories/IProductionRegisterRepository'
+import IUseCase from '@/models/IUseCase'
+import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
 import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
-import IEquipmentRepository from '../repositories/IEquipmentRepository'
-import IPeriodRepository from '../repositories/IPeriodRepository'
+import IEquipmentRepository from '@/repositories/IEquipmentRepository'
+import IPeriodRepository from '@/repositories/IPeriodRepository'
 import CustomError from '@/config/CustomError'
-import ICheckListPeriodRepository from '../repositories/ICheckListPeriodRepository'
-import ICheckListItemRepository from '../repositories/ICheckListItemRepository'
+import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
+import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
+import LocationRepository from '@/repositories/implementations/LocationRepository'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -14,53 +16,91 @@ export default class PostCheckListUseCase implements IUseCase {
     private periodRepository: IPeriodRepository,
     private checkListItemRepository: ICheckListItemRepository,
     private checkListPeriodRepository: ICheckListPeriodRepository,
+    private smartCheckListRepository: ISmartCheckListRepository,
+    private locationRepository: LocationRepository,
   ) {}
 
   async execute(data: IPostCheckListRequestDTO) {
-    const equipment = await this.equipmentRepository.findById(data.equipmentId)
-
-    if (!equipment) {
-      throw CustomError.notFound('Equipamento não encontrado!')
+    // let type = 'equipment'
+    let branchId = 0
+    if (!data.user.id_cliente) {
+      throw CustomError.notFound('Usuário não encontrado!')
     }
 
-    const period = await this.periodRepository.findById(data.periodId)
-
-    if (!period) {
-      throw CustomError.notFound('Período não encontrado!')
-    }
-
-    const allCheckListItem =
-      await this.checkListItemRepository.findTaskByFamily(
-        equipment.ID_familia || 0,
+    if (data.equipmentId) {
+      const equipment = await this.equipmentRepository.findById(
+        data.equipmentId,
       )
 
-    if (allCheckListItem.length === 0) {
-      throw CustomError.notFound('Tarefas não vinculados!')
+      if (!equipment) {
+        throw CustomError.notFound('Equipamento não encontrado!')
+      }
+      if (equipment.ID_filial) {
+        branchId = equipment.ID_filial
+      }
     }
 
-    const productionRegister = await this.productionRegisterRepository.save({
-      id_centro_custo: equipment.id_centro_custo || 0,
-      id_equipamento: equipment.ID,
-      id_turno: period.id,
-      quilometragem: data.mileage,
+    if (data.locationId) {
+      const location = await this.locationRepository.findById(data.locationId)
+
+      if (!location) {
+        throw CustomError.notFound('Localizacao não encontrado!')
+      }
+
+      branchId = location.id_filial
+    }
+
+    if (data.periodId) {
+      const period = await this.periodRepository.findById(data.periodId)
+
+      if (!period) {
+        throw CustomError.notFound('Período não encontrado!')
+      }
+    }
+
+    const allCheckListItem: {
+      id: number
+    }[] = []
+
+    for await (const checkListId of data.model) {
+      const checkListItem = await this.checkListItemRepository.listByCheckList(
+        checkListId,
+      )
+
+      if (checkListItem.length === 0) {
+        throw CustomError.notFound('Tarefas não vinculados!')
+      }
+
+      allCheckListItem.push(
+        ...checkListItem.map((item) => {
+          return {
+            id: item.id,
+          }
+        }),
+      )
+    }
+
+    const checklist = await this.smartCheckListRepository.save({
+      id_cliente: data.user.id_cliente,
+      id_equipamento: data.equipmentId,
+      id_localizacao: data.locationId,
+      id_turno: data.periodId,
       login: data.user.login,
-      DATA: data.initialTime,
       data_hora_inicio: data.initialTime,
       // turno: period.turno || 'Turno_1',
       status: 1,
-      idlog: 0,
     })
 
     for await (const checkListItem of allCheckListItem) {
       await this.checkListPeriodRepository.create({
-        id_filial: equipment.ID_filial,
-        id_registro_producao: productionRegister.id,
+        id_filial: branchId,
+        id_checklist: checklist.id,
         id_item_checklist: checkListItem.id,
       })
     }
 
     return {
-      id: productionRegister.id,
+      id: checklist.id,
     }
   }
 }

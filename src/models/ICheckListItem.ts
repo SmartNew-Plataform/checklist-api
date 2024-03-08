@@ -16,3 +16,13 @@ export interface IInfo {
   id_tarefa: number | null
   id_controle: number | null
 }
+
+export interface ICheckListItem {
+  listByCheckList: {
+    id: number
+    checkListTask: {
+      id: number
+      descricao: string | null
+    } | null
+  }
+}

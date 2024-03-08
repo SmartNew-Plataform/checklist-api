@@ -12,8 +12,10 @@ export default class PostCheckListController implements IController {
 
   async handle(req: FastifyRequest, res: FastifyReply) {
     const bodySchema = z.object({
-      equipmentId: z.coerce.number(),
-      periodId: z.coerce.number(),
+      equipmentId: z.coerce.number().nullable(),
+      locationId: z.coerce.number().nullable(),
+      periodId: z.coerce.number().nullable(),
+      model: z.array(z.coerce.number()),
       initialTime: z.coerce.date(),
       initialHourMeter: z.coerce.number().optional(),
       mileage: z.coerce.number(),
