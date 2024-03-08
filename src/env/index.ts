@@ -9,9 +9,6 @@ const envSchema = z.object({
   KEY: z.string(),
   KEY_PATH: z.string().optional(),
   CERT_PATH: z.string().optional(),
-  FTP_HOST: z.string(),
-  FTP_USER: z.string(),
-  FTP_PASS: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
