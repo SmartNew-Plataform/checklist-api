@@ -55,4 +55,23 @@ export interface ISmartCheckList {
     data_hora_inicio: Date | null
     login: string | null
   }
+  listChecklistByTime: {
+    id: number
+    status: number
+    id_turno: number | null
+    data_hora_inicio: Date | null
+    data_hora_encerramento: Date | null
+    log_date: Date | null
+    equipment: {
+      ID: number
+      equipamento_codigo: string | null
+      descricao: string | null
+    } | null
+    location: {
+      id: number
+      id_filial: number
+      localizacao: string | null
+    } | null
+    login: string | null
+  }
 }
