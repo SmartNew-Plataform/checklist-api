@@ -8,6 +8,7 @@ import getStatus from '../../../useCases/checkList/getStatus'
 import getStatusAction from '../../../useCases/checkList/getStatusAction'
 import patchCloseCheckList from '../../../useCases/checkList/patchCloseCheckList'
 import postCheckList from '../../../useCases/checkList/postCheckList'
+import putCheckList from '../../../useCases/checkList/putCheckList'
 import getInfoByLogin from '../../../useCases/checkListPeriod/getInfoByLogin'
 import getCheckListTask from '../../../useCases/checkListTask/getCheckListTask'
 import getCheckListByFamily from '../../../useCases/checkListTask/getCheckListTaskByFamily'
@@ -27,4 +28,5 @@ export default async function checkListRoutes(checkList: FastifyInstance) {
   checkList.get('/statusAction', getStatusAction.handle)
   checkList.get('/infoStatusAction', getInfoStatusAction.handle)
   checkList.patch('/close', patchCloseCheckList.handle)
+  checkList.put('/putCheckList', putCheckList.handle)
 }

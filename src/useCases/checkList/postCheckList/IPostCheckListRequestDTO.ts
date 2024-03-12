@@ -7,4 +7,6 @@ export default interface IPostCheckListRequestDTO {
   periodId: number | null
   model: number[]
   initialTime: Date
+  finalTime: Date | null
+  status: 'open' | 'close'
 }

@@ -17,6 +17,8 @@ export default class PostCheckListController implements IController {
       periodId: z.coerce.number().nullable(),
       model: z.array(z.coerce.number()),
       initialTime: z.coerce.date(),
+      finalTime: z.coerce.date().nullable(),
+      status: z.enum(['open', 'close']),
     })
 
     const request: IPostCheckListRequestDTO = {

@@ -3,7 +3,7 @@ import IUseCase from '@/models/IUseCase'
 import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
 import { IPutChecklistRequestDTO } from './IPutChecklistRequestDTO'
 
-export default class PostCheckListUseCase implements IUseCase {
+export default class PutCheckListUseCase implements IUseCase {
   constructor(private smartCheckListRepository: ISmartCheckListRepository) {}
 
   async execute(data: IPutChecklistRequestDTO) {
