@@ -11,6 +11,7 @@ export default class CheckListRepository implements ICheckListRepository {
         id: true,
         id_familia: true,
         descricao: true,
+        id_localizacao: true,
       },
       where: {
         familyEquipment: {
