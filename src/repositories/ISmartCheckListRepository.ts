@@ -15,12 +15,11 @@ export default interface ISmartCheckListRepository {
     branch: number[],
   ): Promise<ISmartCheckList['listByBranch'][]>
 
-  listRegisterByTime(
-    time: Date,
+  listChecklistByTime(
     branch: number[],
     login: string,
     fromDate: Date,
-  ): Promise<ISmartCheckList['listRegisterByTime'][]>
+  ): Promise<ISmartCheckList['listChecklistByTime'][]>
 
   listRegisterByBranch(
     branch: number[],

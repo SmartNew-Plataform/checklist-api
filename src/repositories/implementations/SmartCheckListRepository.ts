@@ -90,18 +90,24 @@ export default class SmartCheckListRepository
     return productionRegister
   }
 
-  async listRegisterByTime(
-    time: Date,
+  async listChecklistByTime(
     branch: number[],
     login: string,
     fromDate: Date,
-  ): Promise<ISmartCheckList['listRegisterByTime'][]> {
+  ): Promise<ISmartCheckList['listChecklistByTime'][]> {
     const register = await this.table.findMany({
       select: {
         id: true,
         status: true,
         id_turno: true,
         data_hora_encerramento: true,
+        location: {
+          select: {
+            id: true,
+            id_filial: true,
+            localizacao: true,
+          },
+        },
         equipment: {
           select: {
             ID: true,
@@ -117,12 +123,23 @@ export default class SmartCheckListRepository
         data_hora_inicio: {
           gte: fromDate,
         },
-        equipment: {
-          ID_filial: {
-            in: branch,
-          },
-        },
         login,
+        OR: [
+          {
+            equipment: {
+              ID_filial: {
+                in: branch,
+              },
+            },
+          },
+          {
+            location: {
+              id_filial: {
+                in: branch,
+              },
+            },
+          },
+        ],
       },
     })
 

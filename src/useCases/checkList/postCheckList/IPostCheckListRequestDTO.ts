@@ -6,7 +6,5 @@ export default interface IPostCheckListRequestDTO {
   locationId: number | null
   periodId: number | null
   model: number[]
-  initialHourMeter?: number
-  initialTime?: Date
-  mileage: number
+  initialTime: Date
 }

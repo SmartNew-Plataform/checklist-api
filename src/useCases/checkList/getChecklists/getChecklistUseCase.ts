@@ -1,41 +1,33 @@
 import IUseCase from '@/models/IUseCase'
-import IEquipmentRegisterRepository from '@/repositories/IEquipmentRegisterRepository'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import dayjs from 'dayjs'
+import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
 import { IGetChecklistsRequest } from './IGetChecklistRequest'
-import { Checklist } from './types'
+import IGetChecklistResponseDTO from './IGetChecklistResponseDTO'
 
 export default class GetChecklistUseCase implements IUseCase {
-  constructor(
-    private productionRegisterRepository: IProductionRegisterRepository,
-    private equipmentRepositroy: IEquipmentRegisterRepository,
-  ) {}
+  constructor(private checklistRepository: ISmartCheckListRepository) {}
 
   async execute(data: IGetChecklistsRequest) {
-    const dateStatic = dayjs('2022-01-01')
-    const register = await this.productionRegisterRepository.listRegisterByTime(
-      dateStatic.toDate(),
+    const register = await this.checklistRepository.listChecklistByTime(
       data.user.branchBound.map((item) => item.branch.ID),
       data.user.login,
       new Date(new Date().setDate(new Date().getDate() - 1)), // Ontem
     )
 
-    const response: Checklist[] = register
-      .filter(
-        (item) =>
-          item.login === data.user.login && item.DATA && item.data_hora_inicio,
-      )
-      .map((item) => ({
-        id: item.id,
-        equipmentId: item.equipment?.ID || 0,
-        periodId: item.id_turno,
-        date: item.DATA as Date,
-        initialTime: item.data_hora_inicio as Date,
-        finalTime: item.data_hora_encerramento,
-        status: item.status ? 'open' : 'close',
-        checklistPeriods: [],
-        signatures: [],
-      }))
+    const response: IGetChecklistResponseDTO[] = []
+    for (const item of register) {
+      if (item.data_hora_inicio) {
+        response.push({
+          id: item.id,
+          equipmentId: item.equipment ? item.equipment.ID : null,
+          locationId: item.location ? item.location.id : null,
+          periodId: item.id_turno,
+          initialTime: item.data_hora_inicio,
+          finalTime: item.data_hora_encerramento,
+          status: item.status ? 'open' : 'close',
+          login: item.login || '',
+        })
+      }
+    }
 
     return response
   }

@@ -7,6 +7,7 @@ import checkListControlRoutes from './checkListControl'
 import checkListPeriodRoutes from './checkListPeriod'
 import equipmentRoutes from './equipment'
 import imageRoutes from './image'
+import locationRoutes from './locations'
 import periodRoutes from './period'
 import productionDiverseRoutes from './productionDiverse'
 import responsiblesRoutes from './responsibles'
@@ -51,5 +52,8 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(productionDiverseRoutes, {
     prefix: '/productionDiverse',
+  })
+  app.register(locationRoutes, {
+    prefix: '/locations',
   })
 }

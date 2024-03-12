@@ -15,6 +15,7 @@ export default class GetBoundFamilyUseCase implements IUseCase {
         id: item.id,
         familyId: item.id_familia,
         description: item.descricao,
+        locationId: item.id_localizacao,
       })),
     }
   }
