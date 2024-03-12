@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { ICheckListXModel } from '@/models/ICheckListXModel'
 import ICheckListXModelRepository from '../ICheckListXModelRepository'
+import { Prisma, smartnewsystem_checklist_x_modelo } from '@prisma/client'
 
 export default class CheckListXModelRepository
   implements ICheckListXModelRepository
@@ -33,6 +34,16 @@ export default class CheckListXModelRepository
       where: {
         id_checklist: checklistId,
       },
+    })
+
+    return model
+  }
+
+  async insert(
+    data: Prisma.smartnewsystem_checklist_x_modeloUncheckedCreateInput,
+  ): Promise<smartnewsystem_checklist_x_modelo> {
+    const model = await this.table.create({
+      data,
     })
 
     return model

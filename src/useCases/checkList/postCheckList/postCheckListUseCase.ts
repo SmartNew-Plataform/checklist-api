@@ -8,6 +8,7 @@ import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepositor
 import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
 import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
 import LocationRepository from '@/repositories/implementations/LocationRepository'
+import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -18,6 +19,7 @@ export default class PostCheckListUseCase implements IUseCase {
     private checkListPeriodRepository: ICheckListPeriodRepository,
     private smartCheckListRepository: ISmartCheckListRepository,
     private locationRepository: LocationRepository,
+    private checklistXModelRepository: CheckListXModelRepository,
   ) {}
 
   async execute(data: IPostCheckListRequestDTO) {
@@ -90,6 +92,13 @@ export default class PostCheckListUseCase implements IUseCase {
       // turno: period.turno || 'Turno_1',
       status: 1,
     })
+
+    for await (const modelId of data.model) {
+      await this.checklistXModelRepository.insert({
+        id_checklist: checklist.id,
+        id_modelo: modelId,
+      })
+    }
 
     for await (const checkListItem of allCheckListItem) {
       await this.checkListPeriodRepository.create({

@@ -7,6 +7,7 @@ import CheckListItemRepository from '../../../repositories/implementations/Check
 import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
 import SmartCheckListRepository from '@/repositories/implementations/SmartCheckListRepository'
 import LocationRepository from '@/repositories/implementations/LocationRepository'
+import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
 
 const productionRegisterRepository = new ProductionRegisterRepository()
 const equipmentRepository = new EquipmentRepository()
@@ -15,6 +16,7 @@ const checkListItemRepository = new CheckListItemRepository()
 const checkListPeriodRepository = new CheckListPeriodRepository()
 const smartCheckListRepository = new SmartCheckListRepository()
 const locationRepository = new LocationRepository()
+const checklistXModelRepository = new CheckListXModelRepository()
 
 const useCase = new PostCheckListUseCase(
   productionRegisterRepository,
@@ -24,6 +26,7 @@ const useCase = new PostCheckListUseCase(
   checkListPeriodRepository,
   smartCheckListRepository,
   locationRepository,
+  checklistXModelRepository,
 )
 
 const controller = new PostCheckListController(useCase)
