@@ -7,7 +7,7 @@ export default class GetBoundFamilyUseCase implements IUseCase {
 
   async execute(data: IGetBoundFamilyRequestDTO) {
     const allCheckList = await this.checkListRepository.findByClient(
-      data.user.id_cliente || 0,
+      data.user.branchBound.map((item) => item.branch.ID),
     )
 
     return {
