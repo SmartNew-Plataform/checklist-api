@@ -8,6 +8,7 @@ export default class GetInfoItemUseCase implements IUseCase {
   async execute(data: IGetInfoItemRequestDTO) {
     const allCheckListItem = await this.checkListItemRepository.info(
       data.user.id_cliente || 0,
+      data.user.branchBound.map((item) => item.branch.ID),
     )
 
     return {

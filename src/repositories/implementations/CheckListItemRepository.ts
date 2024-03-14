@@ -36,7 +36,7 @@ export default class CheckListItemRepository
     })
   }
 
-  async info(clientId: number): Promise<IInfo[]> {
+  async info(clientId: number, branchIds: number[]): Promise<IInfo[]> {
     return await this.table.findMany({
       select: {
         id: true,
@@ -45,11 +45,24 @@ export default class CheckListItemRepository
         id_controle: true,
       },
       where: {
-        checkList: {
-          familyEquipment: {
-            ID_cliente: clientId,
+        OR: [
+          {
+            checkList: {
+              familyEquipment: {
+                ID_cliente: clientId,
+              },
+            },
           },
-        },
+          {
+            checkList: {
+              location: {
+                id_filial: {
+                  in: branchIds,
+                },
+              },
+            },
+          },
+        ],
       },
     })
   }
