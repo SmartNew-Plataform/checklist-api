@@ -71,11 +71,15 @@ export default class CheckListPeriodRepository
   }
 
   async infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]> {
-    return await this.table.findMany({
+    const data = await this.table.findMany({
       select: {
         id: true,
         id_filial: true,
-        id_registro_producao: true,
+        checklist: {
+          select: {
+            id: true,
+          },
+        },
         id_item_checklist: true,
         status_item: true,
         status_item_nc: true,
@@ -92,6 +96,11 @@ export default class CheckListPeriodRepository
         },
       },
     })
+
+    return data.map(({ checklist, ...item }) => ({
+      ...item,
+      id_registro_producao: checklist?.id || null,
+    }))
   }
 
   async create(
