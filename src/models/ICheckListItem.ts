@@ -15,6 +15,13 @@ export interface IInfo {
   id_checklist: number | null
   id_tarefa: number | null
   id_controle: number | null
+  checkList: {
+    id: number
+  } | null
+  checkListTask: {
+    id: number
+    descricao: string | null
+  } | null
 }
 
 export interface ICheckListItem {

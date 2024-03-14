@@ -43,6 +43,17 @@ export default class CheckListItemRepository
         id_checklist: true,
         id_tarefa: true,
         id_controle: true,
+        checkList: {
+          select: {
+            id: true,
+          },
+        },
+        checkListTask: {
+          select: {
+            id: true,
+            descricao: true,
+          },
+        },
       },
       where: {
         OR: [
