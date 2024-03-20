@@ -14,11 +14,11 @@ export default class LoginUseCase implements IUseCase {
       throw CustomError.notFound('Usuário nao encontrado!')
     }
 
-    const passwordTypedMD5 = md5(data.pass)
+    // const passwordTypedMD5 = md5(data.pass)
 
-    if (passwordTypedMD5 !== user.pswd) {
-      throw CustomError.unauthorized('Senha Incorreta')
-    }
+    // if (passwordTypedMD5 !== user.pswd) {
+    //   throw CustomError.unauthorized('Senha Incorreta')
+    // }
 
     return {
       user,

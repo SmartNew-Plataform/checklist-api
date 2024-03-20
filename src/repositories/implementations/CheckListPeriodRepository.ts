@@ -33,7 +33,7 @@ export default class CheckListPeriodRepository
         status_item: true,
       },
       where: {
-        productionRegister: {
+        checklist: {
           equipment: {
             branch: {
               ID: {
@@ -51,7 +51,7 @@ export default class CheckListPeriodRepository
   async countForEquipment(equipmentId: number): Promise<number> {
     const count = await this.table.count({
       where: {
-        productionRegister: {
+        checklist: {
           id_equipamento: equipmentId,
         },
       },
@@ -71,18 +71,22 @@ export default class CheckListPeriodRepository
   }
 
   async infoByLogin(login: string, date: Date): Promise<IInfoByLogin[]> {
-    return await this.table.findMany({
+    const data = await this.table.findMany({
       select: {
         id: true,
         id_filial: true,
-        id_registro_producao: true,
+        checklist: {
+          select: {
+            id: true,
+          },
+        },
         id_item_checklist: true,
         status_item: true,
         status_item_nc: true,
         log_date: true,
       },
       where: {
-        productionRegister: {
+        checklist: {
           login,
           data_hora_inicio: {
             gte: date,
@@ -92,6 +96,11 @@ export default class CheckListPeriodRepository
         },
       },
     })
+
+    return data.map(({ checklist, ...item }) => ({
+      ...item,
+      id_registro_producao: checklist?.id || null,
+    }))
   }
 
   async create(

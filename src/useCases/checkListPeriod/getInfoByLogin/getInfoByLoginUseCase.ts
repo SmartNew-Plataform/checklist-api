@@ -1,4 +1,3 @@
-import IFTPService from '@/services/IFTPService'
 import { readdirSync } from 'fs'
 import IUseCase from '../../../models/IUseCase'
 import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
@@ -6,10 +5,7 @@ import IGetInfoByLoginRequestDTO from './IGetInfoByLoginRequestDTO'
 import IGetInfoByLoginResponseDTO from './IGetInfoByLoginResponseDTO'
 
 export default class GetInfoByLoginUseCase implements IUseCase {
-  constructor(
-    private checkListPeriodRepository: ICheckListPeriodRepository,
-    private FTPService: IFTPService,
-  ) {}
+  constructor(private checkListPeriodRepository: ICheckListPeriodRepository) {}
 
   async execute(data: IGetInfoByLoginRequestDTO) {
     const allCheckListPeriod = await this.checkListPeriodRepository.infoByLogin(

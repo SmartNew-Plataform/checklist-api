@@ -1,12 +1,10 @@
 import CheckListPeriodRepository from '../../../repositories/implementations/CheckListPeriodRepository'
-import GetInfoByLoginUseCase from './getInfoByLoginUseCase'
 import GetInfoByLoginController from './getInfoByLoginController'
-import FTPService from '@/services/implementations/FTPService'
+import GetInfoByLoginUseCase from './getInfoByLoginUseCase'
 
 const checkListPeriodRepository = new CheckListPeriodRepository()
-const ftpService = new FTPService()
 
-const useCase = new GetInfoByLoginUseCase(checkListPeriodRepository, ftpService)
+const useCase = new GetInfoByLoginUseCase(checkListPeriodRepository)
 
 const controller = new GetInfoByLoginController(useCase)
 

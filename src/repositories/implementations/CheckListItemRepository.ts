@@ -1,5 +1,9 @@
 import { prisma } from '@/lib/prisma'
-import { IFindTaskByFamily, IInfo } from '../../models/ICheckListItem'
+import {
+  ICheckListItem,
+  IFindTaskByFamily,
+  IInfo,
+} from '../../models/ICheckListItem'
 import ICheckListItemRepository from '../ICheckListItemRepository'
 
 export default class CheckListItemRepository
@@ -32,21 +36,66 @@ export default class CheckListItemRepository
     })
   }
 
-  async info(clientId: number): Promise<IInfo[]> {
+  async info(clientId: number, branchIds: number[]): Promise<IInfo[]> {
     return await this.table.findMany({
       select: {
         id: true,
         id_checklist: true,
         id_tarefa: true,
         id_controle: true,
-      },
-      where: {
         checkList: {
-          familyEquipment: {
-            ID_cliente: clientId,
+          select: {
+            id: true,
+          },
+        },
+        checkListTask: {
+          select: {
+            id: true,
+            descricao: true,
           },
         },
       },
+      where: {
+        OR: [
+          {
+            checkList: {
+              familyEquipment: {
+                ID_cliente: clientId,
+              },
+            },
+          },
+          {
+            checkList: {
+              location: {
+                id_filial: {
+                  in: branchIds,
+                },
+              },
+            },
+          },
+        ],
+      },
     })
+  }
+
+  async listByCheckList(
+    checkListId: number,
+  ): Promise<ICheckListItem['listByCheckList'][]> {
+    const items = await this.table.findMany({
+      select: {
+        id: true,
+        checkListTask: {
+          select: {
+            id: true,
+            descricao: true,
+          },
+        },
+      },
+      where: {
+        id_checklist: checkListId,
+      },
+    })
+
+    return items
   }
 }
