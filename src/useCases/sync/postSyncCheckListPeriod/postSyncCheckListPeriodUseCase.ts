@@ -14,21 +14,22 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
 
   async execute(data: IPostSyncCheckListPeriodRequestDTO) {
     const checkListPeriod = data.checkListPeriod
+    console.log('Post period')
+    console.log(checkListPeriod)
 
     if (!data.user.id_cliente) return
 
     if (data.type === 'inserted') {
       try {
-        const periodObject = {
+        const result = await this.checkListPeriodRepository.create({
           id_filial: checkListPeriod.branchId,
-          id_registro_producao: checkListPeriod.productionRegisterId,
+          id_checklist: checkListPeriod.productionRegisterId,
           id_item_checklist: checkListPeriod.checkListItemId,
           status_item: checkListPeriod.statusItem,
           status_item_nc: checkListPeriod.statusNC,
           observacao: checkListPeriod.observation,
           log_date: checkListPeriod.logDate,
-        }
-        const result = await this.checkListPeriodRepository.create(periodObject)
+        })
 
         return result
       } catch (error) {

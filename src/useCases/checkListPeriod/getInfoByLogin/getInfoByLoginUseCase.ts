@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import { readdirSync } from 'fs'
 import IUseCase from '../../../models/IUseCase'
 import ICheckListPeriodRepository from '../../../repositories/ICheckListPeriodRepository'
@@ -28,13 +29,13 @@ export default class GetInfoByLoginUseCase implements IUseCase {
         const findTask = allNamesIds.find((value) => Number(value) === item.id)
 
         if (findTask) {
-          // console.log('Encontrei Pasta : ' + findTask)
+          console.log('Encontrei Pasta : ' + findTask)
 
           const fileList = readdirSync(remotePath)
           const fileInfo = fileList.map((fileItem) => {
             return {
               name: fileItem,
-              url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkList/task_${item.id}/${fileItem}`,
+              url: `${env.WEB_APPLICATION_URL}/sistemas/_lib/img/checkList/task_${item.id}/${fileItem}`,
               path: '',
             }
           })

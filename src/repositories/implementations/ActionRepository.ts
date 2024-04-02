@@ -10,6 +10,7 @@ export default class ActionRepository implements IActionRepository {
       select: {
         id: true,
         id_grupo: true,
+        id_checklist: true,
         id_registro_producao: true,
         id_item: true,
         descricao: true,
@@ -19,11 +20,6 @@ export default class ActionRepository implements IActionRepository {
         data_fim: true,
         data_inicio: true,
         log_date: true,
-        productionRegister: {
-          select: {
-            id_equipamento: true,
-          },
-        },
       },
       where: {
         id_grupo: {
@@ -44,6 +40,7 @@ export default class ActionRepository implements IActionRepository {
         id: true,
         id_grupo: true,
         id_registro_producao: true,
+        id_checklist: true,
         id_item: true,
         descricao: true,
         descricao_acao: true,
@@ -52,11 +49,6 @@ export default class ActionRepository implements IActionRepository {
         data_fim: true,
         data_inicio: true,
         log_date: true,
-        productionRegister: {
-          select: {
-            id_equipamento: true,
-          },
-        },
       },
       where: {
         id,
