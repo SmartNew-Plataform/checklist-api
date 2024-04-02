@@ -1,14 +1,14 @@
+import CustomError from '@/config/CustomError'
 import IUseCase from '@/models/IUseCase'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
+import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
 import IEquipmentRepository from '@/repositories/IEquipmentRepository'
 import IPeriodRepository from '@/repositories/IPeriodRepository'
-import CustomError from '@/config/CustomError'
-import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
 import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
-import LocationRepository from '@/repositories/implementations/LocationRepository'
 import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
+import LocationRepository from '@/repositories/implementations/LocationRepository'
+import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -24,7 +24,6 @@ export default class PostCheckListUseCase implements IUseCase {
 
   async execute(data: IPostCheckListRequestDTO) {
     // let type = 'equipment'
-    let branchId = 0
     if (!data.user.id_cliente) {
       throw CustomError.notFound('Usuário não encontrado!')
     }
@@ -37,9 +36,6 @@ export default class PostCheckListUseCase implements IUseCase {
       if (!equipment) {
         throw CustomError.notFound('Equipamento não encontrado!')
       }
-      if (equipment.ID_filial) {
-        branchId = equipment.ID_filial
-      }
     }
 
     if (data.locationId) {
@@ -48,8 +44,6 @@ export default class PostCheckListUseCase implements IUseCase {
       if (!location) {
         throw CustomError.notFound('Localizacao não encontrado!')
       }
-
-      branchId = location.id_filial
     }
 
     if (data.periodId) {
@@ -60,27 +54,27 @@ export default class PostCheckListUseCase implements IUseCase {
       }
     }
 
-    const allCheckListItem: {
-      id: number
-    }[] = []
+    // const allCheckListItem: {
+    //   id: number
+    // }[] = []
 
-    for await (const checkListId of data.model) {
-      const checkListItem = await this.checkListItemRepository.listByCheckList(
-        checkListId,
-      )
+    // for await (const checkListId of data.model) {
+    //   const checkListItem = await this.checkListItemRepository.listByCheckList(
+    //     checkListId,
+    //   )
 
-      if (checkListItem.length === 0) {
-        throw CustomError.notFound('Tarefas não vinculados!')
-      }
+    //   if (checkListItem.length === 0) {
+    //     throw CustomError.notFound('Tarefas não vinculados!')
+    //   }
 
-      allCheckListItem.push(
-        ...checkListItem.map((item) => {
-          return {
-            id: item.id,
-          }
-        }),
-      )
-    }
+    //   allCheckListItem.push(
+    //     ...checkListItem.map((item) => {
+    //       return {
+    //         id: item.id,
+    //       }
+    //     }),
+    //   )
+    // }
 
     const checklist = await this.smartCheckListRepository.save({
       id_cliente: data.user.id_cliente,
@@ -100,13 +94,13 @@ export default class PostCheckListUseCase implements IUseCase {
       })
     }
 
-    for await (const checkListItem of allCheckListItem) {
-      await this.checkListPeriodRepository.create({
-        id_filial: branchId,
-        id_checklist: checklist.id,
-        id_item_checklist: checkListItem.id,
-      })
-    }
+    // for await (const checkListItem of allCheckListItem) {
+    //   await this.checkListPeriodRepository.create({
+    //     id_filial: branchId,
+    //     id_checklist: checklist.id,
+    //     id_item_checklist: checkListItem.id,
+    //   })
+    // }
 
     return {
       id: checklist.id,

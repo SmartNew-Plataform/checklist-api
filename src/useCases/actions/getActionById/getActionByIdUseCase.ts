@@ -1,4 +1,5 @@
 import CustomError from '@/config/CustomError'
+import { env } from '@/env'
 import IActionRepository from '@/repositories/IActionRepository'
 import IFileService from '@/services/IFileService'
 import IUseCase from '../../../models/IUseCase'
@@ -28,7 +29,7 @@ export default class GetActionByIdUseCase implements IUseCase {
       const img = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
+          url: `${env.WEB_APPLICATION_URL}/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
           path: '',
         }
       })
