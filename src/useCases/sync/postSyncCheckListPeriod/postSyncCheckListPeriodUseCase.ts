@@ -15,7 +15,7 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
   async execute(data: IPostSyncCheckListPeriodRequestDTO) {
     const checkListPeriod = data.checkListPeriod
     console.log('Post period')
-    console.log(checkListPeriod)
+    // console.log(checkListPeriod)
 
     if (!data.user.id_cliente) return
 
