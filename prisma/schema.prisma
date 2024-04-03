@@ -3291,7 +3291,6 @@ model smartnewsystem_producao_checklist_acao_grupo {
   id                   Int       @id @default(autoincrement())
   id_cliente           Int
   id_registro_producao Int?
-  id_checklist         Int?
   numero               Int
   titulo               String?
   responsavel          String
@@ -3302,7 +3301,6 @@ model smartnewsystem_producao_checklist_acao_grupo {
   descricao_acao       String?
   log_date             DateTime  @default(now())
 
-  checklist                      smartnewsystem_checklist?                @relation(fields: [id_checklist], references: [id])
   productionRegister             smartnewsystem_registro_producao?        @relation(fields: [id_registro_producao], references: [id])
   user                           sec_users                                @relation(fields: [responsavel], references: [login])
   productionChecklistActionItems smartnewsystem_producao_checklist_acao[]
@@ -3528,10 +3526,9 @@ model smartnewsystem_checklist {
   location  sofman_cad_localizacoes?       @relation(fields: [id_localizacao], references: [id])
   period    smartnewsystem_registro_turno? @relation(fields: [id_turno], references: [id])
 
-  checkListPeriod                              smartnewsystem_producao_checklist_turno[]
-  checklistXModel                              smartnewsystem_checklist_x_modelo[]
-  smartnewsystem_producao_checklist_acao_grupo smartnewsystem_producao_checklist_acao_grupo[]
-  smartnewsystem_producao_checklist_acao       smartnewsystem_producao_checklist_acao[]
+  checkListPeriod                        smartnewsystem_producao_checklist_turno[]
+  checklistXModel                        smartnewsystem_checklist_x_modelo[]
+  smartnewsystem_producao_checklist_acao smartnewsystem_producao_checklist_acao[]
 }
 
 model smartnewsystem_checklist_x_modelo {
