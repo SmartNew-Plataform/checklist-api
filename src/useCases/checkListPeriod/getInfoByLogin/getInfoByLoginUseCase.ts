@@ -38,7 +38,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
             return {
               name: fileItem,
               url: `${env.URL_IMAGE}/checkList/task_${item.id}/${fileItem}`,
-              path: '',
+              path: `${env.URL_IMAGE}/checkList/task_${item.id}/${fileItem}`,
             }
           })
 
