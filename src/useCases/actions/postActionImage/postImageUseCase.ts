@@ -3,6 +3,7 @@ import IUseCase from '@/models/IUseCase'
 import IFileService from '@/services/IFileService'
 import IPostActionImageRequestDTO from './IPostActionImageRequestDTO'
 import IPostActionImageResponseDTO from './IPostActionImageResponseDTO'
+import { env } from '@/env'
 
 export default class PostActionImageUseCase implements IUseCase {
   constructor(private fileService: IFileService) {}
@@ -13,7 +14,8 @@ export default class PostActionImageUseCase implements IUseCase {
     const file = data.file
     const fileName = `${new Date().toISOString()}-${file.filename}`
 
-    const path = `../sistemas/_lib/img/checkListAction/groupAction_${data.actionGroupId}`
+    // const path = `../sistemas/_lib/img/checkListAction/groupAction_${data.actionGroupId}`
+    const path = `${env.FILE_PATH}/checkListAction/groupAction_${data.actionGroupId}`
     console.log('[[ POST ACTION IMAGE ]]')
 
     try {

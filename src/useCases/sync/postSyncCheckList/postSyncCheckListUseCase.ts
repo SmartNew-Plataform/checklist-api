@@ -30,7 +30,8 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       if (!equipment) {
         throw CustomError.notFound('Equipamento não encontrado!')
       }
-
+      console.log('Aqui nao')
+      console.log(data)
       const productionRegister = await this.productionRegisterRepository.save({
         id_centro_custo: equipment.id_centro_custo,
         id_equipamento: equipment.ID,
@@ -52,7 +53,8 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       for await (const checkListPeriodItem of allCheckListPeriod) {
         const result = await this.checkListPeriodRepository.create({
           id_filial: checkListPeriodItem.branchId,
-          id_registro_producao: productionRegister.id,
+          // id_registro_producao: productionRegister.id,nao mais
+          id_checklist: productionRegister.id,
           id_item_checklist: checkListPeriodItem.checkListItemId,
           status_item: checkListPeriodItem.statusItem,
           status_item_nc: checkListPeriodItem.statusNC,

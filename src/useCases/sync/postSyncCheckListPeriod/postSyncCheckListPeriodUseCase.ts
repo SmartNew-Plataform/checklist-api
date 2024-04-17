@@ -21,13 +21,19 @@ export default class PostSyncCheckListPeriodUseCase implements IUseCase {
       try {
         const periodObject = {
           id_filial: checkListPeriod.branchId,
-          id_registro_producao: checkListPeriod.productionRegisterId,
+          id_registro_producao: null, // Nao é mais essa tabela
+          id_checklist: checkListPeriod.productionRegisterId,
           id_item_checklist: checkListPeriod.checkListItemId,
           status_item: checkListPeriod.statusItem,
-          status_item_nc: checkListPeriod.statusNC,
+          status_item_nc: checkListPeriod.statusNC
+            ? checkListPeriod.statusNC === 0
+              ? null
+              : checkListPeriod.statusNC
+            : null,
           observacao: checkListPeriod.observation,
           log_date: checkListPeriod.logDate,
         }
+
         const result = await this.checkListPeriodRepository.create(periodObject)
 
         return result

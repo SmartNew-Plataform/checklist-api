@@ -4792,11 +4792,11 @@ model sofman_cad_itens_controle_metas {
 model sofman_cad_localizacoes {
   id                                Int                                 @id @default(autoincrement())
   id_filial                         Int
-  id_predio                         Int
+  id_predio                         Int?
   localizacao                       String?                             @db.Char(200)
   log_user                          String?                             @db.Char(50)
   log_date                          DateTime?                           @default(now()) @db.DateTime(0)
-  cadastro_de_predios               cadastro_de_predios                 @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
+  cadastro_de_predios               cadastro_de_predios?                @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
   cadastro_de_filiais               cadastro_de_filiais                 @relation(fields: [id_filial], references: [ID], map: "sofman_cad_localizacoes_ibfk_1")
   smartnewsystem_checklist          smartnewsystem_checklist[]
   smartnewsystem_producao_checklist smartnewsystem_producao_checklist[]

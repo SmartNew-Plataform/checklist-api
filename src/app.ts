@@ -13,7 +13,7 @@ import routes from './routes'
 // const certContent = fs.readFileSync(env.CERT_PATH)
 
 export const app = fastify({
-  logger: false,
+  logger: true,
   bodyLimit: 50048576,
 })
 
