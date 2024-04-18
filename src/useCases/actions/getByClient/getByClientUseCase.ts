@@ -5,6 +5,7 @@ import IFileService from '@/services/IFileService'
 import IUseCase from '../../../models/IUseCase'
 import IGetByClientRequestDTO from './IGetByClientRequestDTO'
 import IGetByClientResponseDTO from './IGetByClientResponseDTO'
+import { env } from '@/env'
 
 export default class GetByClientUseCase implements IUseCase {
   constructor(
@@ -30,13 +31,13 @@ export default class GetByClientUseCase implements IUseCase {
     )
     const response: IGetByClientResponseDTO[] = []
     for (const action of actions) {
-      const remotePath = `../sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}`
+      const remotePath = `${env.FILE_PATH}/checkListAction/groupAction_${action.id_grupo}`
       const fileList = this.fileService.list(remotePath)
       const fileInfo = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${action.id_grupo}/${fileItem}`,
-          path: '',
+          url: `${env.URL_IMAGE}/checkListAction/groupAction_${action.id_grupo}/${fileItem}`,
+          path: `${env.URL_IMAGE}/checkListAction/groupAction_${action.id_grupo}/${fileItem}`,
         }
       })
 

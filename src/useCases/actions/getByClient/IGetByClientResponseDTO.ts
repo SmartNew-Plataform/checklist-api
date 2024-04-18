@@ -1,7 +1,8 @@
 export default interface IGetByClientResponseDTO {
   id: number
   id_grupo: number | null
-  id_registro_producao: number
+  // id_registro_producao: number
+  id_checklist: number | null
   id_item: number
   descricao: string | null
   responsavel: string | null
