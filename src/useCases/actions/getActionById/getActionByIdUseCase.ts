@@ -19,18 +19,18 @@ export default class GetActionByIdUseCase implements IUseCase {
     try {
       const found = await this.actionRepository.findById(data.id)
       if (!found) {
-        throw CustomError.badRequest('Não foi possivel editar essa ação')
+        throw CustomError.badRequest('Não foi possível editar essa ação')
       }
 
-      const remotePath = `../sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}`
+      const remotePath = `${env.FILE_PATH}/checkListAction/groupAction_${found.id_grupo}`
 
       const fileList = this.fileService.list(remotePath)
 
       const img = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `${env.WEB_APPLICATION_URL}/sistemas/_lib/img/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
-          path: '',
+          url: `${env.URL_IMAGE}/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
+          path: `${env.URL_IMAGE}/checkListAction/groupAction_${found.id_grupo}/${fileItem}`,
         }
       })
 

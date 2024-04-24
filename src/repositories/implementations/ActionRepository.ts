@@ -1,17 +1,21 @@
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 import IActionRepository from '../IActionRepository'
+import { IAction } from '@/models/IAction'
 
 export default class ActionRepository implements IActionRepository {
   private table = prisma.smartnewsystem_producao_checklist_acao
 
-  async listByGroup(groupIds: number[], date: Date) {
-    return await this.table.findMany({
+  async listByGroup(
+    groupIds: number[],
+    date: Date,
+  ): Promise<IAction['listByGroup'][]> {
+    const action = await this.table.findMany({
       select: {
         id: true,
         id_grupo: true,
+        // id_registro_producao: true,
         id_checklist: true,
-        id_registro_producao: true,
         id_item: true,
         descricao: true,
         descricao_acao: true,
@@ -20,6 +24,17 @@ export default class ActionRepository implements IActionRepository {
         data_fim: true,
         data_inicio: true,
         log_date: true,
+        // productionRegister: {
+        //   select: {
+        //     id_equipamento: true,
+        //   },
+        // },
+        checklist: {
+          select: {
+            id_equipamento: true,
+            id_localizacao: true,
+          },
+        },
       },
       where: {
         id_grupo: {
@@ -32,14 +47,16 @@ export default class ActionRepository implements IActionRepository {
         },
       },
     })
+
+    return action
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<IAction['findById'] | null> {
     const found = await this.table.findUnique({
       select: {
         id: true,
         id_grupo: true,
-        id_registro_producao: true,
+        // id_registro_producao: true,
         id_checklist: true,
         id_item: true,
         descricao: true,
@@ -49,6 +66,17 @@ export default class ActionRepository implements IActionRepository {
         data_fim: true,
         data_inicio: true,
         log_date: true,
+        // productionRegister: {
+        //   select: {
+        //     id_equipamento: true,
+        //   },
+        // },
+        checklist: {
+          select: {
+            id_equipamento: true,
+            id_localizacao: true,
+          },
+        },
       },
       where: {
         id,

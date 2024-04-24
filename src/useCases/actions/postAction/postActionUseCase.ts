@@ -24,6 +24,8 @@ export default class PostActionUseCase implements IUseCase {
         data_inicio: new Date(data.startDate),
         descricao: data.title,
         descricao_acao: data.description,
+        // id_registro_producao: data.checklistId,
+        id_checklist: data.checklistId,
         responsavel: data.responsible,
       })
       const inserted = await this.actionRepository.create({
@@ -33,6 +35,8 @@ export default class PostActionUseCase implements IUseCase {
         descricao: data.title,
         descricao_acao: data.description,
         id_item: data.checklistPeriodId,
+        // id_registro_producao: data.checklistId,
+        id_checklist: data.checklistId,
         responsavel: data.responsible,
         data_fechamento: new Date(data.dueDate),
       })

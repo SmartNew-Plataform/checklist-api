@@ -15,7 +15,8 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     )
 
     const response: IGetInfoByLoginResponseDTO[] = []
-    const pathCheckList = '../sistemas/_lib/img/checkList'
+    // const pathCheckList = '../sistemas/_lib/img/checkList'
+    const pathCheckList = `${env.FILE_PATH}/checkList`
     const files = readdirSync(pathCheckList)
     console.log('Buscando Imagens...')
 
@@ -24,19 +25,20 @@ export default class GetInfoByLoginUseCase implements IUseCase {
     // console.log(allNamesIds)
 
     for await (const item of allCheckListPeriod) {
-      const remotePath = `../sistemas/_lib/img/checkList/task_${item.id}`
+      // const remotePath = `../sistemas/_lib/img/checkList/task_${item.id}`
+      const remotePath = `${env.FILE_PATH}/checkList/task_${item.id}`
+
       try {
         const findTask = allNamesIds.find((value) => Number(value) === item.id)
 
         if (findTask) {
-          console.log('Encontrei Pasta : ' + findTask)
-
+          // console.log('Encontrei Pasta : ' + findTask)
           const fileList = readdirSync(remotePath)
           const fileInfo = fileList.map((fileItem) => {
             return {
               name: fileItem,
-              url: `${env.WEB_APPLICATION_URL}/sistemas/_lib/img/checkList/task_${item.id}/${fileItem}`,
-              path: '',
+              url: `${env.URL_IMAGE}/checkList/task_${item.id}/${fileItem}`,
+              path: `${env.URL_IMAGE}/checkList/task_${item.id}/${fileItem}`,
             }
           })
 
@@ -46,6 +48,7 @@ export default class GetInfoByLoginUseCase implements IUseCase {
             productionRegisterId: item.id_registro_producao || 0,
             checkListItemId: item.id_item_checklist || 0,
             img: fileInfo,
+            // img: [],
             statusItem: item.status_item || 0,
             statusNC: item.status_item_nc || 0,
             logDate: item.log_date,

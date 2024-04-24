@@ -4,6 +4,7 @@ import IActionRepository from '@/repositories/IActionRepository'
 import IFileService from '@/services/IFileService'
 import IUseCase from '../../../models/IUseCase'
 import IPutActionRequestDTO from './IPutActionRequestDTO'
+import { env } from '@/env'
 
 export default class PutActionUseCase implements IUseCase {
   constructor(
@@ -72,17 +73,17 @@ export default class PutActionUseCase implements IUseCase {
       const updated = await this.actionGroupRepository.findById(groupId)
       const updatedAction = await this.actionRepository.findById(data.id)
       if (!updated) {
-        throw CustomError.badRequest('Não foi possivel editar essa ação')
+        throw CustomError.badRequest('Não foi possível editar essa ação')
       }
 
-      const path = `../sistemas/_lib/img/checkListAction/groupAction_${updated.id}`
+      const path = `${env.FILE_PATH}/checkListAction/groupAction_${updated.id}`
 
       const fileList = this.fileService.list(path)
       const img = fileList.map((fileItem) => {
         return {
           name: fileItem,
-          url: `https://www.smartnewservices.com.br/sistemas/_lib/img/checkListAction/groupAction_${updated.id}/${fileItem}`,
-          path: '',
+          url: `${env.URL_IMAGE}/checkListAction/groupAction_${updated.id}/${fileItem}`,
+          path: `${env.URL_IMAGE}/checkListAction/groupAction_${updated.id}/${fileItem}`,
         }
       })
 

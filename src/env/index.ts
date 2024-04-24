@@ -9,7 +9,8 @@ const envSchema = z.object({
   KEY: z.string(),
   KEY_PATH: z.string().optional(),
   CERT_PATH: z.string().optional(),
-  WEB_APPLICATION_URL: z.string(),
+  FILE_PATH: z.string(),
+  URL_IMAGE: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
