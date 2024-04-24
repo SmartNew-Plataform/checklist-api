@@ -1,9 +1,9 @@
 import CustomError from '@/config/CustomError'
+import { env } from '@/env'
 import IActionRepository from '@/repositories/IActionRepository'
 import IFileService from '@/services/IFileService'
 import IUseCase from '../../../models/IUseCase'
 import IGetActionByIdRequestDTO from './IGetActionByIdRequestDTO'
-import { env } from '@/env'
 
 export default class GetActionByIdUseCase implements IUseCase {
   constructor(

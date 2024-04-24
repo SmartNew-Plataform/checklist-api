@@ -5,7 +5,6 @@ export default interface IPostActionRequestDTO {
   title: string
   responsible: string
   description: string | null
-  checklistId: number
   checklistPeriodId: number
   startDate: string
   dueDate: string

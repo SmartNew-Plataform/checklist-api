@@ -16,6 +16,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
   async execute(
     data: IPostSyncCheckListRequestDTO,
   ): Promise<IPostSyncCheckListResponseDTO> {
+    console.log('post sync checklist')
     // inserted
     const insertedPeriodsIds: { id: number; _id: number }[] = []
     for await (const productionRegisterItem of data.checkListSchema.inserted) {

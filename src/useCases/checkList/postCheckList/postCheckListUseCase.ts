@@ -1,14 +1,14 @@
+import CustomError from '@/config/CustomError'
 import IUseCase from '@/models/IUseCase'
-import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
-import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
+import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
 import IEquipmentRepository from '@/repositories/IEquipmentRepository'
 import IPeriodRepository from '@/repositories/IPeriodRepository'
-import CustomError from '@/config/CustomError'
-import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
-import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
 import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
-import LocationRepository from '@/repositories/implementations/LocationRepository'
 import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
+import LocationRepository from '@/repositories/implementations/LocationRepository'
+import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -60,27 +60,27 @@ export default class PostCheckListUseCase implements IUseCase {
       }
     }
 
-    const allCheckListItem: {
-      id: number
-    }[] = []
+    // const allCheckListItem: {
+    //   id: number
+    // }[] = []
 
-    for await (const checkListId of data.model) {
-      const checkListItem = await this.checkListItemRepository.listByCheckList(
-        checkListId,
-      )
+    // for await (const checkListId of data.model) {
+    //   const checkListItem = await this.checkListItemRepository.listByCheckList(
+    //     checkListId,
+    //   )
 
-      if (checkListItem.length === 0) {
-        throw CustomError.notFound('Tarefas não vinculados!')
-      }
+    //   if (checkListItem.length === 0) {
+    //     throw CustomError.notFound('Tarefas não vinculados!')
+    //   }
 
-      allCheckListItem.push(
-        ...checkListItem.map((item) => {
-          return {
-            id: item.id,
-          }
-        }),
-      )
-    }
+    //   allCheckListItem.push(
+    //     ...checkListItem.map((item) => {
+    //       return {
+    //         id: item.id,
+    //       }
+    //     }),
+    //   )
+    // }
 
     const checklist = await this.smartCheckListRepository.save({
       id_cliente: data.user.id_cliente,
@@ -100,6 +100,13 @@ export default class PostCheckListUseCase implements IUseCase {
       })
     }
 
+    // for await (const checkListItem of allCheckListItem) {
+    //   await this.checkListPeriodRepository.create({
+    //     id_filial: branchId,
+    //     id_checklist: checklist.id,
+    //     id_item_checklist: checkListItem.id,
+    //   })
+    // }
     // for await (const checkListItem of allCheckListItem) {
     //   await this.checkListPeriodRepository.create({
     //     id_filial: branchId,
