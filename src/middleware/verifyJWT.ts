@@ -7,7 +7,9 @@ export default async function verifyJWT(
   res: FastifyReply,
 ) {
   try {
-    console.log(req)
+    if (req.url === '/public/login' || req.url === '/checkList/checklists') {
+      console.log(req)
+    }
     await req.jwtVerify()
 
     const userRepository = new UserRepository()
