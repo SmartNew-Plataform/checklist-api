@@ -32,6 +32,8 @@ export default class LoginController implements IController {
     console.log('req', req.body)
     console.log(response)
 
+    console.log(token)
+
     res.status(200).send({
       token,
       user: {
