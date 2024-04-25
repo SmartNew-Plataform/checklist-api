@@ -7,6 +7,7 @@ export default class GetChecklistUseCase implements IUseCase {
   constructor(private checklistRepository: ISmartCheckListRepository) {}
 
   async execute(data: IGetChecklistsRequest) {
+    console.log(data)
     const register = await this.checklistRepository.listChecklistByTime(
       data.user.branchBound.map((item) => item.branch.ID),
       data.user.login,
