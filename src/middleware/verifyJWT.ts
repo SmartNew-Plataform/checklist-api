@@ -7,11 +7,13 @@ export default async function verifyJWT(
   res: FastifyReply,
 ) {
   try {
+    console.log(req)
     await req.jwtVerify()
 
     const userRepository = new UserRepository()
     const branchXUserRepository = new BranchXUserRepository()
-
+    console.log('seu token é')
+    console.log(req.user)
     const user = await userRepository.findByLogin(req.user.sub)
 
     if (!user) {
