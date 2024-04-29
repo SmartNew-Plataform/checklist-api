@@ -8,7 +8,7 @@ export default async function verifyJWT(
 ) {
   try {
     if (req.url === '/public/login' || req.url === '/checkList/checklists') {
-      console.log(req)
+      // console.log(req)
     }
     await req.jwtVerify()
 
