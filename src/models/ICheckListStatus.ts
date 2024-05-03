@@ -25,15 +25,18 @@ export interface ICountByBranch {
   cor: smartnewsystem_producao_checklist_status_cor | null
   checklistPeriod: {
     id: number
-    productionRegister: {
+    checklist: {
       id: number
       equipment: {
         familyEquipment: {
           ID: number
           familia: string
         }
-      }
-    }
+      } | null
+      location: {
+        localizacao: string | null
+      } | null
+    } | null
   }[]
 }
 
@@ -45,14 +48,17 @@ export interface IListByEquipmentAndDate {
   cor: smartnewsystem_producao_checklist_status_cor | null
   checklistPeriod: {
     id: number
-    productionRegister: {
+    checklist: {
       id: number
       equipment: {
         familyEquipment: {
           ID: number
           familia: string
         }
-      }
-    }
+      } | null
+      location: {
+        localizacao: string | null
+      } | null
+    } | null
   }[]
 }
