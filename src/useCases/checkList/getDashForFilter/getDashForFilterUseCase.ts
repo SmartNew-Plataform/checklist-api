@@ -39,18 +39,28 @@ export default class GetDashForFilterUseCase implements IUseCase {
       const uniqueFamilies: { [key: string]: { [key: number]: boolean } } = {}
 
       value.checklistPeriod.forEach((item) => {
-        if (
-          !uniqueFamilies[
-            item.productionRegister.equipment.familyEquipment.familia
-          ]
-        ) {
-          uniqueFamilies[
-            item.productionRegister.equipment.familyEquipment.familia
-          ] = {}
+        if (item.checklist && item.checklist.equipment) {
+          if (
+            !uniqueFamilies[item.checklist.equipment.familyEquipment.familia]
+          ) {
+            uniqueFamilies[item.checklist.equipment.familyEquipment.familia] =
+              {}
+          }
+          uniqueFamilies[item.checklist.equipment.familyEquipment.familia][
+            item.checklist.id
+          ] = true
         }
-        uniqueFamilies[
-          item.productionRegister.equipment.familyEquipment.familia
-        ][item.productionRegister.id] = true
+      })
+
+      value.checklistPeriod.forEach((item) => {
+        if (item.checklist && item.checklist.location?.localizacao) {
+          if (!uniqueFamilies[item.checklist.location.localizacao]) {
+            uniqueFamilies[item.checklist.location.localizacao] = {}
+          }
+          uniqueFamilies[item.checklist.location.localizacao][
+            item.checklist.id
+          ] = true
+        }
       })
 
       const count: { [key: string]: number } = {}

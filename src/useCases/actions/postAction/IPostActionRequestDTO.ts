@@ -10,4 +10,5 @@ export default interface IPostActionRequestDTO {
   dueDate: string
   endDate: string | null
   // equipmentId: number
+  checklistId: number
 }

@@ -31,7 +31,7 @@ export default class PostSyncCheckListUseCase implements IUseCase {
       if (!equipment) {
         throw CustomError.notFound('Equipamento não encontrado!')
       }
-      console.log('Aqui nao')
+      // console.log('Aqui nao')
       console.log(data)
       const productionRegister = await this.productionRegisterRepository.save({
         id_centro_custo: equipment.id_centro_custo,

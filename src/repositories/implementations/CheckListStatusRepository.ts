@@ -27,7 +27,7 @@ export default class CheckListStatusRepository
         checklistPeriod: {
           select: {
             id: true,
-            productionRegister: {
+            checklist: {
               select: {
                 id: true,
                 equipment: {
@@ -38,6 +38,11 @@ export default class CheckListStatusRepository
                         familia: true,
                       },
                     },
+                  },
+                },
+                location: {
+                  select: {
+                    localizacao: true,
                   },
                 },
               },
@@ -52,7 +57,7 @@ export default class CheckListStatusRepository
               gte: startDate,
               lte: endDate,
             },
-            productionRegister: {
+            checklist: {
               equipment: {
                 ID: {
                   in: equipmentId,
@@ -82,7 +87,7 @@ export default class CheckListStatusRepository
         checklistPeriod: {
           select: {
             id: true,
-            productionRegister: {
+            checklist: {
               select: {
                 id: true,
                 equipment: {
@@ -93,6 +98,11 @@ export default class CheckListStatusRepository
                         familia: true,
                       },
                     },
+                  },
+                },
+                location: {
+                  select: {
+                    localizacao: true,
                   },
                 },
               },
@@ -107,7 +117,7 @@ export default class CheckListStatusRepository
               gte: startDate,
               lte: endDate,
             },
-            productionRegister: {
+            checklist: {
               equipment: {
                 branch: {
                   ID: {

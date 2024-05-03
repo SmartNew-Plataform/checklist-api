@@ -15,6 +15,8 @@ export default class PostActionUseCase implements IUseCase {
       throw CustomError.unauthorized('Não autorizado')
     }
 
+    // console.log(data)
+
     try {
       const group = await this.actionGroupRepository.create({
         id_cliente: data.user.id_cliente,
