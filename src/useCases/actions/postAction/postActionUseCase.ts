@@ -21,8 +21,8 @@ export default class PostActionUseCase implements IUseCase {
       const group = await this.actionGroupRepository.create({
         id_cliente: data.user.id_cliente,
         numero: 1,
-        data_fim: new Date(data.dueDate),
-        data_concluida: data.endDate ? new Date(data.endDate) : null,
+        data_fim: new Date(data.endDate),
+        data_concluida: data.dueDate ? new Date(data.dueDate) : null,
         data_inicio: new Date(data.startDate),
         descricao: data.title,
         descricao_acao: data.description,
@@ -32,7 +32,8 @@ export default class PostActionUseCase implements IUseCase {
       })
       const inserted = await this.actionRepository.create({
         id_grupo: group.id,
-        data_fim: data.endDate ? new Date(data.endDate) : null,
+        data_fim: new Date(data.endDate),
+        data_fechamento: data.dueDate ? new Date(data.dueDate) : null,
         data_inicio: new Date(data.startDate),
         descricao: data.title,
         descricao_acao: data.description,
@@ -40,7 +41,6 @@ export default class PostActionUseCase implements IUseCase {
         // id_registro_producao: data.checklistId,
         id_checklist: data.checklistId,
         responsavel: data.responsible,
-        data_fechamento: new Date(data.dueDate),
       })
 
       return {
