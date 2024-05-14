@@ -64,6 +64,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
       })
 
       const count: { [key: string]: number } = {}
+
       for (const key in uniqueFamilies) {
         count[key] = Object.keys(uniqueFamilies[key]).length
       }
