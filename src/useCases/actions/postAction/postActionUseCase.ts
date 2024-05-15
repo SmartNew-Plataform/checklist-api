@@ -21,7 +21,8 @@ export default class PostActionUseCase implements IUseCase {
       id_cliente: data.user.id_cliente,
       numero: 1,
       data_fim: new Date(data.endDate),
-      data_concluida: data.dueDate ? new Date(data.dueDate) : null,
+      data_concluida:
+        data.dueDate && data.dueDate !== 'null' ? new Date(data.dueDate) : null,
       data_inicio: new Date(data.startDate),
       descricao: data.title,
       descricao_acao: data.description,
