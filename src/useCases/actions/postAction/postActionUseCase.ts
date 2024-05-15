@@ -33,7 +33,8 @@ export default class PostActionUseCase implements IUseCase {
     const inserted = await this.actionRepository.create({
       id_grupo: group.id,
       data_fim: new Date(data.endDate),
-      data_fechamento: data.dueDate ? new Date(data.dueDate) : null,
+      data_fechamento:
+        data.dueDate && data.dueDate !== 'null' ? new Date(data.dueDate) : null,
       data_inicio: new Date(data.startDate),
       descricao: data.title,
       descricao_acao: data.description,
