@@ -48,6 +48,15 @@ export default class CheckListStatusRepository
               },
             },
           },
+          where: {
+            checklist: {
+              equipment: {
+                ID: {
+                  in: equipmentId,
+                },
+              },
+            },
+          },
         },
       },
       where: {

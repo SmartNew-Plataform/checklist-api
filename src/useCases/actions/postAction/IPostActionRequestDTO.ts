@@ -7,8 +7,8 @@ export default interface IPostActionRequestDTO {
   description: string | null
   checklistPeriodId: number
   startDate: string
-  dueDate: string
-  endDate: string | null
+  dueDate: string | null
+  endDate: string
   // equipmentId: number
   checklistId: number
 }
