@@ -5,6 +5,7 @@ import IFileService from '@/services/IFileService'
 import IUseCase from '../../../models/IUseCase'
 import IPutActionRequestDTO from './IPutActionRequestDTO'
 import { env } from '@/env'
+import console from 'console'
 
 export default class PutActionUseCase implements IUseCase {
   constructor(
@@ -17,7 +18,7 @@ export default class PutActionUseCase implements IUseCase {
     if (!data.user.id_cliente) {
       throw CustomError.unauthorized('Não autorizado')
     }
-
+    console.log(data)
     try {
       const foundAction = await this.actionRepository.findById(data.id)
       if (!foundAction) {
