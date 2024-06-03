@@ -13,7 +13,9 @@ export default class GetLocationUseCase implements IUseCase {
     const response = locations.map((item) => ({
       id: item.id,
       branchId: item.id_filial,
-      location: item.localizacao || '',
+      location: item.tag
+        ? `${item.tag}-${item.localizacao}`
+        : item.localizacao || '',
     }))
 
     return response
