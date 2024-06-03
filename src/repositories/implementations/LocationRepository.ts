@@ -10,6 +10,7 @@ export default class LocationRepository implements ILocationRepository {
       select: {
         id: true,
         id_filial: true,
+        tag: true,
         localizacao: true,
       },
       where: {
@@ -27,6 +28,7 @@ export default class LocationRepository implements ILocationRepository {
       select: {
         id: true,
         id_filial: true,
+        tag: true,
         localizacao: true,
       },
       where: {
