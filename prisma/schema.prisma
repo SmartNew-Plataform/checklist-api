@@ -945,7 +945,7 @@ model cadastro_de_empresas {
 
 model cadastro_de_equipamentos {
   ID                                                Int                                                 @id @default(autoincrement())
-  tag_vinculada                                     String?                                             @db.Char(50)
+  tag_vinculada                                     Int?
   ID_cliente                                        Int?
   ID_filial                                         Int?
   id_centro_custo                                   Int?
