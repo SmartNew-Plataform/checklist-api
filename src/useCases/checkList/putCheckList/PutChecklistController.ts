@@ -15,6 +15,9 @@ export default class PutCheckListController implements IController {
       id: z.number(),
       finalTime: z.coerce.date().nullable(),
       status: z.enum(['open', 'close']),
+      hourMeter: z.coerce.number().nullable().optional(),
+      odometer: z.coerce.number().nullable().optional(),
+      mileage: z.coerce.number().nullable().optional(),
     })
 
     const request: IPutChecklistRequestDTO = {

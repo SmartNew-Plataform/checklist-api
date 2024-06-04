@@ -28,4 +28,18 @@ export default class EquipmentRegisterRepository
 
     return registerEquipment
   }
+
+  async update(
+    id: number,
+    data: Prisma.smartnewsystem_registro_equipamentoUncheckedUpdateInput,
+  ): Promise<smartnewsystem_registro_equipamento> {
+    const registerEquipment = await this.table.update({
+      data,
+      where: {
+        id,
+      },
+    })
+
+    return registerEquipment
+  }
 }

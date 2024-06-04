@@ -1,4 +1,26 @@
 export interface ISmartCheckList {
+  findById: {
+    id: number
+    status: number
+    id_turno: number | null
+    quilometragem: number | null
+    horimetro: number | null
+    odometro: number | null
+    data_hora_inicio: Date | null
+    data_hora_encerramento: Date | null
+    log_date: Date | null
+    equipment: {
+      ID: number
+      equipamento_codigo: string | null
+      descricao: string | null
+    } | null
+    location: {
+      id: number
+      id_filial: number
+      localizacao: string | null
+    } | null
+    login: string | null
+  }
   listByEquipment: {
     checkListPeriod: {
       status_item: number | null
@@ -31,6 +53,9 @@ export interface ISmartCheckList {
     id: number
     status: number
     id_turno: number | null
+    quilometragem: number | null
+    horimetro: number | null
+    odometro: number | null
     data_hora_encerramento: Date | null
     log_date: Date | null
     equipment: {
@@ -45,6 +70,9 @@ export interface ISmartCheckList {
     id: number
     status: number
     id_turno: number | null
+    quilometragem: number | null
+    horimetro: number | null
+    odometro: number | null
     data_hora_encerramento: Date | null
     log_date: Date | null
     equipment: {
@@ -59,6 +87,9 @@ export interface ISmartCheckList {
     id: number
     status: number
     id_turno: number | null
+    quilometragem: number | null
+    horimetro: number | null
+    odometro: number | null
     data_hora_inicio: Date | null
     data_hora_encerramento: Date | null
     log_date: Date | null

@@ -2,6 +2,8 @@ import { ISmartCheckList } from '@/models/ISmartCheckList'
 import { Prisma, smartnewsystem_checklist } from '@prisma/client'
 
 export default interface ISmartCheckListRepository {
+  findById(id: number): Promise<ISmartCheckList['findById'] | null>
+
   listByEquipment(
     equipmentId: number | null,
     startDate: Date,

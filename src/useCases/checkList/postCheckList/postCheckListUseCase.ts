@@ -9,6 +9,7 @@ import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
 import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
 import LocationRepository from '@/repositories/implementations/LocationRepository'
 import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
+import IEquipmentRegisterRepository from '@/repositories/IEquipmentRegisterRepository'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -20,6 +21,7 @@ export default class PostCheckListUseCase implements IUseCase {
     private smartCheckListRepository: ISmartCheckListRepository,
     private locationRepository: LocationRepository,
     private checklistXModelRepository: CheckListXModelRepository,
+    private equipmentRegisterRepository: IEquipmentRegisterRepository,
   ) {}
 
   async execute(data: IPostCheckListRequestDTO) {
@@ -89,6 +91,9 @@ export default class PostCheckListUseCase implements IUseCase {
       id_turno: data.periodId,
       login: data.user.login,
       data_hora_inicio: data.initialTime,
+      odometro: data.odometer ?? null,
+      quilometragem: data.mileage ?? null,
+      horimetro: data.hourMeter ?? null,
       // turno: period.turno || 'Turno_1',
       status: 1,
     })
@@ -97,6 +102,26 @@ export default class PostCheckListUseCase implements IUseCase {
       await this.checklistXModelRepository.insert({
         id_checklist: checklist.id,
         id_modelo: modelId,
+      })
+    }
+
+    if (data.equipmentId) {
+      let registerEquipment =
+        await this.equipmentRegisterRepository.findByEquipment(data.equipmentId)
+
+      if (!registerEquipment) {
+        registerEquipment = await this.equipmentRegisterRepository.create({
+          id_cliente: data.user.id_cliente,
+          id_equipamento: data.equipmentId,
+          horimetro: data.hourMeter ?? 0,
+          quilometragem: data.mileage ?? 0,
+        })
+      }
+
+      await this.equipmentRegisterRepository.update(registerEquipment.id, {
+        horimetro: data.hourMeter ?? registerEquipment.horimetro,
+        quilometragem: data.mileage ?? registerEquipment.quilometragem,
+        update_log_date: new Date(),
       })
     }
 

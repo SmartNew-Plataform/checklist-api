@@ -18,6 +18,7 @@ export default class GetCheckListByLimitTimeUseCase implements IUseCase {
       dateStatic.toDate(),
       data.user.branchBound.map((item) => item.branch.ID),
       data.user.login,
+      dateStatic.toDate(),
     )
 
     const response: IGetCheckListByLimitTimeResponseDTO[] = register.map(
