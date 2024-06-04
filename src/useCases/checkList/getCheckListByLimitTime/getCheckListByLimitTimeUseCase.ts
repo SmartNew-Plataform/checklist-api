@@ -12,7 +12,7 @@ export default class GetCheckListByLimitTimeUseCase implements IUseCase {
   async execute(data: IGetCheckListLimitTimeRequestDTO) {
     const dateStatic = dayjs().subtract(2, 'd')
 
-    console.log(dateStatic)
+    // console.log(dateStatic)
 
     const register = await this.productionRegisterRepository.listRegisterByTime(
       dateStatic.toDate(),
