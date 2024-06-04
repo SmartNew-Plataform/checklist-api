@@ -8,4 +8,9 @@ export default interface IEquipmentRegisterRepository {
   findByEquipment(
     equipmentId: number,
   ): Promise<smartnewsystem_registro_equipamento | null>
+
+  update(
+    id: number,
+    data: Prisma.smartnewsystem_registro_equipamentoUncheckedUpdateInput,
+  ): Promise<smartnewsystem_registro_equipamento>
 }

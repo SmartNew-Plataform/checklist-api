@@ -3517,6 +3517,9 @@ model smartnewsystem_checklist {
   id_equipamento         Int?
   id_localizacao         Int?
   id_turno               Int?
+  horimetro              Float?
+  odometro               Float?
+  quilometragem          Float?
   login                  String
   data_hora_inicio       DateTime?
   data_hora_encerramento DateTime?
@@ -3722,11 +3725,13 @@ model smartnewsystem_registro_producao_destino_destino_dmt {
 }
 
 model smartnewsystem_registro_equipamento {
-  id             Int     @id @default(autoincrement())
-  id_cliente     Int
-  id_equipamento Int     @unique
-  horimetro      Decimal @db.Decimal(10, 2)
-  quilometragem  Decimal @db.Decimal(10, 2)
+  id              Int       @id @default(autoincrement())
+  id_cliente      Int
+  id_equipamento  Int       @unique
+  horimetro       Decimal   @db.Decimal(10, 2)
+  quilometragem   Decimal   @db.Decimal(10, 2)
+  create_log_date DateTime  @default(now())
+  update_log_date DateTime?
 
   company   cadastro_de_empresas     @relation(fields: [id_cliente], references: [ID])
   equipment cadastro_de_equipamentos @relation(fields: [id_equipamento], references: [ID])

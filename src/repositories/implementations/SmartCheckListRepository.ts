@@ -8,6 +8,42 @@ export default class SmartCheckListRepository
 {
   private table = prisma.smartnewsystem_checklist
 
+  async findById(id: number): Promise<ISmartCheckList['findById'] | null> {
+    const register = await this.table.findFirst({
+      select: {
+        id: true,
+        status: true,
+        id_turno: true,
+        quilometragem: true,
+        horimetro: true,
+        odometro: true,
+        data_hora_encerramento: true,
+        location: {
+          select: {
+            id: true,
+            id_filial: true,
+            localizacao: true,
+          },
+        },
+        equipment: {
+          select: {
+            ID: true,
+            equipamento_codigo: true,
+            descricao: true,
+          },
+        },
+        data_hora_inicio: true,
+        login: true,
+        log_date: true,
+      },
+      where: {
+        id,
+      },
+    })
+
+    return register
+  }
+
   async listByEquipment(
     equipmentId: number | null,
     startDate: Date,
@@ -100,6 +136,9 @@ export default class SmartCheckListRepository
         id: true,
         status: true,
         id_turno: true,
+        quilometragem: true,
+        horimetro: true,
+        odometro: true,
         data_hora_encerramento: true,
         location: {
           select: {
@@ -154,6 +193,9 @@ export default class SmartCheckListRepository
         id: true,
         status: true,
         id_turno: true,
+        quilometragem: true,
+        horimetro: true,
+        odometro: true,
         data_hora_encerramento: true,
         equipment: {
           select: {
