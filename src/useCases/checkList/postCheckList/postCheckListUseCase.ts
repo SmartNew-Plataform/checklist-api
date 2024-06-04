@@ -116,13 +116,13 @@ export default class PostCheckListUseCase implements IUseCase {
           horimetro: data.hourMeter ?? 0,
           quilometragem: data.mileage ?? 0,
         })
+      } else {
+        await this.equipmentRegisterRepository.update(registerEquipment.id, {
+          horimetro: data.hourMeter ?? registerEquipment.horimetro,
+          quilometragem: data.mileage ?? registerEquipment.quilometragem,
+          update_log_date: new Date(),
+        })
       }
-
-      await this.equipmentRegisterRepository.update(registerEquipment.id, {
-        horimetro: data.hourMeter ?? registerEquipment.horimetro,
-        quilometragem: data.mileage ?? registerEquipment.quilometragem,
-        update_log_date: new Date(),
-      })
     }
 
     // for await (const checkListItem of allCheckListItem) {
