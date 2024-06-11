@@ -42,6 +42,11 @@ export default class CheckListStatusRepository
                 },
                 location: {
                   select: {
+                    category: {
+                      select: {
+                        categoria: true,
+                      },
+                    },
                     localizacao: true,
                   },
                 },
@@ -111,6 +116,11 @@ export default class CheckListStatusRepository
                 },
                 location: {
                   select: {
+                    category: {
+                      select: {
+                        categoria: true,
+                      },
+                    },
                     localizacao: true,
                   },
                 },
@@ -127,13 +137,26 @@ export default class CheckListStatusRepository
               lte: endDate,
             },
             checklist: {
-              equipment: {
-                branch: {
-                  ID: {
-                    in: branches,
+              OR: [
+                {
+                  equipment: {
+                    branch: {
+                      ID: {
+                        in: branches,
+                      },
+                    },
                   },
                 },
-              },
+                {
+                  location: {
+                    branch: {
+                      ID: {
+                        in: branches,
+                      },
+                    },
+                  },
+                },
+              ],
             },
           },
         },

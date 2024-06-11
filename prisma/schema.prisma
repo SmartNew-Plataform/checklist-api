@@ -938,6 +938,7 @@ model cadastro_de_empresas {
   smartnewsystem_producao_controle_viagem                                        smartnewsystem_producao_controle_viagem[]
   smartnewsystem_producao_controle_pausa                                         smartnewsystem_producao_controle_pausa[]
   smartnewsystem_checklist                                                       smartnewsystem_checklist[]
+  smartnewsystem_checklist_categoria_diverso                                     smartnewsystem_checklist_categoria_diverso[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -3537,6 +3538,15 @@ model smartnewsystem_checklist {
   smartnewsystem_producao_checklist_acao_grupo smartnewsystem_producao_checklist_acao_grupo[]
 }
 
+model smartnewsystem_checklist_categoria_diverso {
+  id         Int    @id @default(autoincrement())
+  id_cliente Int
+  categoria  String
+
+  company                 cadastro_de_empresas      @relation(fields: [id_cliente], references: [ID])
+  sofman_cad_localizacoes sofman_cad_localizacoes[]
+}
+
 model smartnewsystem_checklist_x_modelo {
   id           Int @id @default(autoincrement())
   id_checklist Int
@@ -4801,18 +4811,20 @@ model sofman_cad_itens_controle_metas {
 }
 
 model sofman_cad_localizacoes {
-  id          Int       @id @default(autoincrement())
-  id_filial   Int
-  id_predio   Int?
-  tag         String?
-  localizacao String?   @db.Char(200)
-  log_user    String?   @db.Char(50)
-  log_date    DateTime? @default(now()) @db.DateTime(0)
+  id           Int       @id @default(autoincrement())
+  id_filial    Int
+  id_predio    Int?
+  id_categoria Int?
+  tag          String?
+  localizacao  String?   @db.Char(200)
+  log_user     String?   @db.Char(50)
+  log_date     DateTime? @default(now()) @db.DateTime(0)
 
-  cadastro_de_predios               cadastro_de_predios?                @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
-  cadastro_de_filiais               cadastro_de_filiais                 @relation(fields: [id_filial], references: [ID], map: "sofman_cad_localizacoes_ibfk_1")
-  smartnewsystem_checklist          smartnewsystem_checklist[]
-  smartnewsystem_producao_checklist smartnewsystem_producao_checklist[]
+  cadastro_de_predios cadastro_de_predios?                        @relation(fields: [id_predio], references: [ID], map: "fk_predio_local")
+  branch              cadastro_de_filiais                         @relation(fields: [id_filial], references: [ID], map: "sofman_cad_localizacoes_ibfk_1")
+  checklist           smartnewsystem_checklist[]
+  modelChecklist      smartnewsystem_producao_checklist[]
+  category            smartnewsystem_checklist_categoria_diverso? @relation(fields: [id_categoria], references: [id])
 
   @@unique([id_filial, localizacao], map: "id_filial_2")
   @@index([id_predio], map: "fk_predio_local")

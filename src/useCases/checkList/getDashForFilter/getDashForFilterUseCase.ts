@@ -18,7 +18,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
   async execute(data: IGetDashForFilterRequestDTO) {
     const startDate = data.startDate
       ? data.startDate
-      : dayjs().subtract(1, 'month').toDate()
+      : dayjs().subtract(6, 'month').toDate()
     const endDate = data.endDate ? data.endDate : dayjs().toDate()
 
     const countStatus = data.equipment
@@ -53,11 +53,15 @@ export default class GetDashForFilterUseCase implements IUseCase {
       })
 
       value.checklistPeriod.forEach((item) => {
-        if (item.checklist && item.checklist.location?.localizacao) {
-          if (!uniqueFamilies[item.checklist.location.localizacao]) {
-            uniqueFamilies[item.checklist.location.localizacao] = {}
+        if (
+          item.checklist &&
+          item.checklist.location?.category &&
+          item.checklist.location.category.categoria
+        ) {
+          if (!uniqueFamilies[item.checklist.location.category.categoria]) {
+            uniqueFamilies[item.checklist.location.category.categoria] = {}
           }
-          uniqueFamilies[item.checklist.location.localizacao][
+          uniqueFamilies[item.checklist.location.category.categoria][
             item.checklist.id
           ] = true
         }
