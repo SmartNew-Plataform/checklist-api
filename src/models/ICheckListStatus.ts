@@ -34,6 +34,9 @@ export interface ICountByBranch {
         }
       } | null
       location: {
+        category: {
+          categoria: string
+        } | null
         localizacao: string | null
       } | null
     } | null
@@ -57,6 +60,9 @@ export interface IListByEquipmentAndDate {
         }
       } | null
       location: {
+        category: {
+          categoria: string
+        } | null
         localizacao: string | null
       } | null
     } | null
