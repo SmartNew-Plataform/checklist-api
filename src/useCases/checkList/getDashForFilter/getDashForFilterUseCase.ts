@@ -18,7 +18,7 @@ export default class GetDashForFilterUseCase implements IUseCase {
   async execute(data: IGetDashForFilterRequestDTO) {
     const startDate = data.startDate
       ? data.startDate
-      : dayjs().subtract(6, 'month').toDate()
+      : dayjs().subtract(1, 'month').toDate()
     const endDate = data.endDate ? data.endDate : dayjs().toDate()
 
     const countStatus = data.equipment
