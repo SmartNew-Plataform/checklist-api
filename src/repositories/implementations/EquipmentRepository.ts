@@ -19,6 +19,12 @@ export default class EquipmentRepository implements IEquipmentRepository {
         ID_filial: true,
         id_centro_custo: true,
         ID_familia: true,
+        familyEquipment: {
+          select: {
+            ID: true,
+            familia: true,
+          },
+        },
         registerEquipment: {
           select: {
             horimetro: true,
@@ -109,6 +115,12 @@ export default class EquipmentRepository implements IEquipmentRepository {
           ID_filial: true,
           id_centro_custo: true,
           ID_familia: true,
+          familyEquipment: {
+            select: {
+              ID: true,
+              familia: true,
+            },
+          },
           registerEquipment: {
             select: {
               horimetro: true,
