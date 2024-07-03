@@ -16,6 +16,10 @@ export interface IListByBranch {
   ID_filial: number | null
   ID_familia: number | null
   id_centro_custo: number | null
+  familyEquipment: {
+    ID: number
+    familia: string | null
+  }
   registerEquipment: {
     horimetro: Decimal | null
     quilometragem: Decimal | null

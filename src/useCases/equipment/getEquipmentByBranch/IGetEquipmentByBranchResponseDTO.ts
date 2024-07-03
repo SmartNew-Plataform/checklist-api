@@ -9,6 +9,10 @@ export default interface IGetEquipmentByBranchResponseDTO {
   clientId: number
   mileage: number | Decimal
   familyId: number | Decimal
+  family: {
+    id: number
+    name: string | null
+  }
   hourMeter: number | Decimal
   hasPeriod: boolean
   hasMileage: boolean

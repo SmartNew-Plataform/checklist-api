@@ -57,6 +57,10 @@ export default class GetEquipmentByBranchUseCase implements IUseCase {
           ? Number(item.registerEquipment.quilometragem)
           : 0,
         familyId: item.ID_familia || 0,
+        family: {
+          id: item.familyEquipment.ID,
+          name: item.familyEquipment.familia,
+        },
         hourMeter: item.registerEquipment
           ? Number(item.registerEquipment.horimetro)
           : 0,
