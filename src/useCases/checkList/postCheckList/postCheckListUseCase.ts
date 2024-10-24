@@ -10,7 +10,7 @@ import CheckListXModelRepository from '@/repositories/implementations/CheckListX
 import LocationRepository from '@/repositories/implementations/LocationRepository'
 import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
 import IEquipmentRegisterRepository from '@/repositories/IEquipmentRegisterRepository'
-import fetch from 'node-fetch'
+import axios from 'axios'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -105,7 +105,7 @@ export default class PostCheckListUseCase implements IUseCase {
         id_modelo: modelId,
       })
 
-      await fetch(
+      await axios(
         `https://api-homolog.smartnewservices.com.br/smart-list/bound/${modelId}/cronJob/${data.equipmentId}`,
         {
           method: 'POST',
