@@ -39,6 +39,7 @@
     "fs": "0.0.1-security",
     "jsonwebtoken": "9.0.1",
     "md5": "2.3.0",
+    "node-fetch": "3.3.2",
     "uuid": "9.0.0",
     "zod": "3.21.4"
   }
