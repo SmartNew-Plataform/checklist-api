@@ -103,6 +103,16 @@ export default class PostCheckListUseCase implements IUseCase {
         id_checklist: checklist.id,
         id_modelo: modelId,
       })
+
+      fetch(
+        `https://api-homolog.smartnewservices.com.br/smart-list/bound/${modelId}/cronJob/${data.equipmentId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
     }
 
     if (data.equipmentId) {

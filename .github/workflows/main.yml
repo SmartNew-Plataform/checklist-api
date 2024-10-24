@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - dev
+name: Deploy website on push
+jobs:
+  web-deploy:
+      name: 🎉 Deploy
+      runs-on: ubuntu-latest
+      steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+        
+      - name: 🔨 Build & Prisma & Combine
+        run: |
+          npm ci
+          npx prisma generate
+          npm run build
+          mkdir combined
+          mv build combined
+          mv prisma combined
+          mv package.json combined
+          mv package-lock.json combined
+      
+      - name: List output files
+        run: find combined/ -print
+        
+      - name: 📂 Sync files
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+            username: 'root'
+            server: '161.35.123.160'
+            password: ${{ secrets.SSH_PASSWORD }}
+            local_path: './combined/*'
+            remote_path: '/var/www/checklist-api-homolog.smartnewservices.com.br'
+
+      - name: 🚀 Run commands on remote server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+            host: '161.35.123.160'
+            username: 'root'
+            password: ${{ secrets.SSH_PASSWORD }}
+            port: 22
+            script: |
+              cd /var/www/checklist-api-homolog.smartnewservices.com.br
+              npm ci
+              # pm2 restart checklist-api-homolog
