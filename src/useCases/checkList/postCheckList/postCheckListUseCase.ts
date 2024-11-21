@@ -105,15 +105,17 @@ export default class PostCheckListUseCase implements IUseCase {
         id_modelo: modelId,
       })
 
-      await axios(
-        `https://api-homolog.smartnewservices.com.br/smart-list/bound/${modelId}/cronJob/${data.equipmentId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+      if (data.equipmentId) {
+        await axios(
+          `https://api-homolog.smartnewservices.com.br/smart-list/bound/${modelId}/cronJob/${data.equipmentId}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      )
+        )
+      }
     }
 
     if (data.equipmentId) {
