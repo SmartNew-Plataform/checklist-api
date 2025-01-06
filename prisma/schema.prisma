@@ -3256,6 +3256,7 @@ model smartnewsystem_producao_checklist_itens {
   id_checklist     Int?
   id_tarefa        Int?
   id_controle      Int?                                        @default(1)
+  requer_foto      Int?
   log_user         String?                                     @db.Char(50)
   log_date         DateTime?                                   @default(now()) @db.DateTime(0)
   checkList        smartnewsystem_producao_checklist?          @relation(fields: [id_checklist], references: [id], onDelete: Restrict, map: "fk_prod_checklist_id")

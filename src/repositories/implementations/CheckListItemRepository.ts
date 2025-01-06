@@ -27,6 +27,7 @@ export default class CheckListItemRepository
             descricao: true,
           },
         },
+        requer_foto: true,
       },
       where: {
         checkList: {
@@ -43,6 +44,7 @@ export default class CheckListItemRepository
         id_checklist: true,
         id_tarefa: true,
         id_controle: true,
+        requer_foto: true,
         checkList: {
           select: {
             id: true,
