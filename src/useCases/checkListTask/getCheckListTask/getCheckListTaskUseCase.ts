@@ -16,6 +16,7 @@ export default class GetCheckListTaskUseCase implements IUseCase {
       description: value.checkListTask?.descricao || '',
       checklistId: value.checkList?.id || 0,
       controlId: value.id_controle || 0,
+      required_photo: value.requer_foto ? value.requer_foto === 1 : false,
     }))
 
     return {
