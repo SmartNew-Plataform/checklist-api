@@ -93,6 +93,13 @@ export interface ISmartCheckList {
     data_hora_inicio: Date | null
     data_hora_encerramento: Date | null
     log_date: Date | null
+    checklistAutomatic: {
+      id: number
+      registerAutomatic: {
+        id: number
+        chave_rotina: string | null
+      }
+    }[]
     equipment: {
       ID: number
       equipamento_codigo: string | null
