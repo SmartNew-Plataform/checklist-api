@@ -154,6 +154,17 @@ export default class SmartCheckListRepository
             descricao: true,
           },
         },
+        checklistAutomatic: {
+          select: {
+            id: true,
+            registerAutomatic: {
+              select: {
+                id: true,
+                chave_rotina: true,
+              },
+            },
+          },
+        },
         data_hora_inicio: true,
         login: true,
         log_date: true,
