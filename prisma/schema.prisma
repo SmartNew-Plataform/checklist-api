@@ -1072,15 +1072,16 @@ model cadastro_de_equipamentos {
 }
 
 model cadastro_de_familias_de_equipamento {
-  ID                                         Int                                          @id @default(autoincrement())
-  ID_cliente                                 Int?
-  ID_filial                                  Int?
-  familia                                    String                                       @db.VarChar(45)
-  observacoes                                String?                                      @db.VarChar(100)
-  log_user                                   String?                                      @db.VarChar(45)
-  log_date                                   DateTime                                     @default(now()) @db.Timestamp(0)
-  imagem                                     String?                                      @db.VarChar(255)
-  cadastro_de_equipamentos                   cadastro_de_equipamentos[]
+  ID          Int      @id @default(autoincrement())
+  ID_cliente  Int?
+  ID_filial   Int?
+  familia     String   @db.VarChar(45)
+  observacoes String?  @db.VarChar(100)
+  log_user    String?  @db.VarChar(45)
+  log_date    DateTime @default(now()) @db.Timestamp(0)
+  imagem      String?  @db.VarChar(255)
+
+  equipment                                  cadastro_de_equipamentos[]
   cadastro_de_empresas                       cadastro_de_empresas?                        @relation(fields: [ID_cliente], references: [ID], onDelete: Cascade, map: "fk_familiaeqto_cliente")
   smartnewsystem_producao_checklist          smartnewsystem_producao_checklist[]
   smartnewsystem_producao_ocorrencias_atalho smartnewsystem_producao_ocorrencias_atalho[]
