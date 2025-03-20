@@ -17,8 +17,12 @@ export default class CheckListRepository implements ICheckListRepository {
         OR: [
           {
             familyEquipment: {
-              ID_filial: {
-                in: branchIds,
+              equipment: {
+                some: {
+                  ID_filial: {
+                    in: branchIds,
+                  },
+                },
               },
             },
           },
