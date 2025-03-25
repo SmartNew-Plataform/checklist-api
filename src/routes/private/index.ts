@@ -13,6 +13,7 @@ import productionDiverseRoutes from './productionDiverse'
 import responsiblesRoutes from './responsibles'
 import syncRoutes from './sync'
 import travelsRoutes from './travels'
+import providerRoutes from './provider'
 
 export default async function privateRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
@@ -55,5 +56,8 @@ export default async function privateRoutes(app: FastifyInstance) {
   })
   app.register(locationRoutes, {
     prefix: '/locations',
+  })
+  app.register(providerRoutes, {
+    prefix: '/provider',
   })
 }
