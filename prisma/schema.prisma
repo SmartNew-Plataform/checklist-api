@@ -939,6 +939,9 @@ model cadastro_de_empresas {
   smartnewsystem_producao_controle_pausa                                         smartnewsystem_producao_controle_pausa[]
   smartnewsystem_checklist                                                       smartnewsystem_checklist[]
   smartnewsystem_checklist_categoria_diverso                                     smartnewsystem_checklist_categoria_diverso[]
+  smartnewsystem_checklist_registro_automatico                                   smartnewsystem_checklist_registro_automatico[]
+  smartnewsystem_checklist_automatico                                            smartnewsystem_checklist_automatico[]
+  log_smartnewsystem_checklist_automatico                                        log_smartnewsystem_checklist_automatico[]
 
   @@index([id_filial_padrao], map: "fk_empresa_filial")
   @@index([razao_social, nome_fantasia], map: "indexRazaoFantasia")
@@ -1050,6 +1053,7 @@ model cadastro_de_equipamentos {
   registerEquipment                                 smartnewsystem_registro_equipamento?
   registerEquipmentAction                           smartnewsystem_registro_equipamento_acao?
   smartnewsystem_checklist                          smartnewsystem_checklist[]
+  smartnewsystem_checklist_registro_automatico      smartnewsystem_checklist_registro_automatico[]
 
   @@unique([ID_filial, equipamento_codigo], map: "unq_filial_equipamento_codigo")
   @@index([criticidade], map: "criticidade")
@@ -1068,15 +1072,16 @@ model cadastro_de_equipamentos {
 }
 
 model cadastro_de_familias_de_equipamento {
-  ID                                         Int                                          @id @default(autoincrement())
-  ID_cliente                                 Int?
-  ID_filial                                  Int?
-  familia                                    String                                       @db.VarChar(45)
-  observacoes                                String?                                      @db.VarChar(100)
-  log_user                                   String?                                      @db.VarChar(45)
-  log_date                                   DateTime                                     @default(now()) @db.Timestamp(0)
-  imagem                                     String?                                      @db.VarChar(255)
-  cadastro_de_equipamentos                   cadastro_de_equipamentos[]
+  ID          Int      @id @default(autoincrement())
+  ID_cliente  Int?
+  ID_filial   Int?
+  familia     String   @db.VarChar(45)
+  observacoes String?  @db.VarChar(100)
+  log_user    String?  @db.VarChar(45)
+  log_date    DateTime @default(now()) @db.Timestamp(0)
+  imagem      String?  @db.VarChar(255)
+
+  equipment                                  cadastro_de_equipamentos[]
   cadastro_de_empresas                       cadastro_de_empresas?                        @relation(fields: [ID_cliente], references: [ID], onDelete: Cascade, map: "fk_familiaeqto_cliente")
   smartnewsystem_producao_checklist          smartnewsystem_producao_checklist[]
   smartnewsystem_producao_ocorrencias_atalho smartnewsystem_producao_ocorrencias_atalho[]
@@ -3245,8 +3250,9 @@ model smartnewsystem_producao_checklist {
   familyEquipment cadastro_de_familias_de_equipamento? @relation(fields: [id_familia], references: [ID], onDelete: Restrict, map: "fk_prod_checklist_familia")
   location        sofman_cad_localizacoes?             @relation(fields: [id_localizacao], references: [id])
 
-  checkListItens  smartnewsystem_producao_checklist_itens[]
-  checkListXModel smartnewsystem_checklist_x_modelo[]
+  checkListItens                               smartnewsystem_producao_checklist_itens[]
+  checkListXModel                              smartnewsystem_checklist_x_modelo[]
+  smartnewsystem_checklist_registro_automatico smartnewsystem_checklist_registro_automatico[]
 
   @@unique([id_familia, descricao], map: "id_familia")
 }
@@ -3537,6 +3543,56 @@ model smartnewsystem_checklist {
   checklistXModel                              smartnewsystem_checklist_x_modelo[]
   smartnewsystem_producao_checklist_acao       smartnewsystem_producao_checklist_acao[]
   smartnewsystem_producao_checklist_acao_grupo smartnewsystem_producao_checklist_acao_grupo[]
+  checklistAutomatic                           smartnewsystem_checklist_automatico[]
+  logChecklistAutomatic                        log_smartnewsystem_checklist_automatico[]
+}
+
+model smartnewsystem_checklist_registro_automatico {
+  id              Int       @id @default(autoincrement())
+  id_cliente      Int
+  id_modelo       Int
+  id_equipamento  Int
+  chave_rotina    String?
+  codigo_rotina   String?
+  data_registro   DateTime?
+  ativo           Int?
+  ultimo_registro DateTime?
+  log_user        String?
+  log_date        DateTime  @default(now())
+
+  company                                 cadastro_de_empresas                      @relation(fields: [id_cliente], references: [ID])
+  model                                   smartnewsystem_producao_checklist         @relation(fields: [id_modelo], references: [id])
+  equipment                               cadastro_de_equipamentos                  @relation(fields: [id_equipamento], references: [ID])
+  checklistAutomatic                      smartnewsystem_checklist_automatico[]
+  log_smartnewsystem_checklist_automatico log_smartnewsystem_checklist_automatico[]
+}
+
+model smartnewsystem_checklist_automatico {
+  id                     Int      @id @default(autoincrement())
+  id_cliente             Int
+  id_registro_automatico Int
+  id_checklist           Int
+  observacao             String?
+  log_date               DateTime @default(now())
+
+  company           cadastro_de_empresas                         @relation(fields: [id_cliente], references: [ID])
+  registerAutomatic smartnewsystem_checklist_registro_automatico @relation(fields: [id_registro_automatico], references: [id])
+  checklist         smartnewsystem_checklist                     @relation(fields: [id_checklist], references: [id])
+}
+
+model log_smartnewsystem_checklist_automatico {
+  id                     Int      @id @default(autoincrement())
+  id_cliente             Int
+  id_registro_automatico Int
+  id_checklist           Int
+  observacao             String?
+  log_date               DateTime @default(now())
+
+  company           cadastro_de_empresas                         @relation(fields: [id_cliente], references: [ID])
+  registerAutomatic smartnewsystem_checklist_registro_automatico @relation(fields: [id_registro_automatico], references: [id])
+  checklist         smartnewsystem_checklist                     @relation(fields: [id_checklist], references: [id])
+
+  @@map("_log_smartnewsystem_checklist_automatico")
 }
 
 model smartnewsystem_checklist_categoria_diverso {

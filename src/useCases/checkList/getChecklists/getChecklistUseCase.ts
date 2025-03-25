@@ -17,6 +17,7 @@ export default class GetChecklistUseCase implements IUseCase {
     )
 
     const response: IGetChecklistResponseDTO[] = []
+
     for (const item of register) {
       if (item.data_hora_inicio) {
         response.push({
@@ -31,6 +32,7 @@ export default class GetChecklistUseCase implements IUseCase {
           finalTime: item.data_hora_encerramento,
           status: item.status ? 'open' : 'close',
           login: item.login || '',
+          automatic: item.checklistAutomatic.length > 0,
         })
       }
     }

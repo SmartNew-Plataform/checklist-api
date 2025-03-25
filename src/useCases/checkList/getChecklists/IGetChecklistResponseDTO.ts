@@ -10,4 +10,5 @@ export default interface IGetChecklistResponseDTO {
   initialTime: Date
   finalTime: Date | null
   status: 'open' | 'close'
+  automatic: boolean
 }
