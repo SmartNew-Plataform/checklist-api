@@ -1,16 +1,16 @@
-import CustomError from "@/config/CustomError";
-import IUseCase from "@/models/IUseCase";
-import ICheckListItemRepository from "@/repositories/ICheckListItemRepository";
-import ICheckListPeriodRepository from "@/repositories/ICheckListPeriodRepository";
-import IEquipmentRepository from "@/repositories/IEquipmentRepository";
-import IPeriodRepository from "@/repositories/IPeriodRepository";
-import IProductionRegisterRepository from "@/repositories/IProductionRegisterRepository";
-import ISmartCheckListRepository from "@/repositories/ISmartCheckListRepository";
-import CheckListXModelRepository from "@/repositories/implementations/CheckListXModelRepository";
-import LocationRepository from "@/repositories/implementations/LocationRepository";
-import IPostCheckListRequestDTO from "./IPostCheckListRequestDTO";
-import IEquipmentRegisterRepository from "@/repositories/IEquipmentRegisterRepository";
-import axios from "axios";
+import CustomError from '@/config/CustomError'
+import IUseCase from '@/models/IUseCase'
+import ICheckListItemRepository from '@/repositories/ICheckListItemRepository'
+import ICheckListPeriodRepository from '@/repositories/ICheckListPeriodRepository'
+import IEquipmentRepository from '@/repositories/IEquipmentRepository'
+import IPeriodRepository from '@/repositories/IPeriodRepository'
+import IProductionRegisterRepository from '@/repositories/IProductionRegisterRepository'
+import ISmartCheckListRepository from '@/repositories/ISmartCheckListRepository'
+import CheckListXModelRepository from '@/repositories/implementations/CheckListXModelRepository'
+import LocationRepository from '@/repositories/implementations/LocationRepository'
+import IPostCheckListRequestDTO from './IPostCheckListRequestDTO'
+import IEquipmentRegisterRepository from '@/repositories/IEquipmentRegisterRepository'
+import axios from 'axios'
 
 export default class PostCheckListUseCase implements IUseCase {
   constructor(
@@ -22,23 +22,23 @@ export default class PostCheckListUseCase implements IUseCase {
     private smartCheckListRepository: ISmartCheckListRepository,
     private locationRepository: LocationRepository,
     private checklistXModelRepository: CheckListXModelRepository,
-    private equipmentRegisterRepository: IEquipmentRegisterRepository
+    private equipmentRegisterRepository: IEquipmentRegisterRepository,
   ) {}
 
   async execute(data: IPostCheckListRequestDTO) {
     // let type = 'equipment'
     // let branchId = 0
     if (!data.user.id_cliente) {
-      throw CustomError.notFound("Usuário não encontrado!");
+      throw CustomError.notFound('Usuário não encontrado!')
     }
 
     if (data.equipmentId) {
       const equipment = await this.equipmentRepository.findById(
-        data.equipmentId
-      );
+        data.equipmentId,
+      )
 
       if (!equipment) {
-        throw CustomError.notFound("Equipamento não encontrado!");
+        throw CustomError.notFound('Equipamento não encontrado!')
       }
       // if (equipment.ID_filial) {
       //   branchId = equipment.ID_filial
@@ -46,20 +46,20 @@ export default class PostCheckListUseCase implements IUseCase {
     }
 
     if (data.locationId) {
-      const location = await this.locationRepository.findById(data.locationId);
+      const location = await this.locationRepository.findById(data.locationId)
 
       if (!location) {
-        throw CustomError.notFound("Localizacao não encontrado!");
+        throw CustomError.notFound('Localizacao não encontrado!')
       }
 
       // branchId = location.id_filial
     }
 
     if (data.periodId) {
-      const period = await this.periodRepository.findById(data.periodId);
+      const period = await this.periodRepository.findById(data.periodId)
 
       if (!period) {
-        throw CustomError.notFound("Período não encontrado!");
+        throw CustomError.notFound('Período não encontrado!')
       }
     }
 
@@ -97,32 +97,30 @@ export default class PostCheckListUseCase implements IUseCase {
       horimetro: data.hourMeter ?? null,
       // turno: period.turno || 'Turno_1',
       status: 1,
-    });
+    })
 
     for await (const modelId of data.model) {
       await this.checklistXModelRepository.insert({
         id_checklist: checklist.id,
         id_modelo: modelId,
-      });
+      })
 
       if (data.equipmentId) {
         await axios(
           `https://api.smartnewservices.com.br/smart-list/bound/${modelId}/cronJob/${data.equipmentId}`,
           {
-            method: "POST",
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-          }
-        );
+          },
+        )
       }
     }
 
     if (data.equipmentId) {
       let registerEquipment =
-        await this.equipmentRegisterRepository.findByEquipment(
-          data.equipmentId
-        );
+        await this.equipmentRegisterRepository.findByEquipment(data.equipmentId)
 
       if (!registerEquipment) {
         registerEquipment = await this.equipmentRegisterRepository.create({
@@ -130,13 +128,13 @@ export default class PostCheckListUseCase implements IUseCase {
           id_equipamento: data.equipmentId,
           horimetro: data.hourMeter ?? 0,
           quilometragem: data.mileage ?? 0,
-        });
+        })
       } else {
         await this.equipmentRegisterRepository.update(registerEquipment.id, {
           horimetro: data.hourMeter ?? registerEquipment.horimetro,
           quilometragem: data.mileage ?? registerEquipment.quilometragem,
           update_log_date: new Date(),
-        });
+        })
       }
     }
 
@@ -157,6 +155,6 @@ export default class PostCheckListUseCase implements IUseCase {
 
     return {
       id: checklist.id,
-    };
+    }
   }
 }
