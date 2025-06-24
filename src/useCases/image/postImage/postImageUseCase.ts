@@ -10,7 +10,8 @@ export default class PostImageUseCase implements IUseCase {
 
   async execute(data: IPostImageRequestDTO): Promise<IPostImageResponseDTO> {
     const file = data.file
-    const fileName = `${new Date().toISOString()}-${file.filename}`
+    const name = this.fileService.normalizeFileName(file.filename)
+    const fileName = `${new Date().toISOString()}-${name}`
 
     // const path = `../sistemas/_lib/img/checkList/task_${data.checkListPeriodId}`
     const path = `${env.FILE_PATH}/checkList/task_${data.checkListPeriodId}`

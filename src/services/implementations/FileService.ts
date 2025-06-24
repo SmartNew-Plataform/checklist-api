@@ -17,9 +17,7 @@ export default class FileService implements IFileService {
       mkdirSync(path, { recursive: true })
     }
 
-    const name = this.normalizeFileName(fileName)
-
-    writeFileSync(`${path}/${name}`, file)
+    writeFileSync(`${path}/${fileName}`, file)
   }
 
   normalizeFileName(fileName: string): string {
