@@ -174,6 +174,13 @@ export default class SmartCheckListRepository
           gte: fromDate,
         },
         login,
+        checklistXModel: {
+          some: {
+            model: {
+              ativo: 1,
+            },
+          },
+        },
         OR: [
           {
             equipment: {

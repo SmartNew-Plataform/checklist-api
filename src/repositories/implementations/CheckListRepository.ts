@@ -14,6 +14,7 @@ export default class CheckListRepository implements ICheckListRepository {
         id_localizacao: true,
       },
       where: {
+        ativo: 1,
         OR: [
           {
             familyEquipment: {

@@ -3243,6 +3243,7 @@ model smartnewsystem_producao_checklist {
   id_familia       Int?
   id_localizacao   Int?
   descricao        String?   @db.VarChar(200)
+  ativo            Int?      @default(1)
   log_user         String?   @db.Char(50)
   log_date         DateTime? @default(now()) @db.DateTime(0)
   status_checklist Boolean?  @default(true)
